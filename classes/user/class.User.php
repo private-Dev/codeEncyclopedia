@@ -66,4 +66,15 @@ class User{
         }
 
      }
-}
+    public function  getRowsId(){
+        $stmt = $this->_db->prepare('SELECT id FROM user');
+        $stmt->execute();
+        $users = $stmt->fetchAll();
+        $stmt = null;
+        return $users;
+    }
+
+
+    }
+
+  

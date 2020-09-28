@@ -52,7 +52,38 @@ public $current_user;
         return $rows;
     }
 
-    
+    public function getMaxRank(){
+        $sql = "SELECT MAX(rank) as nb FROM theme";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(); 
+        $stmt = null;
+        return $result;
+    }
+
+    public function getNbRows(){
+        $sql = "SELECT count(*) as nb FROM theme";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(); 
+        $stmt = null;
+        return $result;
+    }
+
+    public function  create($label,$tooltip,$rank){
+
+        $date = date('Y-m-d H:i:s');
+            // prepare and bind
+        $stmt = $this->_db->prepare("INSERT INTO theme (label,toolTipMsg, rank,date_created,date_update) VALUES (:label,:toolTip,:rank,:date_c,:date_u)");
+        $stmt->bindParam(':label', $label);
+        $stmt->bindParam(':toolTip', $tooltip);
+        $stmt->bindParam(':rank', $rank);
+        $stmt->bindParam(':date_c', $date);
+        $stmt->bindParam(':date_u', $date);
+        $stmt->execute();
+        $stmt = null;
+        return $this->_db->lastInsertId(); 
+    }
 }
 
 ?>
