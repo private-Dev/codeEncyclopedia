@@ -33,6 +33,9 @@ include_once ('../side.php');
         </div>
         <hr class="hrVapor">      
     </div>  
+    <div id="formTheme" class="row mt-5">
+
+    </div>
     <div class="row m-5">
         <?php foreach($themes as $k => $theme){ ?> 
             <div id="div<?php echo $k; ?>" class="contenant">   
