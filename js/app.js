@@ -43,7 +43,7 @@ $(document).ready(function(){
                 data : data,
                 datatype :'json',
                 success :function(data){
-                    location.reload();
+                   location.reload();
                 }
             });
         }

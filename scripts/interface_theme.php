@@ -25,6 +25,7 @@ $action = isset($_POST['action']) ? $_POST['action']:'';
 $data =[];
 
 if (isset($action) && !empty($action) &&  $action == 'addTheme'){
+    $data['errors']  ='none';   
     $nb =0;
     $rank =0;
 
@@ -38,21 +39,18 @@ if (isset($action) && !empty($action) &&  $action == 'addTheme'){
    
     // create theme with rank created earlier
     $lastIdTheme = $theme->create($label,$tooltip,$rank);
-    // theme get last id  
    
     // select all users 
     $user = new User($db->getInstance());
     $users = $user->getRowsId();
 
     // foreach user insert in display_theme an entry with id theme, rank, id_user
-    foreach($users as $u){
-
+    foreach($users as $k => $u){
+        $statment = $db->getInstance()->prepare("INSERT INTO theme_display_user (fk_user,fk_theme,rank_display) VALUES (?,?,?)");
+        $statment->execute([intval($u->id),intval($lastIdTheme),intval($rank)]);
     }
-
- 
     $data['success'] = true;
     $data['message'] = 'Success';
-    $data['errors']  ='none';   
 
     echo json_encode($data);
 }
