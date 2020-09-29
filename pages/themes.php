@@ -42,7 +42,7 @@ include_once ('../side.php');
                 <div id="<?php echo $theme->rowid; ?>" class="moveable d-flex flex-column justify-content-center align-items-center" draggable=true ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" data-toggle="tooltip" data-placement="top" title="<?= $theme->toolTipMsg;?>">
                     
                        <div style="position:absolute; top:5px; opacity:0.5"><img src="../assets/logo-cre-yellow.svg" width="45" height="45"></div>
-                        <span class="W-100 center"><a href="theme.php?id=<?= $theme->rowid;?>"><?= strtoupper($theme->label); ?></a></span>
+                        <span class="W-100 center"><a href="blocknotes.php?id=<?= $theme->rowid;?>"><?= strtoupper($theme->label); ?></a></span>
                    
                 </div>
             </div>
