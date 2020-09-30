@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 28 Septembre 2020 à 05:09
+-- Généré le :  Mer 30 Septembre 2020 à 05:52
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.3
 
@@ -19,6 +19,35 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `codeencyclopedia`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `blocknote`
+--
+
+CREATE TABLE `blocknote` (
+  `id` int(11) NOT NULL,
+  `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date_created` datetime NOT NULL,
+  `date_update` datetime NOT NULL,
+  `fk_theme` int(11) NOT NULL,
+  `rank` int(11) NOT NULL,
+  `toolTipMsg` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `blocknote_display_user`
+--
+
+CREATE TABLE `blocknote_display_user` (
+  `id` int(11) NOT NULL,
+  `fk_blocknote` int(11) NOT NULL,
+  `fk_user` int(11) NOT NULL,
+  `rank_display` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -41,7 +70,7 @@ CREATE TABLE `theme` (
 
 INSERT INTO `theme` (`id`, `label`, `date_created`, `date_update`, `rank`, `toolTipMsg`) VALUES
 (1, 'LARAVEL SYNTAX', '2020-09-26 18:00:00', '2020-09-26 18:00:00', 1, 'nomenclature syntaxique pour le framework LARAVEL'),
-(2, 'theme 2', '2020-09-26 18:00:00', '2020-09-26 18:00:00', 2, ''),
+(2, 'JAVASCRIPT', '2020-09-26 18:00:00', '2020-09-26 18:00:00', 2, ''),
 (3, 'DOLIBARR', '2020-09-27 00:00:00', '2020-09-27 00:00:00', 3, ''),
 (4, 'TERMINAL', '2020-09-27 00:00:00', '2020-09-27 00:00:00', 4, '');
 
@@ -63,10 +92,10 @@ CREATE TABLE `theme_display_user` (
 --
 
 INSERT INTO `theme_display_user` (`id`, `fk_theme`, `fk_user`, `rank_display`) VALUES
-(3, 2, 1, 4),
-(4, 1, 1, 1),
-(5, 3, 1, 2),
-(6, 4, 1, 3);
+(3, 2, 1, 1),
+(4, 1, 1, 7),
+(5, 3, 1, 3),
+(6, 4, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -98,6 +127,12 @@ INSERT INTO `user` (`id`, `firstName`, `lastName`, `email`, `password`, `token`,
 --
 
 --
+-- Index pour la table `blocknote`
+--
+ALTER TABLE `blocknote`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `theme`
 --
 ALTER TABLE `theme`
@@ -120,15 +155,20 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT pour la table `blocknote`
+--
+ALTER TABLE `blocknote`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT pour la table `theme`
 --
 ALTER TABLE `theme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT pour la table `theme_display_user`
 --
 ALTER TABLE `theme_display_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
