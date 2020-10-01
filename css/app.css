@@ -397,13 +397,19 @@ a.text-light:focus {
   width: 200px;
   margin: 5px;
   padding:5px;
-  background-color: #a31111;
+  
   color : #fff;  
   border-radius: 0 5px 5px 5px;
   box-shadow: 5px 10px 8px #888888;  
 
 }
 
+.theme-contenant{
+  background-color: #a31111;
+}
+.blocknote-contenant{
+  background-color: #4228da;
+}
 .moveable {
   position: relative;
   height: 150px;

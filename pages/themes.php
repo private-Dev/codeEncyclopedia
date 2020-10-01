@@ -39,7 +39,7 @@ include_once ('../side.php');
     <div class="row m-5">
         <?php foreach($themes as $k => $theme){ ?> 
            
-            <div id="div<?php echo $k; ?>" class="contenant">   
+            <div id="div<?php echo $k; ?>" class="contenant theme-contenant">   
             
                 <div id="<?php echo $theme->rowid; ?>" class="moveable d-flex flex-column justify-content-center align-items-center" draggable=true ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" data-toggle="tooltip" data-placement="top" title="<?= $theme->toolTipMsg;?>">
                                

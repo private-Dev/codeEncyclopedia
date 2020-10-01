@@ -181,7 +181,7 @@ if (!isset( $_SESSION['auth'])){
                           <div class="col-md-8">
                               <div class="card-body">
                                   <h5 class="card-title">Notes : <strong>5</strong></h5>
-                                  <p class="card-text">Notes enregistrés dans la base de données.</p>
+                                  <p class="card-text">Notes enregistrées dans la base de données.</p>
                               </div>
                           </div>
                       </div>

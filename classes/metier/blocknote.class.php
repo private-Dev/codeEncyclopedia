@@ -40,13 +40,16 @@ public $current_user;
         $count = $statement->execute();
     }
 
-    public function getRows($userId){
+    public function getRows($userId,$themeId){
         
-        $sql = "SELECT b.id as rowid, b.label , b.date_created,t.toolTipMsg FROM blocknote as b ";
-        $sql .= "LEFT JOIN  blocknote_display_user as td ON  b.id = td.fk_theme AND td.fk_user = ? ";
-        $sql .= "ORDER BY td.rank_display,b.rank";
+        $sql = "SELECT b.id as rowid, b.label , b.date_created,b.toolTipMsg FROM blocknote as b";
+        $sql .= " LEFT JOIN  blocknote_display_user as td ON  b.id = td.fk_blocknote AND td.fk_user = ?";
+        $sql .= " WHERE b.fk_theme = ?";
+        $sql .= " ORDER BY td.rank_display,b.rank";
+      
         $stmt = $this->_db->prepare($sql);
-        $stmt->execute([$userId]);
+       
+        $stmt->execute([$userId,intval($themeId)]);
         $rows = $stmt->fetchAll(); 
         $stmt = null;
         return $rows;
