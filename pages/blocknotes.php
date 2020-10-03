@@ -8,14 +8,18 @@ if (!isset( $_SESSION['auth'])){
 include_once     "../classes/class.Constants.php";
 include_once     "../classes/db/class.Database.php";
 include_once     "../classes/metier/blocknote.class.php";
+include_once     "../classes/metier/theme.class.php";
 $db = new Database();
 $blocknote = new Blocknote($db->getInstance());
 $blocknotes = $blocknote->getRows($_SESSION['auth']->id,$_GET['id']);
-
+$th = new Theme($db->getInstance());
+$th->fetch($_GET['id']);
+$labelTheme = $th->getLabel();
 include_once ('../top.php');
 include_once ('../navTop.php');
 include_once ('../side.php');
 
+$_SESSION['selectedThemeId'] = $_GET['id'];
 
 ?>
 
@@ -25,8 +29,9 @@ include_once ('../side.php');
     <div class="row mt-5 mb-n5 ml-2">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="themes.php">Thème</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Blocknote</li>
+      <li class="breadcrumb-item"><a class="a-breadcrumb" href="themes.php"> <strong>Thème :</strong></a></li>
+      <li class="breadcrumb-item"><strong> <?= $th->getLabel();?> </strong></li>
+      <li class="breadcrumb-item active" aria-current="page"><strong>Blocknote</strong></li>
       </ol>
     </nav>
     </div>
@@ -39,7 +44,7 @@ include_once ('../side.php');
             <div class="ml-2 mt-3 vapor-2">
                 <h3>Blocknotes</h3>
             </div>
-            <span id="addElement" class="addElement" data-toggle="tooltip" data-placement="top" title="Ajouter un Blocknote"><i class="fa fa-plus-circle " aria-hidden="true"></i></span>        
+            <span id="addBlocknote" class="addElement" data-toggle="tooltip" data-placement="top" title="Ajouter un Blocknote"><i class="fa fa-plus-circle " aria-hidden="true"></i></span>        
         </div>
         <hr class="hrVapor">      
     </div>  
@@ -72,7 +77,7 @@ include_once ('../side.php');
 <script src="../js/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="../js/drag.js"></script>
+<script src="../js/dragBlocknote.js"></script>
 <script src="../js/app.js"></script>
 
 </body>

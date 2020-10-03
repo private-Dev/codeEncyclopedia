@@ -22,6 +22,7 @@ public $current_user;
         $stmt = $this->_db->prepare($sql);
         $stmt->execute([$userId,$blockNoteId]);
         $row = $stmt->fetch(); 
+        
         $stmt = null;
         return $row;
     }
@@ -73,14 +74,15 @@ public $current_user;
         return $result;
     }
 
-    public function  create($label,$tooltip,$rank){
+    public function  create($label,$tooltip,$rank,$fktheme){
 
         $date = date('Y-m-d H:i:s');
             // prepare and bind
-        $stmt = $this->_db->prepare("INSERT INTO blocknote (label,toolTipMsg, rank,date_created,date_update) VALUES (:label,:toolTip,:rank,:date_c,:date_u)");
+        $stmt = $this->_db->prepare("INSERT INTO blocknote (label,toolTipMsg, rank,fk_theme,date_created,date_update) VALUES (:label,:toolTip,:rank,:fktheme,:date_c,:date_u)");
         $stmt->bindParam(':label', $label);
         $stmt->bindParam(':toolTip', $tooltip);
         $stmt->bindParam(':rank', $rank);
+        $stmt->bindParam(':fktheme', $fktheme);
         $stmt->bindParam(':date_c', $date);
         $stmt->bindParam(':date_u', $date);
         $stmt->execute();

@@ -7,7 +7,7 @@ $(document).ready(function(){
 
 
 //-- ADD THEME -------------------------------------------------
-    $(document).on("click",".addElement",function(e) {
+    $(document).on("click","#addTheme",function(e) {
         console.log("want to add ? ");
         e.preventDefault();
     
@@ -27,7 +27,7 @@ $(document).ready(function(){
     $(document).on("click",".A-create-Theme",function(e){
            self = $(this);
            
-           if ($("#label").val() === ''){
+        if ($("#label").val() === ''){
             $('#labelAlert').css('display','block')
         }else{
 
@@ -38,7 +38,7 @@ $(document).ready(function(){
             };  
           
             $.ajax({
-                url:'../scripts/interface_theme.php',
+                url:'../scripts/interface.php',
                 type:'POST',
                 data : data,
                 datatype :'json',
@@ -53,6 +53,60 @@ $(document).ready(function(){
     })
 
 //-- ADD THEME END -------------------------------------------------
+
+
+
+//-- ADD BLOCKNOTE -------------------------------------------------
+$(document).on("click","#addBlocknote",function(e) {
+   
+    e.preventDefault();
+
+    $.ajax({
+        url : "../templates/blocknote/FormCreateBlocknote.tpl.php",
+        cache:false
+    })
+        .done(function(html){
+            $("#formBlocknote").html(html);
+        })
+        .fail(function(data){})
+        .always(function(data){})
+        
+    return false;
+ });
+
+$(document).on("click",".A-create-Blocknote",function(e){
+      
+
+    if ($("#label").val() === ''){
+        $('#labelAlert').css('display','block')
+    }else{
+
+        data = {
+            label   : $("#label").val(),
+            tooltip : $("#tooltip").val(),
+            fktheme : $(this).attr('data-fktheme'),
+            action  :'addblocknote' 
+
+        };  
+      
+        $.ajax({
+            url:'../scripts/interface.php',
+            type:'POST',
+            data : data,
+            datatype :'json',
+            success :function(data){
+              location.reload();
+            }
+        });
+    }
+
+        
+        
+})
+
+//-- ADD THEME END -------------------------------------------------
+
+
 
 
     $(function () {

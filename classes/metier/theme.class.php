@@ -15,7 +15,25 @@ public $current_user;
     $this->_db = $db;
     }
 
+    public function fetch($id){
+        $sql = "SELECT * FROM  theme as t WHERE t.id = ? ";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(); 
+        $this->label = $row->label;
 
+        $this->id = $row->id;
+        $this->date_created = $row->date_created;
+        $this->date_update = $row->date_update;
+
+        $stmt = null;
+
+
+    }   
+    
+    public function getLabel(){
+            return $this->label;
+    }
     public function getRank($userId,$themeId){
         
         $sql = "SELECT fk_theme,rank_display FROM  theme_display_user as td WHERE td.fk_user = ? AND fk_theme = ?";
@@ -61,6 +79,7 @@ public $current_user;
         return $result;
     }
 
+   
     public function getNbRows(){
         $sql = "SELECT count(*) as nb FROM theme";
         $stmt = $this->_db->prepare($sql);

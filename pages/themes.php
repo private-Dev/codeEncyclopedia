@@ -29,7 +29,7 @@ include_once ('../side.php');
             <div class="ml-2 mt-3 vapor-2">
                 <h3>Thèmes</h3>
             </div>
-            <span id="addElement" class="addElement" data-toggle="tooltip" data-placement="top" title="Ajouter un Thème"><i class="fa fa-plus-circle " aria-hidden="true"></i></span>        
+            <span id="addTheme" class="addElement" data-toggle="tooltip" data-placement="top" title="Ajouter un Thème"><i class="fa fa-plus-circle " aria-hidden="true"></i></span>        
         </div>
         <hr class="hrVapor">      
     </div>  

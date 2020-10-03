@@ -408,7 +408,8 @@ a.text-light:focus {
   background-color: #a31111;
 }
 .blocknote-contenant{
-  background-color: #4228da;
+  background-color: #4228da!important;
+  
 }
 .moveable {
   position: relative;
@@ -504,6 +505,24 @@ text-align:center;
   color : rgb(177, 11, 11);
   
  }
+
+ .btn-purpleCode{
+  float: right;
+  color : #fff;
+  border : 2px solid  #4228da;
+  border-radius: 8px;
+  padding : 15px;
+  font-weight: bold;
+  background-color:  #4228da;
+  width:150px;
+}
+
+ .btn-purpleCode:hover{
+  border : 2px solid  #4228da;
+  background-color: #f8fafc;
+  color :  #4228da;
+  
+ }
  .closeBtn{
    position: relative;
   top :-15px;
@@ -521,6 +540,20 @@ text-align:center;
  }
  #labelAlert{
    display: none;
+ }
+
+ /*----------------------FORMULAIRE BLOCKNOTE-------------------------------*/
+  .formulaire-blocknote{
+   width:100%;
+   border : 4px solid #4228da;
+   border-radius: 8px;
+   padding : 15px;
+  
+ }
+ .a-breadcrumb{
+  text-decoration: none !important;
+  transition: 0.3s;
+  color: grey;
  }
 @-webkit-keyframes getOut {
   from {
