@@ -105,6 +105,25 @@ $(document).on("click",".A-create-Blocknote",function(e){
 })
 
 //-- ADD THEME END -------------------------------------------------
+$(document).on("click","#addnote",function(e) {
+   
+    e.preventDefault();
+
+    $.ajax({
+        url : "../templates/note/FormCreateNote.tpl.php",
+        cache:false
+    })
+        .done(function(html){
+            $("#formNote").html(html);
+        })
+        .fail(function(data){})
+        .always(function(data){})
+        
+    return false;
+ });
+
+//-- ADD NOTE -------------------------------------------------
+//-- --- -- --------------------------------------------
 
 
 

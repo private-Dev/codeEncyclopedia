@@ -1,0 +1,169 @@
+/* comment */
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+/* BEWARE */
+p.tip {
+    padding: 12px 24px 12px 30px;
+    margin: 2em 0;
+    border-left-width: 4px;
+    border-left-style: solid;
+    background-color: #f8f8f8;
+    position: relative;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+p.tip:before {
+    position: absolute;
+    top: 14px;
+    left: -12px;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+}
+p.tip:before {
+    content: "!";
+}
+p.warning {
+    border-left-color: #ffa500;
+}
+p.warning:before {
+    background-color: #ffa500;
+}
+
+/*Important*/
+
+p.imp {
+    border-left-color: #f66;
+}
+p.imp:before {
+    background-color: #f66;
+}
+
+/* Big title */
+h1, h2, h3, h4, strong {
+    font-weight: 600;
+    color: #273849;
+}
+
+
+h2 a, h3 a,  h2 button, h3 button {
+    pointer-events: auto;
+    color: #273849;
+    text-decoration: none;
+}
+
+/*comment-bar*/
+blockquote {
+    margin: 2em 0;
+    padding-left: 20px;
+    border-left: 4px solid #42b983;
+}
+blockquote p {
+    font-weight: 600;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+pre{
+    padding: 0px;
+}
+/* code */
+pre code {
+    overflow-x: auto;
+    color: #525252;
+    white-space: pre-wrap;
+    padding: -15px;
+    margin-top:-30px;
+    line-height: 1.6rem;
+    display: block;
+}
+
+code.hljs.js::before {
+    content: "JS";
+}
+
+pre code.hljs.js::before {
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #ccc;
+    text-align: right;
+    font-size: 0.9em;
+    padding: 5px 5px 0;
+    line-height: 15px;
+    height: 15px;
+    font-weight: 600;
+}
+/*
+hljs-symbol
+hljs-string
+hljs-value
+hljs-command
+hljs-prompt
+*/
+pre code .hljs-symbol, pre code .hljs-symbol pre code .hljs-string, pre code .hljs-value, pre code .hljs-regexp, pre code .hljs-string, pre code .hljs-subst, pre code .hljs-haskell pre code .hljs-type, pre code .hljs-preprocessor, pre code .hljs-ruby pre code .hljs-class pre code .hljs-parent, pre code .hljs-built_in, pre code .hljs-sql pre code .hljs-aggregate, pre code .hljs-django pre code .hljs-template_tag, pre code .hljs-django pre code .hljs-variable, pre code .hljs-smalltalk pre code .hljs-class, pre code .hljs-javadoc, pre code .hljs-django pre code .hljs-filter pre code .hljs-argument, pre code .hljs-smalltalk pre code .hljs-localvars, pre code .hljs-smalltalk pre code .hljs-array, pre code .hljs-attr_selector, pre code .hljs-pseudo, pre code .hljs-addition, pre code .hljs-stream, pre code .hljs-envvar, pre code .hljs-apache pre code .hljs-tag, pre code .hljs-apache pre code .hljs-cbracket, pre code .hljs-tex pre code .hljs-command, pre code .hljs-prompt {
+    color: #42b983;
+}
+
+pre code .hljs-keyword, pre code .hljs-attribute {
+    color: #d63200;
+}
+
+.h3-hash{
+    margin-left : 35px;
+}
+.h3-hash:before {
+    content: "";
+    display: block;
+    margin-top: -85px;
+    height: 96px;
+    visibility: hidden;
+}
+.h3-hash > a:before {
+    content: "#";
+    color: #42b983;
+    position: absolute;
+    left: 20px;
+    margin-top: -0.05em;
+    padding-right: 0.5em;
+    font-size: 1.2em;
+    line-height: 1;
+    font-weight: bold;
+}
+
+sup {
+    vertical-align: super;
+    font-size: smaller;
+}
+
+code {
+    color: #d63200;
+    padding: 3px 5px;
+    margin: 0 2px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.h3-hash {
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+.wysiwyg {
+    border: 1px solid black;
+    border-radius: 5px;
+}

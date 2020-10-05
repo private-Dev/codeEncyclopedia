@@ -1,6 +1,6 @@
 <?php 
 
-class Blocknote {
+class Note {
 
 public $_db;
 
@@ -16,25 +16,7 @@ public $current_user;
     $this->_db = $db;
     }
 
-    public function fetch($id){
-        $sql = "SELECT * FROM  blocknote as t WHERE t.id = ? ";
-        $stmt = $this->_db->prepare($sql);
-        $stmt->execute([$id]);
-        $row = $stmt->fetch(); 
-        $this->label = $row->label;
-
-        $this->id = $row->id;
-        $this->date_created = $row->date_created;
-        $this->date_update = $row->date_update;
-        $this->fk_theme = $row->fk_theme;
-
-        $stmt = null;
-
-    }   
-    
-    public function getLabel(){
-            return $this->label;
-    }
+   
 
     public function getRank($userId,$blockNoteId){
         
@@ -61,23 +43,23 @@ public $current_user;
         $count = $statement->execute();
     }
 
-    public function getRows($userId,$themeId){
+    public function getRows($userId,$blocknoteId){
         
-        $sql = "SELECT b.id as rowid, b.label , b.date_created,b.toolTipMsg FROM blocknote as b";
-        $sql .= " LEFT JOIN  blocknote_display_user as td ON  b.id = td.fk_blocknote AND td.fk_user = ?";
-        $sql .= " WHERE b.fk_theme = ?";
-        $sql .= " ORDER BY td.rank_display,b.rank";
+        $sql = "SELECT n.id as rowid FROM note as n";
+        $sql .= " LEFT JOIN  note_display_user as nd ON  n.id = nd.fk_note AND nd.fk_user = ?";
+        $sql .= " WHERE n.fk_blocknote = ?";
+        $sql .= " ORDER BY nd.rank_display,n.rank";
       
         $stmt = $this->_db->prepare($sql);
        
-        $stmt->execute([$userId,intval($themeId)]);
+        $stmt->execute([$userId,intval($blocknoteId)]);
         $rows = $stmt->fetchAll(); 
         $stmt = null;
         return $rows;
     }
 
     public function getMaxRank(){
-        $sql = "SELECT MAX(rank) as nb FROM blocknote";
+        $sql = "SELECT MAX(rank) as nb FROM note";
         $stmt = $this->_db->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetch(); 
@@ -86,7 +68,7 @@ public $current_user;
     }
 
     public function getNbRows(){
-        $sql = "SELECT count(*) as nb FROM blocknote";
+        $sql = "SELECT count(*) as nb FROM note";
         $stmt = $this->_db->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetch(); 
@@ -94,17 +76,24 @@ public $current_user;
         return $result;
     }
 
-    public function  create($label,$tooltip,$rank,$fktheme){
+    public function  create($beware,$big_title,$title,$important_comment,$comment,$comment_bar,$code_block,$block_img,$hash_title){
 
         $date = date('Y-m-d H:i:s');
             // prepare and bind
-        $stmt = $this->_db->prepare("INSERT INTO blocknote (label,toolTipMsg, rank,fk_theme,date_created,date_update) VALUES (:label,:toolTip,:rank,:fktheme,:date_c,:date_u)");
-        $stmt->bindParam(':label', $label);
-        $stmt->bindParam(':toolTip', $tooltip);
-        $stmt->bindParam(':rank', $rank);
-        $stmt->bindParam(':fktheme', $fktheme);
-        $stmt->bindParam(':date_c', $date);
-        $stmt->bindParam(':date_u', $date);
+        $stmt = $this->_db->prepare("INSERT INTO note (beware,big_title,title,important_comment,comment,comment_bar,code_block,block_img,hash_title) VALUES (:beware,:big_title,:title,:important_comment,:comment,:comment_bar,:code_block,:block_img,:hash_title)");
+       
+        $stmt->bindParam(':beware', $beware);
+
+        $stmt->bindParam(':big_title', $big_title);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':important_comment', $important_comment);
+        $stmt->bindParam(':comment', $comment);
+        $stmt->bindParam(':comment_bar', $comment_bar);
+        $stmt->bindParam(':code_block', $code_block);
+        $stmt->bindParam(':comment_bar', $comment_bar);
+        $stmt->bindParam(':hash_title', $hash_title);
+        $stmt->bindParam(':block_img', $block_img);
+        // need created at, updated at
         $stmt->execute();
         $stmt = null;
         return $this->_db->lastInsertId(); 
