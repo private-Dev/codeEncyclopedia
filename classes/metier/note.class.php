@@ -45,11 +45,23 @@ public $current_user;
 
     public function getRows($userId,$blocknoteId){
         
-        $sql = "SELECT n.id as rowid FROM note as n";
+        $sql = "SELECT n.id as rowid, ";
+        $sql .= " n.beware, ";
+        $sql .= " n.big_title, ";
+        $sql .= " n.title,";
+        $sql .= " n.important_comment, ";
+        $sql .= " n.comment, ";
+        $sql .= " n.comment_bar, ";
+        $sql .= " n.code_block, ";
+        $sql .= " n.hash_title, ";
+        $sql .= " n.rank, ";
+        $sql .= " n.date_created, ";
+        $sql .= " n.date_update ";
+        $sql .= " FROM note as n";
         $sql .= " LEFT JOIN  note_display_user as nd ON  n.id = nd.fk_note AND nd.fk_user = ?";
         $sql .= " WHERE n.fk_blocknote = ?";
         $sql .= " ORDER BY nd.rank_display,n.rank";
-      
+      var_dump($sql);
         $stmt = $this->_db->prepare($sql);
        
         $stmt->execute([$userId,intval($blocknoteId)]);
@@ -76,24 +88,29 @@ public $current_user;
         return $result;
     }
 
-    public function  create($beware,$big_title,$title,$important_comment,$comment,$comment_bar,$code_block,$block_img,$hash_title){
+    public function  create($beware,$big_title,$title,$important_comment,$comment,$comment_bar,$code_block,$block_img,$hash_title,$rank,$fkBlocknote){
 
         $date = date('Y-m-d H:i:s');
-            // prepare and bind
-        $stmt = $this->_db->prepare("INSERT INTO note (beware,big_title,title,important_comment,comment,comment_bar,code_block,block_img,hash_title) VALUES (:beware,:big_title,:title,:important_comment,:comment,:comment_bar,:code_block,:block_img,:hash_title)");
-       
-        $stmt->bindParam(':beware', $beware);
+        var_dump($beware,$big_title,$title,$important_comment,$comment,$comment_bar,$code_block,$block_img,$hash_title,$rank,$fkBlocknote);
+        // prepare and bind
+       // $stmt = $this->_db->prepare("INSERT INTO note (beware,big_title,title,important_comment,comment,comment_bar,code_block,block_img,hash_title,rank,fk_blocknote,date_created,date_update) VALUES (:beware,:big_title,:title,:important_comment,:comment,:comment_bar,:code_block,:block_img,:hash_title,:rank,:fkblocknote,:date_c,:date_u)");
+       $stmt = $this->_db->prepare("INSERT INTO note (fk_blocknote,rank,beware,big_title,title,important_comment,comment,comment_bar,code_block,hash_title) VALUES (:fk_blocknote,:rank,:beware,:big_title,:title,:important_comment,:comment,:comment_bar,:code_block,:hash_title)");
 
+        $stmt->bindParam(':fk_blocknote',$fkBlocknote);
+        $stmt->bindParam(':beware', $beware);
         $stmt->bindParam(':big_title', $big_title);
+        $stmt->bindParam(':rank', $rank);
+      //  $stmt->bindParam(':date_c', $date);
+      //  $stmt->bindParam(':date_u', $date);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':important_comment', $important_comment);
         $stmt->bindParam(':comment', $comment);
         $stmt->bindParam(':comment_bar', $comment_bar);
         $stmt->bindParam(':code_block', $code_block);
-        $stmt->bindParam(':comment_bar', $comment_bar);
-        $stmt->bindParam(':hash_title', $hash_title);
-        $stmt->bindParam(':block_img', $block_img);
-        // need created at, updated at
+ 
+       $stmt->bindParam(':hash_title', $hash_title);
+  //      $stmt->bindParam(':block_img', $block_img);
+       
         $stmt->execute();
         $stmt = null;
         return $this->_db->lastInsertId(); 

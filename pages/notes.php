@@ -55,72 +55,90 @@ $_SESSION['selectedBlocknoteId'] = $_GET['id'];
             <div class="ml-2 mt-3 vapor-2">
                 <h3>notes</h3>
             </div>
-            <span id="addnote" class="addElement" data-toggle="tooltip" data-placement="top" title="Ajouter une note au blocknote"><i class="fa fa-plus-circle " aria-hidden="true"></i></span>        
+            <span id="addnote" class="addElement" data-toggle="tooltip" data-placement="top" data-fk_blocknote="<?=$blocknote->id ?>" title="Ajouter une note au blocknote"><i class="fa fa-plus-circle " aria-hidden="true"></i></span>        
         </div>
         <hr class="hrVapor">      
     </div>  
     <div id="formNote" class="row mt-5">
 
     </div>
-    <div class="row m-5">
-
+    <div class="row debug">
+      <table>
         <?php foreach($notes as $k => $n){ ?> 
            
-            <div id="div<?php echo $k; ?>" class="contenant note-contenant">   
+            <!--<div id="div<?php echo $k; ?>" class="contenant note-contenant">   -->
             
-                <div id="<?php echo $n->rowid; ?>" class="moveable d-flex flex-column justify-content-center align-items-center" draggable=true ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)">
+               <!-- <div id="<?php echo $n->rowid; ?>" class="moveable d-flex flex-column justify-content-start align-items-center debugg" draggable=true ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)">-->
                        <!-- design note here !! -->  
                        <!-- BEWARE -->
+                       
                        <?php if ($n->beware != '' ){ ?>
+                        <tr><td>
                         <p class="tip warning"> <?= $n->beware ?> </p>
+                       </td></tr>
                        <?php } ?>
                        
 
                         <!-- big-title -->
                         <?php if ($n->big_title != '' ){ ?>
+                          <tr><td>
                           <h1> <?= $n->big_title ?> </h1>
+                        </td></tr>
                        <?php } ?>
                        
 
                        <!-- title -->
                        <?php if ($n->title != '' ){ ?>
+                        <tr><td>
                         <h2 id="Basics"><a href="#<?= $n->title ?>" class="headerlink" title="<?= $n->title ?>" data-scroll=""><?= $n->title ?></a></h2>
+                       </td></tr>
                        <?php } ?>
 
 
                       <!-- important_comment -->
                         <?php if ($n->important_comment != '' ){ ?>
+                          <tr></td>
                           <p class="tip imp"><?= $n->important_comment ?> </p>
+                        </td></tr>
                        <?php } ?>
 
                       
                        <!-- comment -->
                        <?php if ($n->comment != '' ){ ?>
+                        <tr><td>
                           <p><?= $n->comment ?> </p>
+                       </td></tr>
                        <?php } ?>
 
 
                        <!-- comment_bar -->
                        <?php if ($n->comment_bar != '' ){ ?>
+                        <tr><td>
                         <blockquote>
                           <p><?= $n->comment_bar ?> </p>
                         </blockquote>     
+                       </td></tr>
                        <?php } ?>
 
                       <!-- code_block -->
                       <?php if ($n->code_block != '' ){ ?>
+                        <tr><td>
                           <pre>
                             <code class="hljs js"><?= $n->code_block ?></code>
                           </pre>
+                      </td></tr>
                       <?php } ?>
 
                        <!-- hash_title -->
                        <?php if ($n->hash_title != '' ){ ?>
+                        <tr><td>
                         <h3 class="h3-hash" id="Arbitrary-Route-Properties-replaced"><a href="#<?= $n->hash_title ?>" class="headerlink" title="<?= $n->hash_title ?>" ><?= $n->hash_title ?></a></h3> 
+                       </td></tr>
                       <?php } ?>
-                </div>
-            </div>
-            <?php } ?>    
+                <!-- </div> -->
+           <!-- </div>-->
+            <?php } ?> 
+                       </table>   
         </div>
     </div>
 

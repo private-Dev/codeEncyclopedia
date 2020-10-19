@@ -17,17 +17,30 @@ include_once     "../classes/class.Constants.php";
 include_once     "../classes/db/class.Database.php";
 include_once     "../classes/metier/theme.class.php";
 include_once     "../classes/metier/blocknote.class.php";
+include_once     "../classes/metier/note.class.php";
 include_once     "../classes/user/class.User.php";
 
-$userId = isset($_SESSION['auth']->id) ? $_SESSION['auth']->id :'';
+$userId             = isset($_SESSION['auth']->id) ? $_SESSION['auth']->id :'';
+$firstTheme         = isset($_POST['firstThemeId']) ? $_POST['firstThemeId'] :'';  
+$secondTheme        = isset($_POST['secondThemeId']) ? $_POST['secondThemeId']:'' ; 
+$firstBlock         = isset($_POST['firstblockId']) ? $_POST['firstblockId'] :'';  
+$secondBlock        = isset($_POST['secondblockId']) ? $_POST['secondblockId']:'' ;
 
-$firstTheme = isset($_POST['firstThemeId']) ? $_POST['firstThemeId'] :'';  
-$secondTheme =isset($_POST['secondThemeId']) ? $_POST['secondThemeId']:'' ; 
-$firstBlock = isset($_POST['firstblockId']) ? $_POST['firstblockId'] :'';  
-$secondBlock =isset($_POST['secondblockId']) ? $_POST['secondblockId']:'' ;
+$action             = isset($_POST['action']) ? $_POST['action']:'';
+$fktheme            = isset($_POST['fktheme']) ? $_POST['fktheme']:'';
 
-$action = isset($_POST['action']) ? $_POST['action']:'';
-$fktheme = isset($_POST['fktheme']) ? $_POST['fktheme']:'';
+$beware             = isset($_POST['beware']) ? $_POST['beware']:'' ;
+$bigtitle           = isset($_POST['bigtitle']) ? $_POST['bigtitle']:'' ;
+$title              = isset($_POST['Paragraphtitle']) ? $_POST['Paragraphtitle']:'' ;
+$importantcomment   = isset($_POST['importantcomment']) ? $_POST['importantcomment']:'' ;
+$comment            = isset($_POST['comment']) ? $_POST['comment']:'' ;
+$commentbar         = isset($_POST['commentbar']) ? $_POST['commentbar']:'' ;
+$codeblock          = isset($_POST['codeblock']) ? $_POST['codeblock']:'' ;
+$imgblock           = isset($_POST['imgblock']) ? $_POST['imgblock']:'' ;
+$hashtitle          = isset($_POST['hashtitle']) ? $_POST['hashtitle']:'' ;
+$fkblocknote          = isset($_POST['fkblocknote']) ? $_POST['fkblocknote']:'' ;
+var_dump($beware,$bigtitle,$title,$importantcomment,$comment,$commentbar ,$codeblock,$imgblock,$hashtitle,$fkblocknote);
+
 
 //dragged  --- 
 if (isset($action) && !empty($action) &&  $action == 'themeDragged'){
@@ -42,7 +55,6 @@ if (isset($action) && !empty($action) &&  $action == 'themeDragged'){
     $theme->updateUserRank($userId,$th_ranked_two->fk_theme,$th_ranked_one->rank_display);   
 
 }
-
 if (isset($action) && !empty($action) &&  $action == 'blockNoteDragged'){
     
     $db = new Database();
@@ -55,6 +67,7 @@ if (isset($action) && !empty($action) &&  $action == 'blockNoteDragged'){
     $blocknote->updateUserRank($userId,$b_ranked_one->fk_blocknote,$b_ranked_two->rank_display);    
     $blocknote->updateUserRank($userId,$b_ranked_two->fk_blocknote,$b_ranked_one->rank_display);   
 }
+//not implemented yet 
 if (isset($action) && !empty($action) &&  $action == 'paragraphDragged'){}
 // ---- 
 
@@ -99,6 +112,7 @@ if (isset($action) && !empty($action) &&  $action == 'addTheme'){
 
 
 if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
+    var_dump("entering create block");
     $data['errors']  ='none';   
     $nb =0;
     $rank =0;
@@ -123,6 +137,41 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
         $statment = $db->getInstance()->prepare("INSERT INTO blocknote_display_user (fk_user,fk_blocknote,rank_display) VALUES (?,?,?)");
         $statment->execute([intval($u->id),intval($lastIdTheme),intval($rank)]);
     }
+    $data['success'] = true;
+    $data['message'] = 'Success';
+
+    echo json_encode($data);
+}
+
+
+if (isset($action) && !empty($action) &&  $action == 'addnote'){
+    $data['errors']  ='none';   
+    $nb =0;
+    $rank =0;
+
+    $db = new Database();
+    
+    $blocknote = new Blocknote($db->getInstance());
+
+    $note = new Note($db->getInstance());
+
+    // return nb note + 1 for rank 
+    $n = new note($db->getInstance());
+    $nb = $n->getMaxRank();
+    $rank = $nb->nb + 1;
+   
+    // create theme with rank created earlier
+    $lastIdTheme = $note->create($beware,$bigtitle,$title,$importantcomment,$comment,$commentbar,$codeblock,$imgblock,$hashtitle,$rank,$fkblocknote);
+   
+    // select all users 
+    $user = new User($db->getInstance());
+    $users = $user->getRowsId();
+
+    // foreach user insert in display_theme an entry with id theme, rank, id_user
+   // foreach($users as $k => $u){
+   //     $statment = $db->getInstance()->prepare("INSERT INTO blocknote_display_user (fk_user,fk_blocknote,rank_display) VALUES (?,?,?)");
+   //     $statment->execute([intval($u->id),intval($lastIdTheme),intval($rank)]);
+    //}
     $data['success'] = true;
     $data['message'] = 'Success';
 

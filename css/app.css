@@ -433,6 +433,9 @@ a.text-light:focus {
 .debug {
   border : 1px solid red;
 }
+.debugg {
+  border : 1px solid orange;
+}
 .center{
   width:100%;
 text-align:center;

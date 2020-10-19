@@ -16,21 +16,32 @@ public $current_user;
     }
 
     public function fetch($id){
+        
         $sql = "SELECT * FROM  theme as t WHERE t.id = ? ";
         $stmt = $this->_db->prepare($sql);
         $stmt->execute([$id]);
         $row = $stmt->fetch(); 
         $this->label = $row->label;
-
         $this->id = $row->id;
         $this->date_created = $row->date_created;
         $this->date_update = $row->date_update;
-
         $stmt = null;
-
-
-    }   
+    }  
     
+    
+    /** 
+     * 
+     */
+    public function update(){
+
+    }
+    /**
+     *  
+   */    
+    public function save(){
+        
+    }
+
     public function getLabel(){
             return $this->label;
     }
