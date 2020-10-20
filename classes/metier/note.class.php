@@ -109,7 +109,7 @@ public $current_user;
         $stmt->bindParam(':code_block', $code_block);
  
        $stmt->bindParam(':hash_title', $hash_title);
-  //      $stmt->bindParam(':block_img', $block_img);
+  //   $stmt->bindParam(':block_img', $block_img);
        
         $stmt->execute();
         $stmt = null;

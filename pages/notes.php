@@ -97,7 +97,7 @@ $_SESSION['selectedBlocknoteId'] = $_GET['id'];
 
                       <!-- important_comment -->
                         <?php if ($n->important_comment != '' ){ ?>
-                          <tr></td>
+                          <tr><td>
                           <p class="tip imp"><?= $n->important_comment ?> </p>
                         </td></tr>
                        <?php } ?>
