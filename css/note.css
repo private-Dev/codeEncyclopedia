@@ -123,33 +123,39 @@ pre code .hljs-keyword, pre code .hljs-attribute {
     color: #d63200;
 }
 
-.h3-hash{
-    margin-left : 35px;
+.hash{
+    margin-left : 15px;
+    font-size: 1.4em;
 }
-.h3-hash:before {
-    content: "";
-    display: block;
-    margin-top: -85px;
-    height: 96px;
-    visibility: hidden;
-}
-.h3-hash > a:before {
+.hash:before {
     content: "#";
     color: #42b983;
-    position: absolute;
-    left: 20px;
-    margin-top: -1em;
-    padding-right: 0.5em;
-    font-size: 1.2em;
+    display: block;
+    margin-top: 15px;
+    margin-left:-20px;
+    height: 0px;
+    font-size: 1.3em;
     line-height: 1;
     font-weight: bold;
 }
-
 sup {
     vertical-align: super;
     font-size: smaller;
 }
 
+.redtext {
+    color: #d63200;
+    padding: 3px 5px;
+    margin: 0 2px;
+    border-radius: 2px;
+}
+
+.greentext {
+    color: #42b983;
+    padding: 3px 5px;
+    margin: 0 2px;
+    border-radius: 2px;
+}
 code {
     color: #d63200;
     padding: 3px 5px;
