@@ -141,11 +141,11 @@ class ParseClassedown
                                 );
 
     /**
-     * 
+     * this is the main function for this lib
+     * we can pass one line or multilines  as params
      * @param string $text 
      */
-    function text($text)
-    {
+    function text($text){
         # standardize line breaks 
         $text = str_replace(array("\r\n", "\r"), "\n", $text);
 
@@ -325,7 +325,6 @@ class ParseClassedown
             $this->blocks[$index]['endPosClass'] = $Endpos;
         } 
         
-        // si oui 
         return strpos($string,$this::START_CLASS) && strpos($string,$this::END_CLASS);
    } 
    /**
@@ -388,7 +387,6 @@ class ParseClassedown
         // extracting text without end multiLine Tag from line 
         return substr( $line,0 ,strlen($line) -  strlen($endSelector ));
    }
-
    /**
     * 
     * @param int $index
@@ -401,7 +399,7 @@ class ParseClassedown
         $lastLineNbElements = count(explode(" ",$lines[$posEndTagClosure]));
         $result = '';
         for ($i = $index; $i <= $posEndTagClosure ;$i++){
-            // premiere ligne ? on retire le tag markdown    
+            // first line , we remove entry tag 
             if ($i == $index){
                 $result = $this->extractText($i,$lines[$i]);
     
@@ -409,11 +407,11 @@ class ParseClassedown
                     $result = $this->extractEndMultiTag($result,$endSelector);
                 }
             }else
-            // sommes nous sur la derniere ligne ?
+            // are we on last line ?
             if ($i == $posEndTagClosure){
-                // y a t'il du text avant le End tag
+                // is there text before End Tag ? 
                 if ($lastLineNbElements > 1 ){
-                        // extraction du end tag sur la ligne   
+                        // extract end tag from text
                     $result .= "</br>". $this->extractEndMultiTag($lines[$posEndTagClosure],$endSelector) ;  
                 }
             }else{
@@ -424,7 +422,5 @@ class ParseClassedown
             }
         }    
         return $result;
-   }
-   
-   
+   }  
 }
