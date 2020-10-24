@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Sam 24 Octobre 2020 à 10:09
+-- Généré le :  Sam 24 Octobre 2020 à 19:16
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.3
 
@@ -127,7 +127,7 @@ CREATE TABLE `paragraph` (
 --
 
 INSERT INTO `paragraph` (`id`, `content`, `date_created`, `date_update`, `fk_blocknote`, `rank`) VALUES
-(1, '# test  h1\r\n<br><br>\r\n\r\n## test h2\r\n\r\n### test h3\r\n\r\n#### test h4\r\n\r\n##### test h5\r\n\r\n###### test h6\r\n\r\n\r\n> A brief summary of time quote\r\n\r\n---\r\n$lines = explode("\\n", $text);\r\n\r\n---\r\n\r\n: imp 1 {{tip imp}}\r\n\r\n:: imp 2 \r\n\r\n& warning 2 {{tip warning}}\r\n\r\n&& warning 3 \r\n\r\n: text lambda that lorem ipsum itself\r\n: text lambda that lorem ipsum itself\r\n: text lambda that lorem ipsum itself\r\n\r\n\r\ntext lambda that lorem ipsum itself\r\ntext lambda that lorem ipsum itself\r\ntext lambda that lorem ipsum itself\r\n\r\n', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1),
+(1, '# test  h1\r\n<br>\r\n## test h2 \r\n\r\n### test h3\r\n\r\n### test h3 {{hash}}\r\n\r\n#### test h4 {{hash}}\r\n\r\n#### test h4 standard\r\n\r\n##### test h5 standard \r\n\r\n##### test h5 {{hash}}\r\n<hr>\r\n\r\n###### test h6\r\n\r\n> 1 One Line A brief quoting behavior >/\r\n\r\n\r\n\r\n> 1 multi Line with  text on same line of tag {{greentext}}\r\n2 that can be added to quote\r\n3 because we love it.\r\n>/\r\n\r\n\r\n> \r\n1 text start on next line\r\n2 that can be added to quote\r\n3 because we love it.\r\n>/\r\n\r\n: \r\n function ammendTagHtml($selector,$multiplicator){\r\n        $result = \'\';  \r\n        if ($selector == $this::SELECTORS[\'header\']){\r\n            $result .= $multiplicator; \r\n        }\r\n\r\n      return $result; \r\n   }\r\n:/\r\n\r\n! imp 0 !/ {{tip imp}} \r\n\r\n! imp 1 {{tip imp}}\r\n2 imp text with explicit class\r\n3 imp text with explicit class\r\n!/\r\n\r\n!! imp 2  !!/\r\n\r\n!! imp 3 \r\n14 imp   text\r\n15 imp  text !!/\r\n\r\n\r\n\r\n& warning 2  &/ {{tip warning}}\r\n\r\n&& warning 3 \r\n\r\n 3 text lambda that lorem ipsum itself\r\n 3 text lambda that lorem ipsum itself\r\n 3 text lambda that lorem ipsum itself\r\n&&/\r\n\r\n!\r\n   text lambda that lorem ipsum itself.\r\n   <br> test in real life, <br>cause it\'s fun to do.\r\n       text lambda that lorem ipsum itself\r\n       text lambda that lorem ipsum itself\r\n!/\r\n\r\n', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1),
 (3, ': imp 1 {{tip imp}}\r\n\r\n:: imp 2 \r\n\r\n& warning 2 {{tip warning}}\r\n\r\n&& warning 3 ', '2020-10-24 00:00:00', '2020-10-24 00:00:00', 1, 2);
 
 -- --------------------------------------------------------
