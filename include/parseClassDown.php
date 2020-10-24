@@ -18,15 +18,16 @@
  * 
  *  v1.0.0 
  * 
- *  One line per markdown
+ *  One line or multiLine per markdown
  * 
  *  each line must start at beginning of line 
  *      ex : # my text wrong
  *      ex :# my text good  
  * 
- *  each line must have a space between markdow tag and text to be interpreted.
+ *  each line must have a space between markdown tag and text to be interpreted.
  *      ex :#wrong  
  *      ex :# good
+ *  
  * 
  * class can be added on fly  
  * 
@@ -44,12 +45,41 @@
  *      you can put un unlimited nombers of class. they have to be separated by space 
  *      ex :# my text {{ MyClass MyOtherClass }}
  * 
+ *  multiLine  selectors
+ * 
+ *  ! , & , !! , &&  are multiline selectors
+ *  they have to follow the monoline selector rule for starting point. 
+ *  ex :! mytext good
+ *  ex : ! mytext wrong
+ * 
+ *  each multiLine tag must be endded by his endtag  !/ , &/ , !!/ , &&/
+ *  can be placed on  a text line or alone in separate line
+ * 
+ *  ex:! my text !/
+ * 
+ *  ex:! 
+ *      my text !/
+ * 
+ *  ex:! 
+ *      my text 
+ *     !/
+ * 
+ *  WARNING :  multiLine and class Tag declaration  
+ *  you have to always place class on first line of your multilineTag
+ *  if you create a multiline tag with class contained on one line, you have to close tagMultine before tag class
+ * 
+ *  ex:! mytext !/ {{myclass myotherclass}}   
+ * 
+ *  ex: ! imp 1 {{tip imp}}
+ *      2 imp text with explicit class
+ *      3 imp text with explicit class
+ *      !/
  * 
  */
 
 class ParseClassedown
 {
-    # ~
+    
 
     const version = '1.0.0';
     
@@ -124,28 +154,27 @@ class ParseClassedown
 
         # split text into lines
         $lines = explode("\n", $text);
-        //var_dump($lines);
+        
         $nbLines = count($lines);
         for ($i = 0 ; $i < $nbLines ; $i++){
-            // on ne traite que les lignes avec selector valid
+            // we only work with line have valid starter selector
             if (!is_null($this->is_valid_starter_selector($lines[$i]))){
 
-                // @TODO le cas du p ne commence pas par un selector valide
-                // @TODO le cas du code  commence à la ligne seulement
-
                 $this->blocks[$i]["start"] = $i;
-                $this->blocks[$i]["end"] = $this->findNextEmptyLine($lines, $i);
 
-                
+                //@TODO si multi c'est pas bon là . à deplacer 
+                $this->blocks[$i]["end"] = $this->findNextEmptyLine($lines, $i);
+ 
                 $this->blocks[$i]["selector"] =  $this->extractValidSelector($lines[$i]);  
                 $this->blocks[$i]["HtmlName"] =  $this->getNameSeletor($this->blocks[$i]["selector"]);
-                // on recherche les classes déclarées si existantes     
+                // we looking for some class inline declaration 
                 $this->blocks[$i]["class"] = $this->is_valid_class_selector($lines[$i],$i);
                 $this->blocks[$i]["className"] = $this->extractClassName($lines[$i],$i);
 
                 // starting tag 
                 $this->blocks[$i]["htmlTagStart"] = $this::START_TAG_SELECTOR[$this->blocks[$i]["selector"]];
-                 //ending tag   
+                
+                //ending tag   
                 $this->blocks[$i]["htmlTagEnd"] = $this::END_TAG_SELECTOR[$this->blocks[$i]["selector"]];
             
                 // close the tag with proper informations
@@ -153,45 +182,31 @@ class ParseClassedown
                 $this->blocks[$i]["htmlTagStart"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
                 $this->blocks[$i]["htmlTagEnd"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
 
-                // si le selector est un type p ou code
+                // selector is a multiLine type ?
                 if ($this->is_multiline_selector($this->blocks[$i]["selector"])){
 
                     // seek end selector 
-
                     $posEndTagClosure = $this->getEndTagClosureLineNumber($i,$lines);
-                    var_dump("starting multi  :  " .$i . " endded at : " . $posEndTagClosure );
+                
+                    // cancat each line contained in start and end tag multiSelector 
+                    $this->blocks[$i]["text"] = $this->concatMultiLines($i,$posEndTagClosure,$lines,$this::END_SELECTORS[$this->blocks[$i]["selector"]]);   
 
-                    //  store each line in text block
-                    $this->blocks[$i]["text"] = $this->concatMultiLines($i,$posEndTagClosure);   
-
-                    // set new $i index to end + 1
-
-                    
-
+                    // udpate $i with offset $posEndTagClosure  
+                    $i = $posEndTagClosure + 1;    
                 }else{
                     // get the text without markdow tag    
                     $this->blocks[$i]["text"] = $this->extractText($i,$lines[$i]);    
                 }
-                
-
-
-               //var_dump($this->blocks[$i]); 
-
             }else{//@ TODO not the right way to do this it's temporary
-
                 if ($lines[$i] !== ""){
                     $this->blocks[$i]["selector"] = "no-selector";
                     $this->blocks[$i]["htmlTagStart"] = "<p>";
                     $this->blocks[$i]["text"] = $lines[$i];  
                     $this->blocks[$i]["htmlTagEnd"] = "</p>";
                 }
-               
             }
-                
         } 
-        $this->outputHtml();
-       //var_dump($this->blocks);
-        
+        $this->outputHtml(); 
     }
     /**
      * is the first car of line exist in valid selector
@@ -256,7 +271,6 @@ class ParseClassedown
    }
    /**
     * 
-
     */
    function ammendTagHtml($selector,$multiplicator){
         $result = '';  
@@ -266,7 +280,9 @@ class ParseClassedown
 
       return $result; 
    }
-
+   /**
+    * 
+    */
    function closeTagHtml($selector){
        return $this::END_BRAKET;
    }
@@ -281,7 +297,6 @@ class ParseClassedown
 
     return '';
    }
-
    /**
     * extract markdown starting tag and class from line
     */
@@ -292,6 +307,7 @@ class ParseClassedown
        // extraction class if exist 
         if  ($this->blocks[$index]['class']){
           $result = substr($result, 0, strpos($result, $this::START_CLASS));  
+          $result = rtrim($result);
         }
         return $result;  
    }
@@ -299,8 +315,7 @@ class ParseClassedown
      * 
      */
    function is_valid_class_selector($string, $index){
-        // on veux trouver les deux dernier }} sur la ligne
-        //var_dump($string);
+      
         $Startpos = strpos($string,$this::START_CLASS);
         $Endpos = strpos($string,$this::END_CLASS);
         if ($Startpos!== false){
@@ -321,7 +336,6 @@ class ParseClassedown
         return substr ( $string , ($this->blocks[$index]['startPosClass']+ 2), (($this->blocks[$index]['endPosClass']) - ($this->blocks[$index]['startPosClass'] + 2)));
        }
    }
-   
    /**
     * 
     */
@@ -333,7 +347,6 @@ class ParseClassedown
 
        }
    }
-
    /**
     * 
     */
@@ -350,7 +363,6 @@ class ParseClassedown
        }
        return false;
    }
-
    /**
     * 
     */
@@ -363,22 +375,57 @@ class ParseClassedown
             $res =  in_array($this::END_SELECTORS[$tag],$Tresult);
             
             if ($res){
-                var_dump("find end tag ". $this::END_SELECTORS[$tag] . "  on : ". $i . " line ");
+               // var_dump("find end tag ". $this::END_SELECTORS[$tag] . "  on : ". $i . " line ");
                 return $i;
             break;
             }  
         }
         return $index;
    }
-
    /**
     * 
     */
-   function concatMultiLines( int $index,int  $posEndTagClosure,&$lines){
+   function extractEndMultiTag($line,$endSelector){
+        // extracting text without end multiLine Tag from line 
+        return substr( $line,0 ,strlen($line) -  strlen($endSelector ));
+   }
 
-        for ($i = $index; $i < $posEndTagClosure ;$i++){
+   /**
+    * 
+    * @param int $index
+    * @param int $posEndTagClosure
+    * @param mixed &$lines
+    * @param string $endSelector
+    */
+   function concatMultiLines( int $index,int  $posEndTagClosure,&$lines,string $endSelector){
 
-        }
-
-   }    
+        $lastLineNbElements = count(explode(" ",$lines[$posEndTagClosure]));
+        $result = '';
+        for ($i = $index; $i <= $posEndTagClosure ;$i++){
+            // premiere ligne ? on retire le tag markdown    
+            if ($i == $index){
+                $result = $this->extractText($i,$lines[$i]);
+    
+                if ($posEndTagClosure == $i){
+                    $result = $this->extractEndMultiTag($result,$endSelector);
+                }
+            }else
+            // sommes nous sur la derniere ligne ?
+            if ($i == $posEndTagClosure){
+                // y a t'il du text avant le End tag
+                if ($lastLineNbElements > 1 ){
+                        // extraction du end tag sur la ligne   
+                    $result .= "</br>". $this->extractEndMultiTag($lines[$posEndTagClosure],$endSelector) ;  
+                }
+            }else{
+                if ($i <> $index){
+                    $result .= '</br>';    
+                }
+                $result .= $lines[$i];
+            }
+        }    
+        return $result;
+   }
+   
+   
 }
