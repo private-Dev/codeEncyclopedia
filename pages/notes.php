@@ -5,6 +5,7 @@ if (!isset( $_SESSION['auth'])){
   header('Location: ../login.php');
   exit();
 }
+include_once      "../include/Parsedown.php";
 include_once     "../classes/class.Constants.php";
 include_once     "../classes/db/class.Database.php";
 include_once     "../classes/metier/blocknote.class.php";
