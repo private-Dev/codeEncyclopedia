@@ -65,8 +65,8 @@ class ParseClassedown
                             "header6"       =>'######', 
                             "quote"         =>'>', 
                             "code"          =>'-', 
-                            "p-standard-01" =>':',
-                            "p tip imp"     =>'::',
+                            "p-standard-01" =>'!',
+                            "p tip imp"     =>'!!',
                             "p-standard-02" =>'&',
                             "p tip warning" =>'&&'
                         );
@@ -80,8 +80,8 @@ class ParseClassedown
                                      
                                      ">"   => "<blockquote><p",
                                      "-"   => "<pre><code",
-                                     ":"   => "<p" , 
-                                     "::"  => '<p class="tip imp"',
+                                     "!"   => "<p" , 
+                                     "!!"  => '<p class="tip imp"',
                                      "&"   => "<p",
                                      "&&"   => '<p class="tip warning"'
                                     );
@@ -95,8 +95,8 @@ class ParseClassedown
                                     "######"   => "</h6",
                                     ">"   => "</p></blockquote", 
                                     "-"   => "</code></pre", 
-                                    ":"   => "</p", 
-                                    "::"  => "</p",
+                                    "!"   => "</p", 
+                                    "!!"  => "</p",
                                     "&"   => "</p",
                                     "&&"   => "</p"
                                 );
