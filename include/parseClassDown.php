@@ -373,9 +373,8 @@ class ParseClassedown
         for ($i = $index ; $i < $nb ; $i++){
             $Tresult = explode(" ",$lines[$i]);
             $res =  in_array($this::END_SELECTORS[$tag],$Tresult);
-            
+        
             if ($res){
-               // var_dump("find end tag ". $this::END_SELECTORS[$tag] . "  on : ". $i . " line ");
                 return $i;
             break;
             }  
