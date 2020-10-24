@@ -64,11 +64,20 @@ class ParseClassedown
                             "header5"       =>'#####', 
                             "header6"       =>'######', 
                             "quote"         =>'>', 
-                            "code"          =>'-', 
+                            "code"          =>':', 
                             "p-standard-01" =>'!',
                             "p tip imp"     =>'!!',
                             "p-standard-02" =>'&',
                             "p tip warning" =>'&&'
+                        );
+
+    const END_SELECTORS = array(
+                            ">"  => '>/', 
+                            ":"  => ':/', 
+                            "!"  => '!/',
+                            "!!" => '!!/',
+                            "&"  => '&/',
+                            "&&" => '&&/'
                         );
 
     const START_TAG_SELECTOR = array("#"   => "<h1",
@@ -79,7 +88,7 @@ class ParseClassedown
                                      "######"   => "<h6",
                                      
                                      ">"   => "<blockquote><p",
-                                     "-"   => "<pre><code",
+                                     ":"   => "<pre><code",
                                      "!"   => "<p" , 
                                      "!!"  => '<p class="tip imp"',
                                      "&"   => "<p",
@@ -94,7 +103,7 @@ class ParseClassedown
                                     "#####"   => "</h5",
                                     "######"   => "</h6",
                                     ">"   => "</p></blockquote", 
-                                    "-"   => "</code></pre", 
+                                    ":"   => "</code></pre", 
                                     "!"   => "</p", 
                                     "!!"  => "</p",
                                     "&"   => "</p",
@@ -116,32 +125,20 @@ class ParseClassedown
         # split text into lines
         $lines = explode("\n", $text);
         //var_dump($lines);
-
-        for ($i = 0 ; $i < count($lines) ; $i++){
-
+        $nbLines = count($lines);
+        for ($i = 0 ; $i < $nbLines ; $i++){
             // on ne traite que les lignes avec selector valid
             if (!is_null($this->is_valid_starter_selector($lines[$i]))){
+
+                // @TODO le cas du p ne commence pas par un selector valide
+                // @TODO le cas du code  commence à la ligne seulement
 
                 $this->blocks[$i]["start"] = $i;
                 $this->blocks[$i]["end"] = $this->findNextEmptyLine($lines, $i);
 
-
-                // on recherche la fin de la clé 
-                // c'est à dire une ligne vide
-                // la fonction renvoie l'index de la ligne vide
-               
-                // @TODO le cas du p ne commence pas par un selector valide
-
-                // @TODO le cas du code  commence à la ligne seulement
-
-
-
-                $this->blocks[$i]["selector"] =  $this->extractValidSelector($lines[$i]);  
                 
-                $this->blocks[$i]["HtmlName"] =  $this->getNameSeletor($this->blocks[$i]["selector"]);   
-                //deprecated
-                //$this->blocks[$i]["multiplicator"] = $this->setMultiplicatorSelector($lines[$i]);
-
+                $this->blocks[$i]["selector"] =  $this->extractValidSelector($lines[$i]);  
+                $this->blocks[$i]["HtmlName"] =  $this->getNameSeletor($this->blocks[$i]["selector"]);
                 // on recherche les classes déclarées si existantes     
                 $this->blocks[$i]["class"] = $this->is_valid_class_selector($lines[$i],$i);
                 $this->blocks[$i]["className"] = $this->extractClassName($lines[$i],$i);
@@ -150,22 +147,32 @@ class ParseClassedown
                 $this->blocks[$i]["htmlTagStart"] = $this::START_TAG_SELECTOR[$this->blocks[$i]["selector"]];
                  //ending tag   
                 $this->blocks[$i]["htmlTagEnd"] = $this::END_TAG_SELECTOR[$this->blocks[$i]["selector"]];
-                
-
-                
-                
-
+            
                 // close the tag with proper informations
-                //deprecated
-                // $this->blocks[$i]["htmlTagStart"] .= $this->ammendTagHtml($this->blocks[$i]["selector"],$this->blocks[$i]["multiplicator"]);    
                 $this->blocks[$i]["htmlTagStart"] .= $this->addClassToHtmlSelector($i);    
                 $this->blocks[$i]["htmlTagStart"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
                 $this->blocks[$i]["htmlTagEnd"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
 
+                // si le selector est un type p ou code
+                if ($this->is_multiline_selector($this->blocks[$i]["selector"])){
 
+                    // seek end selector 
 
-                // get the text without markdow tag    
-                $this->blocks[$i]["text"] = $this->extractText($i,$lines[$i]);    
+                    $posEndTagClosure = $this->getEndTagClosureLineNumber($i,$lines);
+                    var_dump("starting multi  :  " .$i . " endded at : " . $posEndTagClosure );
+
+                    //  store each line in text block
+                    $this->blocks[$i]["text"] = $this->concatMultiLines($i,$posEndTagClosure);   
+
+                    // set new $i index to end + 1
+
+                    
+
+                }else{
+                    // get the text without markdow tag    
+                    $this->blocks[$i]["text"] = $this->extractText($i,$lines[$i]);    
+                }
+                
 
 
                //var_dump($this->blocks[$i]); 
@@ -173,9 +180,10 @@ class ParseClassedown
             }else{//@ TODO not the right way to do this it's temporary
 
                 if ($lines[$i] !== ""){
-                    $this->blocks[$i]["htmlTagStart"] = "";
+                    $this->blocks[$i]["selector"] = "no-selector";
+                    $this->blocks[$i]["htmlTagStart"] = "<p>";
                     $this->blocks[$i]["text"] = $lines[$i];  
-                    $this->blocks[$i]["htmlTagEnd"] = "";
+                    $this->blocks[$i]["htmlTagEnd"] = "</p>";
                 }
                
             }
@@ -313,7 +321,10 @@ class ParseClassedown
         return substr ( $string , ($this->blocks[$index]['startPosClass']+ 2), (($this->blocks[$index]['endPosClass']) - ($this->blocks[$index]['startPosClass'] + 2)));
        }
    }
-
+   
+   /**
+    * 
+    */
    function outputHtml(){
        foreach ($this->blocks as $block){
         echo    isset($block['htmlTagStart']) ? $block['htmlTagStart'] : '';
@@ -322,4 +333,52 @@ class ParseClassedown
 
        }
    }
+
+   /**
+    * 
+    */
+   function is_multiline_selector($selector){
+   
+       if ($selector == $this::SELECTORS['code'] 
+            || $selector == $this::SELECTORS['quote'] 
+            || $selector == $this::SELECTORS['p-standard-01'] 
+            || $selector == $this::SELECTORS['p tip imp'] 
+            || $selector == $this::SELECTORS['p-standard-02'] 
+            || $selector == $this::SELECTORS['p tip warning'] 
+        ){
+            return true;
+       }
+       return false;
+   }
+
+   /**
+    * 
+    */
+   function getEndTagClosureLineNumber(int $index, array &$lines){
+       $nb = count($lines);
+       $tag = $this->blocks[$index]['selector'];
+       
+        for ($i = $index ; $i < $nb ; $i++){
+            $Tresult = explode(" ",$lines[$i]);
+            $res =  in_array($this::END_SELECTORS[$tag],$Tresult);
+            
+            if ($res){
+                var_dump("find end tag ". $this::END_SELECTORS[$tag] . "  on : ". $i . " line ");
+                return $i;
+            break;
+            }  
+        }
+        return $index;
+   }
+
+   /**
+    * 
+    */
+   function concatMultiLines( int $index,int  $posEndTagClosure,&$lines){
+
+        for ($i = $index; $i < $posEndTagClosure ;$i++){
+
+        }
+
+   }    
 }
