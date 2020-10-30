@@ -46,17 +46,11 @@ public $current_user;
     public function getRows($userId,$blocknoteId){
         
         $sql = "SELECT n.id as rowid, ";
-        $sql .= " n.beware, ";
-        $sql .= " n.big_title, ";
-        $sql .= " n.title,";
-        $sql .= " n.important_comment, ";
-        $sql .= " n.comment, ";
-        $sql .= " n.comment_bar, ";
-        $sql .= " n.code_block, ";
-        $sql .= " n.hash_title, ";
+        $sql .= " n.label, ";
         $sql .= " n.rank, ";
         $sql .= " n.date_created, ";
-        $sql .= " n.date_update ";
+        $sql .= " n.date_update, ";
+        $sql .= " n.toolTipMsg ";
         $sql .= " FROM note as n";
         $sql .= " LEFT JOIN  note_display_user as nd ON  n.id = nd.fk_note AND nd.fk_user = ?";
         $sql .= " WHERE n.fk_blocknote = ?";

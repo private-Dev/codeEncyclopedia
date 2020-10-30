@@ -80,19 +80,46 @@ blockquote p {
 pre{
     padding: 0px;
 }
+.code-s{
+    position: relative;
+    padding :10px;
+    color: #35a32f;
+    background-color: rgb(19, 18, 18);
+    font-weight: 700;
+    font-family: "Nunito", sans-serif;
+}
 /* code */
 pre code {
     overflow-x: auto;
-    color: #525252;
+    color: #1d1b1b;
     white-space: pre-wrap;
+    background-color: rgb(235, 235, 235);
     padding: -15px;
     margin-top:-30px;
     line-height: 1.6rem;
     display: block;
+    font-family: "Nunito", sans-serif;
 }
 
-code.hljs.js::before {
+code.js::before {
     content: "JS";
+}
+
+.term::before {
+    content: "term";
+    color: #1d1b1b!important;
+    top: 11px;
+    left: 12px;
+    
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-size: 44px;
+}
+
+code.php::before {
+    content: "PHP";
 }
 
 pre code.hljs.js::before {
@@ -163,13 +190,21 @@ code {
     border-radius: 2px;
     white-space: nowrap;
 }
-
-.h3-hash {
-    font-size: 1.17em;
-    font-weight: bold;
-}
-
 .wysiwyg {
     border: 1px solid black;
     border-radius: 5px;
 }
+.boxShadow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+    margin: 5px;
+    padding:5px;
+    font-size: 1.2em;
+    color : rgb(32, 32, 32);  
+    border-radius: 0 5px 5px 5px;
+    box-shadow: 2px 2px 2px #888888;  
+  
+  }

@@ -18,26 +18,18 @@ include_once     "../classes/metier/note.class.php";
 $db = new Database();
 $p = new ParseClassedown();
 $paragraph = new Paragraph($db->getInstance());
-$paragraph->fetch(5);
-
-
+$paragraph->fetch($_GET['id']);
 
 include_once ('../top.php');
 include_once ('../navTop.php');
 include_once ('../side.php');
 
-$_SESSION['selectedBlocknoteId'] = $_GET['id'];
-include_once '../templates/note/testmarkdown.tpl.php';
-
-
+$_SESSION['selectedNoteId'] = $_GET['id'];
 ?>
 
 <div class="container">
     <?=$p->text($paragraph->content); ?>
 </div>
-
-
-
 
 <script src="../js/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

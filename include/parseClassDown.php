@@ -150,7 +150,7 @@ class ParseClassedown
         $text = str_replace(array("\r\n", "\r"), "\n", $text);
 
         # remove surrounding line breaks
-        $text = trim($text, "\n");
+        $text = rtrim($text, "\n");
 
         # split text into lines
         $lines = explode("\n", $text);

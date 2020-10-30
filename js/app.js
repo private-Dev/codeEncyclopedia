@@ -111,10 +111,11 @@ $(document).on("click","#addnote",function(e) {
     e.preventDefault();
 
     $.ajax({
-        url : "../templates/note/FormCreateNote.tpl.php",
+        url : "../templates/note/testmarkdown.tpl.php",
         cache:false
     })
         .done(function(html){
+          
             $("#formNote").html(html);
         })
         .fail(function(data){})

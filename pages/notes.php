@@ -5,7 +5,7 @@ if (!isset( $_SESSION['auth'])){
   header('Location: ../login.php');
   exit();
 }
-include_once      "../include/Parsedown.php";
+
 include_once     "../classes/class.Constants.php";
 include_once     "../classes/db/class.Database.php";
 include_once     "../classes/metier/blocknote.class.php";
@@ -63,83 +63,23 @@ $_SESSION['selectedBlocknoteId'] = $_GET['id'];
     <div id="formNote" class="row mt-5">
 
     </div>
-    <div class="row debug">
-      <table>
-        <?php foreach($notes as $k => $n){ ?> 
+    <div class="row m-5">
+
+        <?php foreach($notes as $k => $b){ ?> 
            
-            <!--<div id="div<?php echo $k; ?>" class="contenant note-contenant">   -->
+            <div id="div<?php echo $k; ?>" class="contenant blocknote-contenant">   
             
-               <!-- <div id="<?php echo $n->rowid; ?>" class="moveable d-flex flex-column justify-content-start align-items-center debugg" draggable=true ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)">-->
-                       <!-- design note here !! -->  
-                       <!-- BEWARE -->
-                       
-                       <?php if ($n->beware != '' ){ ?>
-                        <tr><td>
-                        <p class="tip warning"> <?= $n->beware ?> </p>
-                       </td></tr>
-                       <?php } ?>
-                       
-
-                        <!-- big-title -->
-                        <?php if ($n->big_title != '' ){ ?>
-                          <tr><td>
-                          <h1> <?= $n->big_title ?> </h1>
-                        </td></tr>
-                       <?php } ?>
-                       
-
-                       <!-- title -->
-                       <?php if ($n->title != '' ){ ?>
-                        <tr><td>
-                        <h2 id="Basics"><a href="#<?= $n->title ?>" class="headerlink" title="<?= $n->title ?>" data-scroll=""><?= $n->title ?></a></h2>
-                       </td></tr>
-                       <?php } ?>
-
-
-                      <!-- important_comment -->
-                        <?php if ($n->important_comment != '' ){ ?>
-                          <tr><td>
-                          <p class="tip imp"><?= $n->important_comment ?> </p>
-                        </td></tr>
-                       <?php } ?>
-
-                      
-                       <!-- comment -->
-                       <?php if ($n->comment != '' ){ ?>
-                        <tr><td>
-                          <p><?= $n->comment ?> </p>
-                       </td></tr>
-                       <?php } ?>
-
-
-                       <!-- comment_bar -->
-                       <?php if ($n->comment_bar != '' ){ ?>
-                        <tr><td>
-                        <blockquote>
-                          <p><?= $n->comment_bar ?> </p>
-                        </blockquote>     
-                       </td></tr>
-                       <?php } ?>
-
-                      <!-- code_block -->
-                      <?php if ($n->code_block != '' ){ ?>
-                        <tr><td>
-                          <pre>
-                            <code class="hljs js"><?= $n->code_block ?></code>
-                          </pre>
-                      </td></tr>
-                      <?php } ?>
-
-                       <!-- hash_title -->
-                       <?php if ($n->hash_title != '' ){ ?>
-                        <tr><td>
-                        <h3 class="h3-hash" id="Arbitrary-Route-Properties-replaced"><a href="#<?= $n->hash_title ?>" class="headerlink" title="<?= $n->hash_title ?>" ><?= $n->hash_title ?></a></h3> 
-                       </td></tr>
-                      <?php } ?>
-                <!-- </div> -->
-           <!-- </div>-->
-            <?php } ?> 
-                       </table>   
+                <div id="<?php echo $b->rowid; ?>" class="moveable d-flex flex-column justify-content-center align-items-center" draggable=true ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" data-toggle="tooltip" data-placement="top" title="<?= $b->toolTipMsg;?>">
+                               
+                       <div style="position:absolute; top:5px; opacity:0.5">
+                            <img src="../assets/logo-cre-orange.svg" width="45" height="45">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>    
+                        </div>
+                       <span class="W-100 center"><a href="note.php?id=<?= $b->rowid;?>"><?= strtoupper($b->label); ?></a></span>
+                   
+                </div>
+            </div>
+            <?php } ?>    
         </div>
     </div>
 

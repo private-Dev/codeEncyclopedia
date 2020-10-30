@@ -68,5 +68,11 @@ class Constant{
           return $this->LOCAL_DEV;
     }
 
+    public function getStateAppArr(){
+        return $this->StateAppArr;
+    }
+    public function getStateApp(){
+        return $this->StateApp;
+    }
 
 }
