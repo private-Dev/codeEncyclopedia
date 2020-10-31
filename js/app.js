@@ -94,7 +94,7 @@ $(document).on("click",".A-create-Blocknote",function(e){
             data : data,
             datatype :'json',
             success :function(data){
-              //location.reload();
+              location.reload();
             }
         });
     }
@@ -151,7 +151,7 @@ $(document).on("click","#addnote",function(e) {
             data : data,
             datatype :'json',
             success :function(data){
-              //location.reload();
+              location.reload();
             }
         });
     }else{

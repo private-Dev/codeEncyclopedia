@@ -39,7 +39,13 @@ $codeblock          = isset($_POST['codeblock']) ? $_POST['codeblock']:'' ;
 $imgblock           = isset($_POST['imgblock']) ? $_POST['imgblock']:'' ;
 $hashtitle          = isset($_POST['hashtitle']) ? $_POST['hashtitle']:'' ;
 $fkblocknote          = isset($_POST['fkblocknote']) ? $_POST['fkblocknote']:'' ;
-var_dump($beware,$bigtitle,$title,$importantcomment,$comment,$commentbar ,$codeblock,$imgblock,$hashtitle,$fkblocknote);
+
+// element added
+$label = isset($_POST['label']) ? $_POST['label'] :'';
+$tooltip =isset($_POST['tooltip']) ? $_POST['tooltip']:'' ;
+$action = isset($_POST['action']) ? $_POST['action']:'';
+// --
+$data =[];
 
 
 //dragged  --- 
@@ -70,14 +76,6 @@ if (isset($action) && !empty($action) &&  $action == 'blockNoteDragged'){
 //not implemented yet 
 if (isset($action) && !empty($action) &&  $action == 'paragraphDragged'){}
 // ---- 
-
-
-// element added 
-$label = isset($_POST['label']) ? $_POST['label'] :'';  
-$tooltip =isset($_POST['tooltip']) ? $_POST['tooltip']:'' ; 
-$action = isset($_POST['action']) ? $_POST['action']:'';
-// -- 
-$data =[];
 
 if (isset($action) && !empty($action) &&  $action == 'addTheme'){
     $data['errors']  ='none';   
@@ -112,7 +110,7 @@ if (isset($action) && !empty($action) &&  $action == 'addTheme'){
 
 
 if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
-    var_dump("entering create block");
+
     $data['errors']  ='none';   
     $nb =0;
     $rank =0;
@@ -126,6 +124,7 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
     $rank = $nb->nb + 1;
    
     // create theme with rank created earlier
+
     $lastIdTheme = $blocknote->create($label,$tooltip,$rank,$fktheme);
    
     // select all users 

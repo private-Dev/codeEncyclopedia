@@ -33,8 +33,20 @@ public $rank;
 
         return $result;
 
-    }  
+    }
 
+    public function getRows($userId,$noteId){
+
+        $sql = "SELECT p.id, p.content ,p.rank FROM paragraph as p";
+        $sql .= " WHERE p.fk_note = ?";
+        $sql .= " ORDER BY p.rank";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute([intval($noteId)]);
+        $rows = $stmt->fetchAll();
+
+        $stmt = null;
+        return $rows;
+    }
     public function getRank($userId,$blockNoteId){
         
         $sql = "SELECT fk_note, rank_display FROM  paragraph_display_user WHERE fk_user = ? AND fk_blocknote = ?";

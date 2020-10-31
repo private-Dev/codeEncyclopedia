@@ -10,5 +10,7 @@
     <label for="tooltip" class="font-weight-bold">ToolTip message</label>
     <input type="text" class="form-control" id="tooltip" name="tooltip">
   </div>
-  <a  href="#" class ="btn btn-redCode A-create-Theme">Créer</a> 
+    <div class="form-group">
+        <a  href="#" class ="btn btn-redCode A-create-Theme">Créer</a>
+    </div>
   </div>

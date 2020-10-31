@@ -55,7 +55,7 @@ public $current_user;
         $sql .= " LEFT JOIN  note_display_user as nd ON  n.id = nd.fk_note AND nd.fk_user = ?";
         $sql .= " WHERE n.fk_blocknote = ?";
         $sql .= " ORDER BY nd.rank_display,n.rank";
-      var_dump($sql);
+
         $stmt = $this->_db->prepare($sql);
        
         $stmt->execute([$userId,intval($blocknoteId)]);

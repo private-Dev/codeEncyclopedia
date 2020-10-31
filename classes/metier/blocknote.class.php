@@ -62,19 +62,20 @@ public $current_user;
     }
 
     public function getRows($userId,$themeId){
-        
-        $sql = "SELECT b.id as rowid, b.label , b.date_created,b.toolTipMsg FROM blocknote as b";
-        $sql .= " LEFT JOIN  blocknote_display_user as td ON  b.id = td.fk_blocknote AND td.fk_user = ?";
-        $sql .= " WHERE b.fk_theme = ?";
-        $sql .= " ORDER BY td.rank_display,b.rank";
-      
-        $stmt = $this->_db->prepare($sql);
-       
-        $stmt->execute([$userId,intval($themeId)]);
-        $rows = $stmt->fetchAll(); 
-        $stmt = null;
-        return $rows;
-    }
+
+    $sql = "SELECT b.id as rowid, b.label , b.date_created,b.toolTipMsg FROM blocknote as b";
+    $sql .= " LEFT JOIN  blocknote_display_user as td ON  b.id = td.fk_blocknote AND td.fk_user = ?";
+    $sql .= " WHERE b.fk_theme = ?";
+    $sql .= " ORDER BY td.rank_display,b.rank";
+
+    $stmt = $this->_db->prepare($sql);
+
+    $stmt->execute([$userId,intval($themeId)]);
+    $rows = $stmt->fetchAll();
+
+    $stmt = null;
+    return $rows;
+}
 
     public function getMaxRank(){
         $sql = "SELECT MAX(rank) as nb FROM blocknote";
