@@ -9,3 +9,5 @@ make copy constant.class.example.php to constant.class.php
 change dns refs
 
 ![01](https://user-images.githubusercontent.com/52592449/97773915-0f21ac80-1b54-11eb-9b9d-46cab6a9023a.png)
+![FireShot Capture 021 - CODE REMINDER ENCYCLOPEDIA - localhost](https://user-images.githubusercontent.com/52592449/97774018-cfa79000-1b54-11eb-926d-4289923302f7.png)
+![FireShot Capture 024 -  - localhost](https://user-images.githubusercontent.com/52592449/97774020-d2a28080-1b54-11eb-9399-94a64a07b7be.png)
