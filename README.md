@@ -12,7 +12,7 @@ change dns refs
 
 ## login
 
-![FireShot Capture 021 - CODE REMINDER ENCYCLOPEDIA - localhost](https://user-images.githubusercontent.com/52592449/97774018-cfa79000-1b54-11eb-926d-4289923302f7.png)
+![FireShot Capture 021 - CODE REMINDER ENCYCLOPEDIA - localhost](https://user-images.githubusercontent.com/52592449/97796832-1fe72680-1c17-11eb-9b91-a30890385774.png)
 
 ## admin
 
