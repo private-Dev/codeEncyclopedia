@@ -198,10 +198,15 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                             <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
                         </div>
                     <div class="form-group row">
+
                         <div class="col-sm-10">
                             <a id="NoteCteateBtn" class="btn btn btn-redCode">Créer Note</a>
                         </div>
+                        <div id="errorMsg" class="col-sm-10">
+
+                        </div>
                     </div>
+
                     </form>
                 </div>
 
@@ -370,10 +375,24 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                 });
                 console.log(data);
             } else{
-                console.log($("#selectTheme").val());
-                console.log( $("#selectBlock").val());
-                console.log($('#noteLabel').val());
-                console.log($('#paragraphNote').val());
+                err ='';
+                if ($("#selectTheme").val() < 0){
+                  err +=  '<div class="alert alert-danger" role="alert">Select Theme </div>'
+                }
+                if ($("#selectBlock").val() < 0){
+                    err +=  '<div class="alert alert-danger" role="alert">Select BlockNote </div>'
+                }
+                if ($("#noteLabel").val() == ''){
+                    err +=  '<div class="alert alert-danger" role="alert">no empty Note Label  </div>'
+                }
+                if ($("#paragraphNote").val() == ''){
+                    err +=  '<div class="alert alert-danger" role="alert">no empty Paragraph  </div>'
+                }
+                $('#errorMsg').css('display','block');
+                $('#errorMsg').html(err);
+                $('#errorMsg').fadeOut(8300, "linear")
+
+
 
             }
         })
