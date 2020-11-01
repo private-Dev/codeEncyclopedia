@@ -22,4 +22,6 @@ change dns refs
 
 ![01](https://user-images.githubusercontent.com/52592449/97773915-0f21ac80-1b54-11eb-9b9d-46cab6a9023a.png)
 
+## Short action add note
 
+![FireShot Capture 030 - Code Reminder Encyclopédia - localhost](https://user-images.githubusercontent.com/52592449/97796850-4efd9800-1c17-11eb-8a5e-7caef00e30a4.png)
