@@ -9,6 +9,10 @@ make copy constant.class.example.php to constant.class.php
 change dns refs
 
 <hr>
+## short demo (in progress )
+
+![demo](https://user-images.githubusercontent.com/52592449/97796977-d4ce1300-1c18-11eb-87b7-3a476f49a739.gif)
+
 
 ## login
 
