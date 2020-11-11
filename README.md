@@ -63,4 +63,83 @@ change dns refs
 ![01](https://user-images.githubusercontent.com/52592449/97773915-0f21ac80-1b54-11eb-9b9d-46cab6a9023a.png)
 
 
+## ParseClassedown
+
+/** 
+*
+*
+* ParseClassedown
+* 
+* a tiny markDown that handle a few selectors 
+* we can add specific class to selector to match a custom design with css    
+*
+* 24/10/2020
+* (c) jpb (rick)
+* http://guitaresphere.com
+* 
+* For the full license information, view the LICENSE file that was distributed
+* with this source code.
+*
+*
+ * 
+ *  v1.0.0 
+ * 
+ *  One line or multiLine per markdown
+ * 
+ *  each line must start at beginning of line 
+ *      ex : # my text wrong
+ *      ex :# my text good  
+ * 
+ *  each line must have a space between markdown tag and text to be interpreted.
+ *      ex :#wrong  
+ *      ex :# good
+ *  
+ * 
+ * class can be added on fly  
+ * 
+ *   first method 
+ *    implicit 
+ *     the descriptor tag have some personnal class linked to markdown tag 
+ *      :: on <p> give class="tip imp"
+ *      && on <p> give class="tip warning"
+ *      you have to declare on proper css file and include in desired html/php file
+ * 
+ *   seconde method
+ *      explicit 
+ *      at the end of line , you cann add the special tag {{}}  and 
+ *      put some name class in it
+ *      you can put un unlimited nombers of class. they have to be separated by space 
+ *      ex :# my text {{ MyClass MyOtherClass }}
+ * 
+ *  multiLine  selectors
+ * 
+ *  ! , & , !! , &&  are multiline selectors
+ *  they have to follow the monoline selector rule for starting point. 
+ *  ex :! mytext good
+ *  ex : ! mytext wrong
+ * 
+ *  each multiLine tag must be endded by his endtag  !/ , &/ , !!/ , &&/
+ *  can be placed on  a text line or alone in separate line
+ * 
+ *  ex:! my text !/
+ * 
+ *  ex:! 
+ *      my text !/
+ * 
+ *  ex:! 
+ *      my text 
+ *     !/
+ * 
+ *  WARNING :  multiLine and class Tag declaration  
+ *  you have to always place class on first line of your multilineTag
+ *  if you create a multiline tag with class contained on one line, you have to close tagMultine before tag class
+ * 
+ *  ex:! mytext !/ {{myclass myotherclass}}   
+ * 
+ *  ex: ! imp 1 {{tip imp}}
+ *      2 imp text with explicit class
+ *      3 imp text with explicit class
+ *      !/
+ * 
+ */
 
