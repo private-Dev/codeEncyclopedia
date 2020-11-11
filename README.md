@@ -17,9 +17,11 @@ change dns refs
  - [x] redirection security on every pages
  - [x] deconnection feature
  - [x] redirection to login page security on not allowed access page
+
 #### DESIGN
  - [x] find some design , logo  
  - [ ] change list design
+
  #### ADMIN
  - [x] create front view
  - [x] list theme
@@ -30,11 +32,14 @@ change dns refs
  #### MARKDOWN
  - [x] create class tiny markdown for a internal use
  - [ ] add img handling tag
+
  #### PROCESS
  - [x] jquery create theme injection form on create note page
  - [x] jquery create blocknote injection form on create note page
  - [x] ajax persist id on theme and blocknote id (select html) on create note page  
  - [x] save new note on front revamp interface 
+ - [ ] add tab preview note and write note on addNote.php
+ 
  
  #### FEATURE EASY USE
  - [ ] drag and drop image on textarea (auto download img then git a formated link usable on page
