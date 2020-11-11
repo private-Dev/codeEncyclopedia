@@ -106,9 +106,9 @@ change dns refs
  * 
  *   seconde method
  *      explicit 
- *      at the end of line , you cann add the special tag {{}}  and 
+ *      at the end of line , you can add the special tag {{}}  and 
  *      put some name class in it
- *      you can put un unlimited nombers of class. they have to be separated by space 
+ *      you can put un unlimited numbers of class. they have to be separated by space 
  *      ex :# my text {{ MyClass MyOtherClass }}
  * 
  *  multiLine  selectors
