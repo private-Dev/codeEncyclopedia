@@ -28,11 +28,8 @@ $user = $_SESSION['auth']->id;
 $themes = $theme->getRows($user);
 
 
-
 $action = isset($_GET['action']) ? isset($_GET['action']) : '';
 $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
-
-
 
 
 ?>
@@ -167,7 +164,15 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                             <select id="selectTheme" name="selectTheme" class="form-control ml-5">
                                 <option value="-1" >Select a theme</option>
                                 <?php foreach ($themes as $th) { ?>
-                                <option value="<?=$th->rowid; ?>" ><?=$th->label;?></option>
+                                <option value="<?=$th->rowid; ?>"
+                                    <?php
+                                        if ( isset($_SESSION['NewNote']['idTheme'])
+                                            && !empty($_SESSION['NewNote']['idTheme'])
+                                            && $_SESSION['NewNote']['idTheme'] == $th->rowid ){?>
+                                            selected
+                                            <?php }  ?>
+                                ><?=$th->label;?></option>
+
                                 <?php }  ?>
                             </select>
                             <a id="addThemeBtn" class="nav-link" href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
@@ -179,6 +184,18 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                             <label for="selectBlock" class="mt-1">Blocknote</label>
                             <select id="selectBlock" name="selectBlock" class="form-control ml-5">
                                 <option value="-1" >Select a Blocknote</option>
+                                <?php
+                                if ( isset($_SESSION['NewNote']['idTheme']) && !empty($_SESSION['NewNote']['idTheme'])){
+                                   $blocks  = $block->getRows($user,$_SESSION['NewNote']['idTheme']);
+                                   var_dump($blocks);
+                                      foreach ($blocks as $b) { ?>
+                                          <option value=" <?=$b->rowid; ?>"
+                                            <?php
+                                                  if ( isset($_SESSION['NewNote']['idBlock']) && !empty($_SESSION['NewNote']['idBlock']) && $_SESSION['NewNote']['idBlock'] == $b->rowid ) { ?>
+                                                        selected
+                                                  <?php }  ?>
+                                                  ><?=$b->label;?></option>
+                                      <?php } }?>
                             </select>
                             <a id="addBlocknote" class="nav-link" href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                         </div>
@@ -186,7 +203,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                         <hr>
 
                         <!-- SELECT NOTE -->
-                        <div class="form-group d-inline-flex  p-2 m-3">
+                        <div id="boxBlocknoteSelect" class="form-group d-inline-flex  p-2 m-3">
                             <label for="noteLabel" class="mt-1">Note</label>
                             <input type="text" class="form-control ml-5" id="noteLabel" aria-describedby="emailHelp" placeholder="Enter note label">
 
@@ -194,7 +211,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
                         <!-- PARAGRAPH -->
                         <div class="form-group flex-md-column  p-2 m-3">
-                            <label for="paragraph">paragraph</label>
+                            <label for="paragraph">Content</label>
                             <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
                         </div>
                     <div class="form-group row">
@@ -273,7 +290,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
         $(document).on("click",".A-create-Theme",function(e){
             self = $(this);
-
+            console.log('je creer un theme');
             if ($("#label").val() === ''){
                 $('#labelAlert').css('display','block')
             }else{
@@ -299,6 +316,29 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
         })
 
+
+        //-- BLOCK CHANGE ------------------------------------------------
+        $(document).on('click', '#selectBlock', function() {
+
+            data = {
+                idBlock   : this.value,
+                action  :'selectChangeBlock'
+            };
+            $.ajax({
+                url:'../scripts/interface_changeIdBlockSelectedSession.php',
+                type:'POST',
+                data : data,
+                datatype :'json',
+                success :function(data){
+                    //$('#boxBlocknoteSelect').html(data);
+                }
+            });
+            console.log(this.value);
+
+            /*
+                on call un akax pour remplir la session Note idBlock
+             */
+        });
         //-- ADD BLOCKNOTE -------------------------------------------------
         $(document).on("click","#addBlocknote",function(e) {
 
@@ -319,9 +359,8 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                 $("#formBlocknote").html('<div class="alert alert-warning" role="alert">Select first a Theme to be affected to your blocknote. </div>');
             }
             return false;
-
         });
-
+        //-- ADD action BLOCKNOTE -------------------------------------------------
         $(document).on("click",".A-create-Blocknote",function(e){
 
 
@@ -334,7 +373,6 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                     tooltip : $("#tooltip").val(),
                     fktheme : $("#selectTheme").val(),
                     action  :'addblocknote'
-
                 };
 
                 $.ajax({
@@ -347,15 +385,16 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                     }
                 });
             }
-
-
-
         });
 
+        //-- CREATE NOTE -------------------------------------------------
         $(document).on("click","#NoteCteateBtn",function(e){
 
 
-            if ($("#selectTheme").val() > -1  && $("#selectBlock").val() > -1 && $('#noteLabel').val() != '' && $('#paragraphNote').val()){
+            if ( ( $("#selectTheme").val() > -1 && $("#selectTheme").val() != '' )
+                && ( $("#selectBlock").val() > -1 && $("#selectBlock").val() != '' )
+                && $('#noteLabel').val() != ''
+                && $('#paragraphNote').val()){
 
                 data = {
                     fktheme   : $("#selectTheme").val(),
@@ -391,12 +430,8 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                 $('#errorMsg').css('display','block');
                 $('#errorMsg').html(err);
                 $('#errorMsg').fadeOut(8300, "linear")
-
-
-
             }
         })
-
     });
 </script>
 </body>

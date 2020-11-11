@@ -5,7 +5,7 @@ if (!isset( $_SESSION['auth'])){
   header('Location: ../login.php');
   exit();
 }
-
+var_dump($_SESSION);
 ?>
 <div class="formulaire-blocknote">
    
@@ -19,5 +19,5 @@ if (!isset( $_SESSION['auth'])){
     <label for="tooltip" class="font-weight-bold">ToolTip message</label>
     <input type="text" class="form-control" id="tooltip" name="tooltip">
   </div>
-  <a  href="#" class ="btn btn-purpleCode  A-create-Blocknote" data-fktheme="<?php echo $_SESSION['selectedThemeId'];?>">Créer</a> 
+  <a  href="#" class ="btn btn-purpleCode  A-create-Blocknote" data-fktheme="<?php echo $_SESSION['NewNote']['idTheme'];?>">Créer</a>
   </div>

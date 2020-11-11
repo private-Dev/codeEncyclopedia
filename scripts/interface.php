@@ -92,7 +92,28 @@ if (isset($action) && !empty($action) &&  $action == 'addTheme'){
    
     // create theme with rank created earlier
     $lastIdTheme = $theme->create($label,$tooltip,$rank);
-   
+
+
+    /**--------------------------------------------------------- */
+    /**
+     * à la création du theme
+     * on reset la session idblocknote
+     * nous ne voulons pas conserver
+     * un id block qui ne serait pas lié au nouvel id du theme
+     *
+     * @TODO SI ON AJOUTE LE SYSTEM POUR LES NOTES ON DEVRA FAIRE DE MËME
+     * AVEC LA SESSION IDNOTE
+     */
+    // memory for creating note
+    $_SESSION['NewNote']['idTheme'] = $lastIdTheme;
+
+    if (isset($_SESSION['NewNote']['idBlock'])){
+        unset($_SESSION['NewNote']['idBlock']);
+    }
+    /**--------------------------------------------------------- */
+
+
+
     // select all users 
     $user = new User($db->getInstance());
     $users = $user->getRowsId();
@@ -125,8 +146,11 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
    
     // create theme with rank created earlier
 
-    $lastIdTheme = $blocknote->create($label,$tooltip,$rank,$fktheme);
-   
+    $lastIdBlockNote = $blocknote->create($label,$tooltip,$rank,$fktheme);
+    // memory for creating note
+    $_SESSION['NewNote']['idBlock'] = $lastIdBlockNote;
+
+
     // select all users 
     $user = new User($db->getInstance());
     $users = $user->getRowsId();
@@ -134,7 +158,7 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
     // foreach user insert in display_theme an entry with id theme, rank, id_user
     foreach($users as $k => $u){
         $statment = $db->getInstance()->prepare("INSERT INTO blocknote_display_user (fk_user,fk_blocknote,rank_display) VALUES (?,?,?)");
-        $statment->execute([intval($u->id),intval($lastIdTheme),intval($rank)]);
+        $statment->execute([intval($u->id),intval($lastIdBlockNote),intval($rank)]);
     }
     $data['success'] = true;
     $data['message'] = 'Success';
