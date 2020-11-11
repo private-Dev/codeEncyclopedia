@@ -15,7 +15,10 @@ public $rank;
     public function __construct($db) {
     $this->_db = $db;
     }
-
+    
+    /**
+     * 
+     */
     public function fetch($id) {
         $sql = "SELECT * FROM  paragraph as t WHERE t.fk_note = ? ";
         $stmt = $this->_db->prepare($sql);
@@ -34,7 +37,9 @@ public $rank;
         return $result;
 
     }
-
+    /**
+    * 
+    */
     public function getRows($userId,$noteId){
 
         $sql = "SELECT p.id, p.content ,p.rank FROM paragraph as p";
@@ -47,6 +52,9 @@ public $rank;
         $stmt = null;
         return $rows;
     }
+    /**
+     * 
+     */
     public function getRank($userId,$blockNoteId){
         
         $sql = "SELECT fk_note, rank_display FROM  paragraph_display_user WHERE fk_user = ? AND fk_blocknote = ?";
@@ -56,6 +64,32 @@ public $rank;
         $stmt = null;
         return $row;
     }
+    /**
+     * 
+     */
+    public function getMaxRank(){
+        $sql = "SELECT MAX(rank) as nb FROM paragraph";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(); 
+        $stmt = null;
+        return $result;
+    }
 
+    public function create($fk_note,$content,$rank){
+        $date = date('Y-m-d H:i:s');
+        // prepare and bind
+        $stmt = $this->_db->prepare("INSERT INTO paragraph (fk_note,rank,content,date_created,date_update) VALUES (:fk_note,:rank,:content,:date_c,:date_u)");
+
+        $stmt->bindParam(':fk_note',$fk_note);
+        $stmt->bindParam(':rank', $rank);
+        $stmt->bindParam(':content', $content);
+        $stmt->bindParam(':date_c', $date);
+        $stmt->bindParam(':date_u', $date);
+        
+        $stmt->execute();
+        $stmt = null;
+        return $this->_db->lastInsertId(); 
+    }
 
 }

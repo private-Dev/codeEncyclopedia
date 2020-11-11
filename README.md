@@ -34,7 +34,7 @@ change dns refs
  - [x] jquery create theme injection form on create note page
  - [x] jquery create blocknote injection form on create note page
  - [x] ajax persist id on theme and blocknote id (select html) on create note page  
- - [ ] save new note on front revamp interface 
+ - [x] save new note on front revamp interface 
  
  #### FEATURE EASY USE
  - [ ] drag and drop image on textarea (auto download img then git a formated link usable on page

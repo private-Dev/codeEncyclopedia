@@ -409,10 +409,11 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                     data : data,
                     datatype :'json',
                     success :function(data){
-                        // redirect to  http://localhost/CodeEncyclopedia/pages/addNote.php?action=viewNote&noteId=10 (10 = date return
+                        var json = JSON.parse(data);
+                        var addr = "../index.php?action=viewNote&noteId=" + json.id;
+                        $(location).attr("href", addr);   
                     }
                 });
-                console.log(data);
             } else{
                 err ='';
                 if ($("#selectTheme").val() < 0){

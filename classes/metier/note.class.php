@@ -82,29 +82,18 @@ public $current_user;
         return $result;
     }
 
-    public function  create($beware,$big_title,$title,$important_comment,$comment,$comment_bar,$code_block,$block_img,$hash_title,$rank,$fkBlocknote){
+    public function  create($label,$fkBlocknote,$rank,$toolTipMsg){
 
         $date = date('Y-m-d H:i:s');
-        var_dump($beware,$big_title,$title,$important_comment,$comment,$comment_bar,$code_block,$block_img,$hash_title,$rank,$fkBlocknote);
         // prepare and bind
-       // $stmt = $this->_db->prepare("INSERT INTO note (beware,big_title,title,important_comment,comment,comment_bar,code_block,block_img,hash_title,rank,fk_blocknote,date_created,date_update) VALUES (:beware,:big_title,:title,:important_comment,:comment,:comment_bar,:code_block,:block_img,:hash_title,:rank,:fkblocknote,:date_c,:date_u)");
-       $stmt = $this->_db->prepare("INSERT INTO note (fk_blocknote,rank,beware,big_title,title,important_comment,comment,comment_bar,code_block,hash_title) VALUES (:fk_blocknote,:rank,:beware,:big_title,:title,:important_comment,:comment,:comment_bar,:code_block,:hash_title)");
+       $stmt = $this->_db->prepare("INSERT INTO note (fk_blocknote,rank,label,date_created,date_update,toolTipMsg) VALUES (:fk_blocknote,:rank,:label,:date_c,:date_u,:toolTipMsg)");
 
         $stmt->bindParam(':fk_blocknote',$fkBlocknote);
-        $stmt->bindParam(':beware', $beware);
-        $stmt->bindParam(':big_title', $big_title);
         $stmt->bindParam(':rank', $rank);
-      //  $stmt->bindParam(':date_c', $date);
-      //  $stmt->bindParam(':date_u', $date);
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':important_comment', $important_comment);
-        $stmt->bindParam(':comment', $comment);
-        $stmt->bindParam(':comment_bar', $comment_bar);
-        $stmt->bindParam(':code_block', $code_block);
- 
-       $stmt->bindParam(':hash_title', $hash_title);
-  //   $stmt->bindParam(':block_img', $block_img);
-       
+        $stmt->bindParam(':label', $label);
+        $stmt->bindParam(':date_c', $date);
+        $stmt->bindParam(':date_u', $date);
+        $stmt->bindParam(':toolTipMsg', $toolTipMsg);
         $stmt->execute();
         $stmt = null;
         return $this->_db->lastInsertId(); 
