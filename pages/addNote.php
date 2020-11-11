@@ -232,8 +232,15 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
                                 </div>
                                 <div class="tab-pane fade" id="nav-helper" role="tabpanel" aria-labelledby="nav-helper-tab">
-                                    include file here 
-
+                                  
+                                    <div id="container-helper" class="preview">
+                                           <?php 
+                                             foreach($p::SELECTORS as $key => $s){
+                                                 echo '<h6>' .$key .'   &nbsp;   ' . $s .'</h6>';
+                                                 echo '<hr>';
+                                             }
+                                           ?>                 
+                                    </div>                        
                                 </div>
                             </div>
                         <hr>
