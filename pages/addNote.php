@@ -208,18 +208,40 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                             <input type="text" class="form-control ml-5" id="noteLabel" aria-describedby="emailHelp" placeholder="Enter note label">
 
                         </div>
+                         <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-link active" id="nav-create-tab" data-toggle="tab" href="#nav-create" role="tab" aria-controls="nav-create" aria-selected="true"><strong><i class="fa fa-file" aria-hidden="true"></i> Edit File</strong></a>
+                                <a class="nav-link" id="nav-preview-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-preview" aria-selected="false"><strong><i class="fa fa-eye" aria-hidden="true"></i> Preview changes</strong></a>
+                                <a class="nav-link" id="nav-helper-tab" data-toggle="tab" href="#nav-helper" role="tab" aria-controls="nav-helper" aria-selected="false"><strong><i class="fa fa-info-circle" aria-hidden="true"></i> Helper syntaxes</strong></a>
+                     
+                            </div>
+                        </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-create" role="tabpanel" aria-labelledby="nav-create-tab">
+                                  
+                                    <!-- PARAGRAPH -->
+                                    <div class="form-group flex-md-column  p-2 m-3">
+                                       
+                                        <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-preview" role="tabpanel" aria-labelledby="nav-preview-tab">
+                                <div id="container-preview" class="preview">
 
-                        <!-- PARAGRAPH -->
-                        <div class="form-group flex-md-column  p-2 m-3">
-                            <label for="paragraph">Content</label>
-                            <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
-                        </div>
-                    <div class="form-group row">
+                                </div>
 
-                        <div class="col-sm-10">
-                            <a id="NoteCteateBtn" class="btn btn btn-redCode">Créer Note</a>
-                        </div>
-                        <div id="errorMsg" class="col-sm-10">
+                                </div>
+                                <div class="tab-pane fade" id="nav-helper" role="tabpanel" aria-labelledby="nav-helper-tab">
+                                    include file here 
+
+                                </div>
+                            </div>
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <a id="NoteCteateBtn" class="btn btn btn-redCode">Créer Note</a>
+                            </div>
+                            <div id="errorMsg" class="col-sm-10">
 
                         </div>
                     </div>
@@ -433,6 +455,37 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                 $('#errorMsg').fadeOut(8300, "linear")
             }
         })
+
+        // --- PREVIEW FILE 
+        $(document).on("click","#nav-preview-tab",function(e){
+            $('#container-preview').html('');
+           // console.log($('#paragraphNote').val());
+            data = {
+                content   : $('#paragraphNote').val(),
+                action  :'previewNote'
+            };   
+            $.ajax({
+                url:'../scripts/interface.php',
+                type:'POST',
+                data : data,
+                datatype :'json',
+                success :function(data){
+                    //$('#boxBlocknoteSelect').html(data);
+                    
+                    var json = JSON.parse(data);
+                    console.log(json);
+                    for(var key in json){
+                         $('#container-preview').append(json[key]);
+                         console.log(key + ' - ' + json[key])
+                    }
+                  
+                    //$('#container-preview').html(data);
+                    //console.log(data);
+
+                }
+            });    
+        }); 
+
     });
 </script>
 </body>

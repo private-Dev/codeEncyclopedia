@@ -129,7 +129,6 @@ if (isset($action) && !empty($action) &&  $action == 'addTheme'){
     echo json_encode($data);
 }
 
-
 if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
 
     $data['errors']  ='none';   
@@ -166,7 +165,6 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
     echo json_encode($data);
 }
 
-
 if (isset($action) && !empty($action) &&  $action == 'addnote'){
     $data['errors']  ='none';   
     $nb =0;
@@ -199,4 +197,15 @@ if (isset($action) && !empty($action) &&  $action == 'addnote'){
     $data['message'] = 'Success';
 
     echo json_encode($data);
+}
+
+if (isset($action) && !empty($action) &&  $action == 'previewNote'){
+    include_once     "../include/ParseClassdown.php";
+    $p = new ParseClassedown();
+
+    $content = isset($_POST['content']) ? $_POST['content'] : '' ;
+    $data = $p->text($content,true);
+   // var_dump($data);
+    echo json_encode($data);
+
 }

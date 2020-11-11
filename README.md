@@ -38,8 +38,8 @@ change dns refs
  - [x] jquery create blocknote injection form on create note page
  - [x] ajax persist id on theme and blocknote id (select html) on create note page  
  - [x] save new note on front revamp interface 
- - [ ] add tab preview note and write note on addNote.php
- 
+ - [x] add tab preview note and write note on addNote.php
+
  
  #### FEATURE EASY USE
  - [ ] drag and drop image on textarea (auto download img then git a formated link usable on page

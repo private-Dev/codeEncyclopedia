@@ -145,7 +145,7 @@ class ParseClassedown
      * we can pass one line or multilines  as params
      * @param string $text 
      */
-    function text($text){
+    function text($text,$ajax = false){
         # standardize line breaks 
         $text = str_replace(array("\r\n", "\r"), "\n", $text);
 
@@ -206,7 +206,11 @@ class ParseClassedown
                 }
             }
         } 
-        $this->outputHtml(); 
+        if ($ajax){
+            return $this->outputHtmlAjax(); 
+        }else{
+            $this->outputHtml(); 
+        }     
     }
     /**
      * is the first car of line exist in valid selector
@@ -343,9 +347,19 @@ class ParseClassedown
         echo    isset($block['htmlTagStart']) ? $block['htmlTagStart'] : '';
         echo    isset($block['text']) ? $block['text'] : '';
         echo    isset($block['htmlTagEnd']) ? $block['htmlTagEnd'] : '' ;
-
        }
    }
+
+   function outputHtmlAjax(){
+       $TblockText = [];
+    foreach ($this->blocks as $index => $block){
+        $TblockText[$index]= isset($block['htmlTagStart']) ? $block['htmlTagStart'] : '';
+        $TblockText[$index]= isset($block['text']) ? $TblockText[$index] . $block['text'] : $TblockText[$index] . '';
+        $TblockText[$index]=  isset($block['htmlTagEnd']) ? $TblockText[$index] . $block['htmlTagEnd'] : $TblockText[$index] . '' ;
+    }
+    return $TblockText;
+}
+
    /**
     * 
     */
