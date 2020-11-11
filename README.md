@@ -10,6 +10,37 @@ change dns refs
 
 <hr>
 
+## TODO MAP
+
+#### SECURITY
+ - [x] Login page
+ - [x] redirection security on every pages
+ - [x] deconnection feature
+ - [x] redirection to login page security on not allowed access page
+#### DESIGN
+ - [x] find some design , logo  
+ - [ ] change list design
+ #### ADMIN
+ - [x] create front view
+ - [x] list theme
+ - [x] draggable list theme item (not sure if it's revelant) 
+ - [x] draggable list blocknote item (not sure if it's revelant) 
+ - [x] draggable list note item (not sure if it's revelant) 
+ 
+ #### MARKDOWN
+ - [x] create class tiny markdown for a internal use
+ - [ ] add img handling tag
+ #### PROCESS
+ - [x] jquery create theme injection form on create note page
+ - [x] jquery create blocknote injection form on create note page
+ - [x] ajax persist id on theme and blocknote id (select html) on create note page  
+ - [ ] save new note on front revamp interface 
+ 
+ #### FEATURE EASY USE
+ - [ ] drag and drop image on textarea (auto download img then git a formated link usable on page
+ 
+<hr>
+
 ## short demo (in progress )
 
 ![demo](https://user-images.githubusercontent.com/52592449/97796977-d4ce1300-1c18-11eb-87b7-3a476f49a739.gif)
