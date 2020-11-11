@@ -1,7 +1,8 @@
 <?php
 Session_start();
+
 if (!isset( $_SESSION['auth'])){
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit();
 }
 
@@ -209,7 +210,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
                         </div>
                          <nav>
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <div class="nav nav-tabs ml-4 mt-2" id="nav-tab" role="tablist">
                                 <a class="nav-link active" id="nav-create-tab" data-toggle="tab" href="#nav-create" role="tab" aria-controls="nav-create" aria-selected="true"><strong><i class="fa fa-file" aria-hidden="true"></i> Edit File</strong></a>
                                 <a class="nav-link" id="nav-preview-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-preview" aria-selected="false"><strong><i class="fa fa-eye" aria-hidden="true"></i> Preview changes</strong></a>
                                 <a class="nav-link" id="nav-helper-tab" data-toggle="tab" href="#nav-helper" role="tab" aria-controls="nav-helper" aria-selected="false"><strong><i class="fa fa-info-circle" aria-hidden="true"></i> Helper syntaxes</strong></a>
@@ -221,9 +222,12 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                                   
                                     <!-- PARAGRAPH -->
                                     <div class="form-group flex-md-column  p-2 m-3">
-                                       
                                         <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
+                                        <div class="col-sm-12 mt-5 ml-3">
+                                            <a id="NoteCteateBtn" class="btn btn-redCode">Créer Note</a>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                                 <div class="tab-pane fade" id="nav-preview" role="tabpanel" aria-labelledby="nav-preview-tab">
                                 <div id="container-preview" class="preview">
@@ -244,11 +248,11 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                                 </div>
                             </div>
                         <hr>
-                        <div class="form-group row">
-                            <div class="col-sm-10">
-                                <a id="NoteCteateBtn" class="btn btn btn-redCode">Créer Note</a>
+                        <div class="form-group row p-4">
+                            <div class="col-sm-12">
+                              <!--  <a id="NoteCteateBtn" class="btn btn-redCode">Créer Note</a> -->
                             </div>
-                            <div id="errorMsg" class="col-sm-10">
+                            <div id="errorMsg" class="col-sm-12 mr-5">
 
                         </div>
                     </div>

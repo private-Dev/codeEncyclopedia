@@ -38,7 +38,7 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
     $rank = $nb->nb + 1;
    
     // create theme with rank created earlier
-    $lastIdTheme = $blocknote->create($label,$tooltip,$rank);
+    $lastIdTheme = $blocknote->create($label,$tooltip,$rank,);
    
     // select all users 
     $user = new User($db->getInstance());

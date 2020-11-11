@@ -431,7 +431,7 @@ a.text-light:focus {
 
 }
 .debug {
-  border : 1px solid red;
+  border : 1px solid red!important;
 }
 .debugg {
   border : 1px solid orange;
@@ -494,7 +494,7 @@ text-align:center;
 
  .btn-redCode{
    float: right;
-   color : #fff;
+   color : #fff!important;
    border : 2px solid rgb(177, 11, 11);
    border-radius: 8px;
    padding : 15px;
@@ -505,7 +505,7 @@ text-align:center;
  .btn-redCode:hover{
   border : 2px solid rgb(177, 11, 11);
   background-color: #f8fafc;
-  color : rgb(177, 11, 11);
+  color : rgb(177, 11, 11)!important;
   
  }
 
