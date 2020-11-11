@@ -50,6 +50,9 @@ change dns refs
 
 ![demo](https://user-images.githubusercontent.com/52592449/97796977-d4ce1300-1c18-11eb-87b7-3a476f49a739.gif)
 
+## feature edit/preview Note 
+
+![demo-preview-note](https://user-images.githubusercontent.com/52592449/98852303-c58c6800-2457-11eb-8d7e-9e7a510b671e.gif)
 
 ## login
 
