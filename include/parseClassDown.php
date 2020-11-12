@@ -140,6 +140,17 @@ class ParseClassedown
                                     "&&"   => "</p"
                                 );
 
+   const Tooltips = array (
+       "H" => "h1 to h6 click to add desired number.",
+       "<>"=> "To be setted properly",
+       "!"=> " standard Paragraph <p>  ! your text !/",
+       "</>"=> "code pre can be inserted here like : your code :/",
+       "#"=> "Draw a green  hashtag  before <p> ",
+       "!alert"=> "draw vertical red line on <p>",
+       "!warning"=> "draw vertical orange line on <p>",
+       "quote" => "draw vertical green bar on Paragraph <p>  ex: > your quote >/",
+   );
+   
     /**
      * this is the main function for this lib
      * we can pass one line or multilines  as params

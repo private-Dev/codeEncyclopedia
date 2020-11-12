@@ -280,7 +280,9 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
 <script type="text/javascript">
     $(document).ready(function () {
-
+        $(function () {
+             $('[data-toggle="tooltip"]').tooltip()
+        })    
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
             $(this).toggleClass('active');
