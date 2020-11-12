@@ -214,14 +214,15 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                                 <a class="nav-link active" id="nav-create-tab" data-toggle="tab" href="#nav-create" role="tab" aria-controls="nav-create" aria-selected="true"><strong><i class="fa fa-file" aria-hidden="true"></i> Edit File</strong></a>
                                 <a class="nav-link" id="nav-preview-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-preview" aria-selected="false"><strong><i class="fa fa-eye" aria-hidden="true"></i> Preview changes</strong></a>
                                 <a class="nav-link" id="nav-helper-tab" data-toggle="tab" href="#nav-helper" role="tab" aria-controls="nav-helper" aria-selected="false"><strong><i class="fa fa-info-circle" aria-hidden="true"></i> Helper syntaxes</strong></a>
-                     
+                                
                             </div>
                         </nav>
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-create" role="tabpanel" aria-labelledby="nav-create-tab">
                                   
                                     <!-- PARAGRAPH -->
-                                    <div class="form-group flex-md-column  p-2 m-3">
+                                    <div class="form-group flex-md-column  p-2 m-3">   
+                                        <?php include_once 'detailsMarkdown-tpl.php' ; ?>                                         
                                         <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
                                         <div class="col-sm-12 mt-5 ml-3">
                                             <a id="NoteCteateBtn" class="btn btn-redCode">Créer Note</a>
@@ -496,6 +497,43 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                 }
             });    
         }); 
+
+         // --- BTN HELPER TAG MARKDOWN 
+
+        //-- HEADER H1
+        $(document).on("click","#h-btn",function(e){
+              $('#paragraphNote').val ($('#paragraphNote').val() +  "#");     
+        });
+
+        $(document).on("click","#p-standard-btn",function(e){
+              $('#paragraphNote').val ($('#paragraphNote').val() +  "! your content !/");     
+        });
+
+        $(document).on("click","#code-btn",function(e){
+              $('#paragraphNote').val ($('#paragraphNote').val() +  ": {{code-s}}\n");
+              $('#paragraphNote').val ($('#paragraphNote').val() +  "console.log(your code)\n");    
+              $('#paragraphNote').val ($('#paragraphNote').val() +  ":/");         
+        });
+
+        $(document).on("click","#hash-btn",function(e){
+              $('#paragraphNote').val ($('#paragraphNote').val() +  "! your content {{hash}}\n"); 
+                     
+              $('#paragraphNote').val ($('#paragraphNote').val() +  "!/");     
+        });
+
+        $(document).on("click","#p-alert-btn",function(e){
+              $('#paragraphNote').val ($('#paragraphNote').val() +  "!! important !!/");     
+        });
+
+        $(document).on("click","#p-warning-btn",function(e){
+              $('#paragraphNote').val ($('#paragraphNote').val() +  "&& warning &&/");     
+        });
+
+        $(document).on("click","#quote-btn",function(e){
+              $('#paragraphNote').val ($('#paragraphNote').val() +  ">  your quote >/");     
+        });
+        
+
 
     });
 </script>

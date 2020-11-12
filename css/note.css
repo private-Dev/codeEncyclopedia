@@ -98,16 +98,26 @@ pre code {
     color: #1d1b1b;
     white-space: pre-wrap;
     background-color: rgb(235, 235, 235);
-    padding: -15px;
-    margin-top:-30px;
-    line-height: 1.6rem;
+    padding: 15px;
+    margin-top:30px;
     display: block;
-    font-family: "Nunito", sans-serif;
+    font-weight: 900;
+    font-size: medium;
+   /* line-height: 1.6rem;
+    
+    
+    font-family: "Nunito", sans-serif;*/
 }
 
 code.js::before {
     content: "JS";
+    float: right;
 }
+code.php::before {
+    content: "PHP";
+    float: right;
+}
+
 
 .term::before {
     content: "term";
@@ -122,9 +132,7 @@ code.js::before {
     font-size: 44px;
 }
 
-code.php::before {
-    content: "PHP";
-}
+
 
 pre code.hljs.js::before {
     font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
@@ -162,7 +170,7 @@ pre code .hljs-keyword, pre code .hljs-attribute {
     content: "#";
     color: #42b983;
     display: block;
-    margin-top: 15px;
+    margin-top: 0px;
     margin-left:-50px;
     height: 0px;
     font-size: 1.3em;
@@ -189,7 +197,7 @@ sup {
 }
 
 .orangetext {
-    color: #e74918;
+    color: #e7b018;
     padding: 3px 5px;
     margin: 0 2px;
     border-radius: 2px;
