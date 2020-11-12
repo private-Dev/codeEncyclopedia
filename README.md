@@ -55,7 +55,7 @@ change dns refs
 
 ## short demo  : feature edit/preview Note (in progress ) 
 
-![demo-preview-note](https://user-images.githubusercontent.com/52592449/98852303-c58c6800-2457-11eb-8d7e-9e7a510b671e.gif)
+![demo-preview-note-2](https://user-images.githubusercontent.com/52592449/98973920-a0a9fa80-2514-11eb-8439-8a4fe10492d9.gif)
 
 ## login
 
