@@ -1,5 +1,9 @@
+.upper{
+    z-index:-1!important;
+}
 .edit-btn {
-    background-color: #11163a;
+    z-index: 155000!important;
+    background-color: #11163a57;
     color: #fff!important;
     border-radius: 50%;
     width:35px;
@@ -7,14 +11,16 @@
     padding-bottom: 15px;
     padding-right: 20px;
     padding-left: 10px;
-
+}
+.edit-btn:hover {
+    background-color: #11163a;
 }
 .edit-btn i{
     margin-right: 16px;
 }
 .delete-btn{
-
-    background-color: #9b1503;
+    z-index: 5000!important;
+    background-color: #9b15035d;
     color: #fff!important;
     border-radius: 50%;
     width: 35px;
@@ -22,6 +28,9 @@
     padding-bottom: 15px;
     padding-right: 20px;
     padding-left: 11px;
+}
+.delete-btn:hover{
+    background-color: #9b1503;
 }
 .delete-btn i{
     color: #fff;
@@ -50,6 +59,7 @@ p.tip {
     position: relative;
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
+    z-index: 1000;
 }
 
 p.tip:before {
