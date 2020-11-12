@@ -79,7 +79,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
                         foreach ($blocks as $b) {  ?>
 
-                            <li><a href="#/quickstart" title="<?= $b->label ?>"><?= $b->label ?></a></li>
+                            <li><span><?= $b->label ?></span></li>
 
                             <ul class="list-unstyled">
                                 <?php
