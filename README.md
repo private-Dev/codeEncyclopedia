@@ -39,9 +39,11 @@ change dns refs
  - [x] ajax persist id on theme and blocknote id (select html) on create note page  
  - [x] save new note on front revamp interface 
  - [x] add tab preview note and write note on addNote.php
+ - [ ] add btn edit mode for a note  
+
 
  
- #### FEATURE EASY USE
+ #### FEATURE EASY USE (user friendly)
  - [ ] drag and drop image on textarea (auto download img then git a formated link usable on page
  
 <hr>
