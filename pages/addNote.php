@@ -127,7 +127,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                 </div>
             </div>
         </nav>
-
+        <!--    VIEW MODE          -->    
         <?php if (isset($action) && $action != '' && $action = "viewNote") {
             // var_dump($noteId);
             ?>
@@ -148,12 +148,14 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                 <div class="col-sm">
                 <?php
                 foreach ($Paragraphs as $par){
-
                     print_r($markdown->text($par->content));
                 }
                 ?>
                 </div></div>
             </div>
+        <!--    EDIT MODE          -->    
+
+        <!--    CREATE MODE        -->
         <?php  }else { ?>
 
             <section class="cover show "style="width:100%;">

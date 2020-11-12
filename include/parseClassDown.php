@@ -143,7 +143,7 @@ class ParseClassedown
    const Tooltips = array (
        "H" => "h1 to h6 click to add desired number.",
        "<>"=> "To be setted properly",
-       "!"=> " standard Paragraph <p>  ! your text !/",
+       "!"=> " a standard Paragraph <p> ex:  \n ! your text !/",
        "</>"=> "code pre can be inserted here like : your code :/",
        "#"=> "Draw a green  hashtag  before <p> ",
        "!alert"=> "draw vertical red line on <p>",

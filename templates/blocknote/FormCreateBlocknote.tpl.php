@@ -5,7 +5,6 @@ if (!isset( $_SESSION['auth'])){
   header('Location: ../login.php');
   exit();
 }
-var_dump($_SESSION);
 ?>
 <div class="formulaire-blocknote">
    
