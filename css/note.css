@@ -1,3 +1,32 @@
+.edit-btn {
+    background-color: #11163a;
+    color: #fff!important;
+    border-radius: 50%;
+    width:35px;
+    height: 35px;
+    padding-bottom: 15px;
+    padding-right: 20px;
+    padding-left: 10px;
+
+}
+.edit-btn i{
+    margin-right: 16px;
+}
+.delete-btn{
+
+    background-color: #9b1503;
+    color: #fff!important;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding-bottom: 15px;
+    padding-right: 20px;
+    padding-left: 11px;
+}
+.delete-btn i{
+    color: #fff;
+    margin-right: 16px;
+}
 .preview {
     margin-left: 40px;
     margin-top: 30px;

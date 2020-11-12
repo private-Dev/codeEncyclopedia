@@ -79,7 +79,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
                         foreach ($blocks as $b) {  ?>
 
-                            <li><span><?= $b->label ?></span></li>
+                            <li><span class="ml-1"><?= $b->label ?></span></li>
 
                             <ul class="list-unstyled">
                                 <?php
@@ -130,6 +130,12 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
         <?php if (isset($action) && $action != '' && $action = "viewNote") {
             // var_dump($noteId);
+            ?>
+            <div class="float-right">
+            <a class="btn edit-btn"><i class="fa fa-address-book" aria-hidden="true"></i></a>
+            <a class="btn delete-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
+            </div>
+            <?php
             $markdown = new ParseClassedown();
             $Paragraphs = $paragraph->getRows($user,$noteId);
             ?>
