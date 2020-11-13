@@ -1,7 +1,7 @@
 <?php
 Session_start();
 if (!isset( $_SESSION['auth'])){
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit();
 }
 
@@ -27,11 +27,18 @@ $paragraph = new Paragraph($db->getInstance());
 $user = $_SESSION['auth']->id;
 $themes = $theme->getRows($user);
 
-$action = isset($_GET['action']) ? isset($_GET['action']) : '';
-$noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
+$action = isset($_GET['action']) ? $_GET['action'] : '';
 
+if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeId']) ){
 
+    $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';
+    $blocknoteId = isset($_GET['blocknoteId']) ? $_GET['blocknoteId'] : '';
+    $themeId = isset($_GET['themeId']) ? $_GET['themeId'] : '';    
+    $_SESSION['NewNote']['idTheme'] = $themeId;
+    $_SESSION['NewNote']['idBlock'] = $blocknoteId;
+    $_SESSION['NewNote']['idNote'] = $noteId;
 
+}
 
 ?>
 <!DOCTYPE html>
@@ -65,7 +72,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
     <nav id="sidebar" class="active">
         <div class="sidebar-header">
             <span class="d-inline-flex p-3 markk">
-                <img src="../assets/logo-cre-yellow.svg" class="adminImgLogo mt-1" width="50" height="50" alt="Global notes Logo">
+                <img src="../assets/logo-cre-blue.svg" class="adminImgLogo mt-1" width="50" height="50" alt="Global notes Logo">
                 <span class="mt-2">Code Encyclopédia</span>
             </span>
         </div>
@@ -93,7 +100,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
                                 foreach ($notes as $n) {  ?>
                                     <li class="ml-3">
-                                        <a class="section-link" href="addNote.php?action=viewNote&noteId=<?=$n->rowid ?>" title="<?=$n->label ?>">
+                                        <a class="section-link" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$n->rowid ?>&blocknoteId=<?=$b->rowid ?>&themeId=<?=$t->rowid ?>" title="<?=$n->label ?>">
                                             <?=$n->label ?>
                                         </a>
                                     </li>
@@ -128,7 +135,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
                             <i class="fab fa-android" aria-hidden="true"></i>
-                            <a class="nav-link" href="addNote.php">Note <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                            <a class="nav-link" href="addNote.php?action=<?=Constant::$CREATENOTE?>">Note <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../signout.php">Sign out</a>

@@ -1,17 +1,18 @@
 <?php
 include_once 'top.php';
+
 ?>
     
         <!--    VIEW MODE          -->    
-        <?php if (isset($action) && $action != '' && $action = "viewNote") {
+        <?php if (isset($action) && $action != '' && $action == Constant::$VIEWNOTE) {
             // var_dump($noteId);
             ?>
             <div class="container">
             <div class="row">
                 <div class="col-sm">
                     <div class="float-right">
-                        <a class="btn edit-btn"><i class="fa fa-address-book" aria-hidden="true"></i></a>
-                        <a class="btn delete-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
+                        <a href="addNote.php?action=<?=Constant::$EDITNOTE?>&noteId=<?=$noteId ?>&blocknoteId=<?=$blocknoteId ?>&themeId=<?=$themeId ?>" class="btn edit-btn"><i class="fa fa-address-book" aria-hidden="true"></i></a>
+                        <a href="addNote.php?action=<?=Constant::$DELETENOTE?>&noteId=<?=$noteId ?>&blocknoteId=<?=$blocknoteId ?>&themeId=<?=$themeId ?>" class="btn delete-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
                     </div>
                 </div>    
             </div>
@@ -28,10 +29,12 @@ include_once 'top.php';
                 ?>
                 </div></div>
             </div>
-        <!--    EDIT MODE          -->    
+         
 
         <!--    CREATE MODE        -->
-        <?php  }else { ?>
+        <?php  }
+
+        if (isset($action) && $action != '' && $action == Constant::$CREATENOTE) { ?>
 
             <section class="cover show "style="width:100%;">
                 <div class="row mt-0">
@@ -153,8 +156,31 @@ include_once 'top.php';
 
             </section>
 
-        <?php  } ?>
+        <?php  }  ?>
 
+         <!--    EDIT MODE          -->  
+         <?php
+        if (isset($action) && $action != '' && $action == Constant::$EDITNOTE) {
+            echo 'Edit Note';
+         }
+        ?>
+
+        <?php   
+        if (isset($action) && $action != '' && $action == Constant::$DELETENOTE) { 
+            echo 'delete Note';
+
+            // message poppup confirmation delete 
+
+            // delete paragraph associés à la note 
+
+            // delete la note 
+            
+            // pop up message confirmation 
+
+            // redirect 
+
+        }
+        ?>
 
     </div>
 
