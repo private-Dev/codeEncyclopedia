@@ -1,4 +1,4 @@
-<markdown-toolbar role="toolbar" aria-label="Composition" for="issue_body" class="d-flex no-wrap flex-items-end flex-wrap px-2 pt-2 pt-lg-0 border-md-top border-lg-top-0" tabindex="0">
+<markdown-toolbar role="toolbar" aria-label="Composition" for="issue_body" class="d-flex no-wrap flex-items-end flex-wrap px-2 pt-2 pt-lg-0 pb-2 border-md-top border-lg-top-0 float-right" tabindex="0">
 
   <div class="flex-nowrap d-inline-block mr-3">
     <md-header id="h-btn" tabindex="-1" class="toolbar-item tooltipped tooltipped-n mx-1" aria-label="Add header text" data-ga-click="Markdown Toolbar, click, header" role="button" 
