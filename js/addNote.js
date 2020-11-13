@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+   
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
         $(this).toggleClass('active');
@@ -7,11 +9,11 @@ $(document).ready(function () {
          $('[data-toggle="tooltip"]').tooltip()
     })   
 
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-        $(this).toggleClass('active');
-    });
-
+   // REDIRECTION LOGO
+   $(document).on('click', '.markk', function() {
+        var addr = "index.php";
+        $(location).attr("href", addr);   
+   });
     //-- SELECT THEME -> HYDRATE BLOCKNOTE SELECT ---------
     $('#selectTheme').on('change', function() {
         data = {
