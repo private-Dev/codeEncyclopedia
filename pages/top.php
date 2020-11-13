@@ -62,7 +62,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
 
 <div class="wrapper">
     <!-- Sidebar Holder -->
-    <nav id="sidebar">
+    <nav id="sidebar" class="active">
         <div class="sidebar-header">
             <span class="d-inline-flex p-3 markk">
                 <img src="../assets/logo-cre-yellow.svg" class="adminImgLogo mt-1" width="50" height="50" alt="Global notes Logo">
@@ -115,7 +115,7 @@ $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';;
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
 
-                <button type="button" id="sidebarCollapse" class="navbar-btn">
+                <button type="button" id="sidebarCollapse" class="navbar-btn active">
                     <span></span>
                     <span></span>
                     <span></span>

@@ -1,14 +1,19 @@
 $(document).ready(function () {
-
+    
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+   })   
+   
    
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
         $(this).toggleClass('active');
     });
-    $(function () {
-         $('[data-toggle="tooltip"]').tooltip()
-    })   
-
+   
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+        $(this).toggleClass('active');
+    });
    // REDIRECTION LOGO
    $(document).on('click', '.markk', function() {
         var addr = "index.php";
