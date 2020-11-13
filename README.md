@@ -40,10 +40,12 @@ change dns refs
  - [x] save new note on front revamp interface 
  - [x] add tab preview note and write note on addNote.php
  - [x] add btn helper code insert on textarea note
- - [ ] add btn edit mode for a note 
- - [ ] add btn delete mode for a note  
-
-
+ - [ ] front: add btn edit mode for a note 
+ - [ ] front: add btn delete mode for a note  
+ - [ ] front: add btn delete mode for a Blocknote  
+ - [ ] front: add btn edit mode for a Blocknote  
+ - [ ] front: add btn delete mode for a Theme  
+ - [ ] front: add btn edit mode for a Theme  
 
  
  #### FEATURE EASY USE (user friendly)
