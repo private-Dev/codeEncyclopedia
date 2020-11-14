@@ -48,7 +48,7 @@ $tooltip =isset($_POST['tooltip']) ? $_POST['tooltip']:'' ;
 $action = isset($_POST['action']) ? $_POST['action']:'';
 // --
 $data =[];
-
+$db = new Database();
 /**
  * _______________________________________________________________________________
  *                  DRAGGED BEHAVIORS 
@@ -83,6 +83,8 @@ if (isset($action) && !empty($action) &&  $action == 'blockNoteDragged'){
 if (isset($action) && !empty($action) &&  $action == 'paragraphDragged'){}
 // ---- 
 
+
+// Front add Thème
 if (isset($action) && !empty($action) &&  $action == 'addTheme'){
     $data['errors']  ='none';   
     $nb =0;
@@ -221,7 +223,6 @@ if (isset($action) && !empty($action) &&  $action == 'previewNote'){
 
     $content = isset($_POST['content']) ? $_POST['content'] : '' ;
     $data = $p->text($content,true);
-   // var_dump($data);
     echo json_encode($data);
 
 }
@@ -237,5 +238,16 @@ if (isset($action) && !empty($action) &&  $action == 'deleteNote'){
     }else{
         $errors ="Erreur lors de la suppression de la Note.";
     }
+
+}
+
+if (isset($action) && !empty($action) &&  $action == 'updateNote'){
+    
+    $idParagraph = isset($_POST['idParagraph']) ? $_POST['idParagraph']:'' ;
+    $content     = isset($_POST['paragraph']) ? $_POST['paragraph']:'' ;
+    $p = New Paragraph($db->getInstance());
+    $p->fetchWithId($idParagraph);
+    $p->update($content);
+
 
 }

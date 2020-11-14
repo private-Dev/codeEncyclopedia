@@ -17,10 +17,12 @@ public $rank;
     }
     
     /**
-     * 
+     * fetch paragraph with 
+     * @param id int fk_note related to paragraph 
      */
     public function fetch($id) {
         $sql = "SELECT * FROM  paragraph as t WHERE t.fk_note = ? ";
+        try{
         $stmt = $this->_db->prepare($sql);
         $result  = $stmt->execute([$id]);
         
@@ -35,7 +37,34 @@ public $rank;
         $stmt = null;
 
         return $result;
+        }catch(Exception $e){
+            die('error load paragraph.');
+        }   
+    }
+     /**
+     * fetch paragraph with 
+     * @param id int fk_note related to paragraph 
+     */
+    public function fetchWithId($id) {
+        $sql = "SELECT * FROM  paragraph as t WHERE t.id = ? ";
+        try{
+        $stmt = $this->_db->prepare($sql);
+        $result  = $stmt->execute([$id]);
+        
+        $row = $stmt->fetch(); 
+        //var_dump($row);
+        $this->id = $row->id;
+        $this->content = $row->content;
+        $this->date_created = $row->date_created;
+        $this->date_update = $row->date_update;
+        $this->fk_note =  $row->fk_note;
+        $this->rank = $row->rank;
+        $stmt = null;
 
+        return $result;
+        }catch(Exception $e){
+            die('error load paragraph.');
+        }   
     }
     /**
     * 
@@ -75,7 +104,9 @@ public $rank;
         $stmt = null;
         return $result;
     }
-
+    /**
+     * 
+     */
     public function create($fk_note,$content,$rank){
         $date = date('Y-m-d H:i:s');
         // prepare and bind
@@ -91,5 +122,22 @@ public $rank;
         $stmt = null;
         return $this->_db->lastInsertId(); 
     }
+    /**
+     * 
+     */
+    public function update($content){
+           
+            $date = date('Y-m-d H:i:s');
 
+            $sql="UPDATE paragraph SET `content` = :content ,`date_update` =:dateU WHERE `id` = :id";
+            try {  
+                $statement = $this->_db->prepare($sql);
+                $statement->bindValue(":content", $content);
+                $statement->bindValue(":dateU", $date);
+                $statement->bindValue(":id", $this->id);
+                $count = $statement->execute();
+            }catch(Exception $e){
+                die("update paragraph error.");
+            }
+    }
 }

@@ -62,7 +62,6 @@ $(document).ready(function () {
 
     $(document).on("click",".A-create-Theme",function(e){
         self = $(this);
-        console.log('je creer un theme');
         if ($("#label").val() === ''){
             $('#labelAlert').css('display','block')
         }else{
@@ -101,16 +100,10 @@ $(document).ready(function () {
             type:'POST',
             data : data,
             datatype :'json',
-            success :function(data){
-                //$('#boxBlocknoteSelect').html(data);
-            }
-        });
-        console.log(this.value);
-
-        /*
-            on call un akax pour remplir la session Note idBlock
-         */
+            success :function(data){}
+        }); 
     });
+
     //-- ADD BLOCKNOTE -------------------------------------------------
     $(document).on("click","#addBlocknote",function(e) {
 
@@ -205,13 +198,42 @@ $(document).ready(function () {
             $('#errorMsg').fadeOut(8300, "linear")
         }
     })
+    //-- UPDATE NOTE -------------------------------------------------
+    $(document).on("click","#NoteEditionBtn",function(e){
+        alert('here');
+        if ($('#paragraphNote').val()){
 
+            data = {
+                idParagraph : $('#NoteEditionBtn').attr('data-paragraphId'),
+                paragraph :$('#paragraphNote').val(),
+                action  :'updateNote'
+            };
+
+            $.ajax({
+                url:'../scripts/interface.php',
+                type:'POST',
+                data : data,
+                datatype :'json',
+                success :function(data){
+                    //var json = JSON.parse(data);
+                    var addr = "../pages/index.php?msgStatus=updateNote";
+                    $(location).attr("href", addr);   
+                }
+            });
+        }else{
+            if ($("#paragraphNote").val() == ''){
+                err +=  '<div class="alert alert-danger" role="alert">no empty Paragraph  </div>'
+            }
+
+            $('#errorMsg').css('display','block');
+            $('#errorMsg').html(err);
+            $('#errorMsg').fadeOut(8300, "linear")
+        }
+        
+    });
     // DELETE NOTE BTN  ACTION
     $(document).on("click","#confirmDeleteNote",function(e){
-
-        console.log();
-
-        
+ 
         data = {
             idNote   : $('#confirmDeleteNote').attr('data-noteid'),
             action  :'deleteNote'
@@ -251,7 +273,7 @@ $(document).ready(function () {
                 console.log(json);
                 for(var key in json){
                      $('#container-preview').append(json[key]);
-                     console.log(key + ' - ' + json[key])
+                     //console.log(key + ' - ' + json[key])
                 }
             }
         });    

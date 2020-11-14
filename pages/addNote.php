@@ -5,6 +5,7 @@ include_once 'top.php';
   
         <!--    VIEW MODE          -->    
         <?php if (isset($action) && $action != '' && $action == Constant::$VIEWNOTE) {
+            
             // var_dump($noteId);
             ?>
             <div class="container">
@@ -44,7 +45,14 @@ include_once 'top.php';
         <!--    CREATE MODE        -->
         <?php  }
 
-        if (isset($action) && $action != '' && $action == Constant::$CREATENOTE) { ?>
+        if (isset($action) && $action != '' && $action == Constant::$CREATENOTE || isset($action) && $action != '' && $action == Constant::$EDITNOTE) { 
+            $mode = ($action == Constant::$CREATENOTE) ? 'Nouvelle Note' : "Edition ";
+            if ($action == Constant::$EDITNOTE){
+                $noteEdit = new Note($db->getInstance());
+                $noteEdit->fetch($noteId);
+            }
+
+            ?>
 
             <section class="cover show "style="width:100%;">
                 <div class="row mt-0">
@@ -54,64 +62,71 @@ include_once 'top.php';
                             <i class="fas fa-database small-icon text-light"></i>
                         </div>
                         <div class="ml-2 mt-3 vapor-2">
-                            <h3>Add note</h3>
+                            <?php if ($action == Constant::$EDITNOTE){ ?>
+                              <h3><?=$mode . ' ' .  $noteEdit->label ?></h3>
+                              <hr>
+                            <?php } else  {  ?>        
+                                <h3><?=$mode ?></h3>  
+                            <?php } ?>                                        
                         </div>
 
                     </div>
                     <hr class="hrVapor">
                 </div>
                 <div class="cover-main d-flex flex-column justify-content-end" >
+                       <?php if ($action == Constant::$CREATENOTE){  ?> 
+                            <!-- SELECT THEME -->
+                            <div class="form-group  d-inline-flex  p-2 m-3" >
+                                <label for="selectTheme" class="mt-1">Thème</label>
+                                <select id="selectTheme" name="selectTheme" class="form-control ml-5">
+                                    <option value="-1" >Select a theme</option>
+                                    <?php foreach ($themes as $th) { ?>
+                                    <option value="<?=$th->rowid; ?>"
+                                        <?php
+                                            if ( isset($_SESSION['NewNote']['idTheme'])
+                                                && !empty($_SESSION['NewNote']['idTheme'])
+                                                && $_SESSION['NewNote']['idTheme'] == $th->rowid ){?>
+                                                selected
+                                                <?php }  ?>
+                                    ><?=$th->label;?></option>
 
-                        <!-- SELECT THEME -->
-                        <div class="form-group  d-inline-flex  p-2 m-3" >
-                            <label for="selectTheme" class="mt-1">Thème</label>
-                            <select id="selectTheme" name="selectTheme" class="form-control ml-5">
-                                <option value="-1" >Select a theme</option>
-                                <?php foreach ($themes as $th) { ?>
-                                <option value="<?=$th->rowid; ?>"
+                                    <?php }  ?>
+                                </select>
+                                <a id="addThemeBtn" class="nav-link" href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                            </div>
+                            <div id="formTheme"> </div>
+
+                            <!-- SELECT BLOCKNOTE -->
+                            <div id="boxBlocknoteSelect" class="form-group  d-inline-flex  p-2 m-3" >
+                                <label for="selectBlock" class="mt-1">Blocknote</label>
+                                <select id="selectBlock" name="selectBlock" class="form-control ml-5">
+                                    <option value="-1" >Select a Blocknote</option>
                                     <?php
-                                        if ( isset($_SESSION['NewNote']['idTheme'])
-                                            && !empty($_SESSION['NewNote']['idTheme'])
-                                            && $_SESSION['NewNote']['idTheme'] == $th->rowid ){?>
-                                            selected
-                                            <?php }  ?>
-                                ><?=$th->label;?></option>
+                                    if ( isset($_SESSION['NewNote']['idTheme']) && !empty($_SESSION['NewNote']['idTheme'])){
+                                    $blocks  = $block->getRows($user,$_SESSION['NewNote']['idTheme']);
+                                    var_dump($blocks);
+                                        foreach ($blocks as $b) { ?>
+                                            <option value=" <?=$b->rowid; ?>"
+                                                <?php
+                                                    if ( isset($_SESSION['NewNote']['idBlock']) && !empty($_SESSION['NewNote']['idBlock']) && $_SESSION['NewNote']['idBlock'] == $b->rowid ) { ?>
+                                                            selected
+                                                    <?php }  ?>
+                                                    ><?=$b->label;?></option>
+                                        <?php } }?>
+                                </select>
+                                <a id="addBlocknote" class="nav-link" href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                            </div>
+                            <div id="formBlocknote"></div>
+                            <hr>
 
-                                <?php }  ?>
-                            </select>
-                            <a id="addThemeBtn" class="nav-link" href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                        </div>
-                        <div id="formTheme"> </div>
+                            <!-- NOTE -->
+                            <div id="boxBlocknoteSelect" class="form-group d-inline-flex  p-2 m-3">
+                                <label for="noteLabel" class="mt-1">Note</label>
+                                <input type="text" class="form-control ml-5" id="noteLabel" aria-describedby="emailHelp" placeholder="Enter note label">
 
-                        <!-- SELECT BLOCKNOTE -->
-                        <div id="boxBlocknoteSelect" class="form-group  d-inline-flex  p-2 m-3" >
-                            <label for="selectBlock" class="mt-1">Blocknote</label>
-                            <select id="selectBlock" name="selectBlock" class="form-control ml-5">
-                                <option value="-1" >Select a Blocknote</option>
-                                <?php
-                                if ( isset($_SESSION['NewNote']['idTheme']) && !empty($_SESSION['NewNote']['idTheme'])){
-                                   $blocks  = $block->getRows($user,$_SESSION['NewNote']['idTheme']);
-                                   var_dump($blocks);
-                                      foreach ($blocks as $b) { ?>
-                                          <option value=" <?=$b->rowid; ?>"
-                                            <?php
-                                                  if ( isset($_SESSION['NewNote']['idBlock']) && !empty($_SESSION['NewNote']['idBlock']) && $_SESSION['NewNote']['idBlock'] == $b->rowid ) { ?>
-                                                        selected
-                                                  <?php }  ?>
-                                                  ><?=$b->label;?></option>
-                                      <?php } }?>
-                            </select>
-                            <a id="addBlocknote" class="nav-link" href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                        </div>
-                        <div id="formBlocknote"></div>
-                        <hr>
-
-                        <!-- SELECT NOTE -->
-                        <div id="boxBlocknoteSelect" class="form-group d-inline-flex  p-2 m-3">
-                            <label for="noteLabel" class="mt-1">Note</label>
-                            <input type="text" class="form-control ml-5" id="noteLabel" aria-describedby="emailHelp" placeholder="Enter note label">
-
-                        </div>
+                            </div>
+                        <?php  } ?>                                                             
+                        <!-- Tab TextArea -->
                          <nav>
                             <div class="nav nav-tabs ml-4 mt-2" id="nav-tab" role="tablist">
                                 <a class="nav-link active" id="nav-create-tab" data-toggle="tab" href="#nav-create" role="tab" aria-controls="nav-create" aria-selected="true"><strong><i class="fa fa-file" aria-hidden="true"></i> Edit File</strong></a>
@@ -121,26 +136,39 @@ include_once 'top.php';
                             </div>
                         </nav>
                             <div class="tab-content" id="nav-tabContent">
+
+                                <!-- Editor -->
                                 <div class="tab-pane fade show active" id="nav-create" role="tabpanel" aria-labelledby="nav-create-tab">
-                                  
                                     <!-- PARAGRAPH -->
                                     <div class="form-group flex-md-column  p-2 m-3">   
                                         <?php include_once 'detailsMarkdown-tpl.php' ; ?>                                         
-                                        <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
+                                        <?php 
+                                            if($action == Constant::$EDITNOTE){
+                                                    $current_paragraph = new Paragraph($db->getInstance());
+                                                    $current_paragraph->fetch($noteId);  
+                                                    $c =  $current_paragraph->content;
+                                            }    
+                                        ?>
+                                        <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"><?= isset($c) ? $c : ''?></textarea>
                                         <div class="col-sm-12 mt-5 ml-3">
-                                            <a id="NoteCreateBtn" class="btn btn-redCode">Créer Note</a>
+                                        <?php 
+                                            if($action == Constant::$EDITNOTE){ ?>
+                                            <a id="NoteEditionBtn" data-paragraphId="<?= $current_paragraph->id ?>" class="btn btn-redCode">Modifier Note</a>
+                                            <?php } else {  ?>
+                                                <a id="NoteCreateBtn" class="btn btn-redCode">Créer Note</a>
+                                            <?php }  ?>                                                
                                         </div>
                                     </div>
                                     
                                 </div>
+                                <!-- PREVIEW -->
                                 <div class="tab-pane fade" id="nav-preview" role="tabpanel" aria-labelledby="nav-preview-tab">
-                                <div id="container-preview" class="preview">
+                                    <div id="container-preview" class="preview">
 
+                                    </div>
                                 </div>
-
-                                </div>
+                                <!-- HELPER -->
                                 <div class="tab-pane fade" id="nav-helper" role="tabpanel" aria-labelledby="nav-helper-tab">
-                                  
                                     <div id="container-helper" class="preview">
                                            <?php 
                                              foreach($p::SELECTORS as $key => $s){
@@ -167,31 +195,6 @@ include_once 'top.php';
             </section>
 
         <?php  }  ?>
-
-         <!--    EDIT MODE          -->  
-         <?php
-        if (isset($action) && $action != '' && $action == Constant::$EDITNOTE) {
-            echo 'Edit Note';
-         }
-        ?>
-
-        <?php   
-        if (isset($action) && $action != '' && $action == Constant::$DELETENOTE) { 
-            echo 'delete Note';
-           
-            // message poppup confirmation delete 
-
-            // delete paragraph associés à la note 
-
-            // delete la note 
-            
-            // pop up message confirmation 
-
-            // redirect 
-
-        }
-        ?>
-
     </div>
 
 </div>

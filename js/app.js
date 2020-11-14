@@ -1,10 +1,7 @@
 
 $(document).ready(function(){
-    console.log('working fine');
-
-
-    $(document).on("click",".contenant",function() {});
-
+   
+ $(document).on("click",".contenant",function() {});
 
 //-- ADD THEME -------------------------------------------------
     $(document).on("click","#addTheme",function(e) {
