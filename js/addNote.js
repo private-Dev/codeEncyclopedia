@@ -1,5 +1,7 @@
 $(document).ready(function () {
     
+    $('.alert-success').fadeOut(5300, "linear");
+
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
    })   
@@ -180,7 +182,7 @@ $(document).ready(function () {
                 datatype :'json',
                 success :function(data){
                     var json = JSON.parse(data);
-                    var addr = "../index.php?action=viewNote&noteId=" + json.id;
+                    var addr = "../pages/index.php?msgStatus=createdNote";
                     $(location).attr("href", addr);   
                 }
             });

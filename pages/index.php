@@ -1,13 +1,24 @@
 <?php 
     include_once 'top.php';
 ?>
-<?php 
+<?php
+    
     $msgStatus = isset($_GET['msgStatus']) ? $_GET['msgStatus'] : '';
 
+    $msg="";
     if ($msgStatus == 'deletedNote'){
             $msg = 'Note supprimée';
-            print_r('<div class="alert alert-success" role="alert">'.$msg.'</div>');
     }
+    if ($msgStatus == 'createdNote'){
+        $msg = 'Note créée';
+    }
+    if ($msgStatus == 'updateNote'){
+        $msg = 'Modifications effectuées';
+    }
+    if ($msgStatus){
+        print_r('<div class="alert alert-success" role="alert">'.$msg.'</div>');
+    }
+    
 
  ?> 
 
