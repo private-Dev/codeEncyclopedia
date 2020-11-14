@@ -2,7 +2,7 @@
 include_once 'top.php';
 
 ?>
-    
+  
         <!--    VIEW MODE          -->    
         <?php if (isset($action) && $action != '' && $action == Constant::$VIEWNOTE) {
             // var_dump($noteId);
@@ -12,7 +12,17 @@ include_once 'top.php';
                 <div class="col-sm">
                     <div class="float-right">
                         <a href="addNote.php?action=<?=Constant::$EDITNOTE?>&noteId=<?=$noteId ?>&blocknoteId=<?=$blocknoteId ?>&themeId=<?=$themeId ?>" class="btn edit-btn"><i class="fa fa-address-book" aria-hidden="true"></i></a>
-                        <a href="addNote.php?action=<?=Constant::$DELETENOTE?>&noteId=<?=$noteId ?>&blocknoteId=<?=$blocknoteId ?>&themeId=<?=$themeId ?>" class="btn delete-btn"><i class="fa fa-times" aria-hidden="true"></i></a>
+                        
+                        <!--
+                        <a id="BtnDeleteNote" href="addNote.php?action=<?=Constant::$DELETENOTE?>&noteId=<?=$noteId ?>&blocknoteId=<?=$blocknoteId ?>&themeId=<?=$themeId ?>" class="btn delete-btn">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                        -->
+                        <button type="button" class="btn delete-btn"   
+                        data-noteId="<?=$noteId ?>" 
+                        data-toggle="modal" data-target="#confirmModalDeleteNote">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>    
             </div>
@@ -118,7 +128,7 @@ include_once 'top.php';
                                         <?php include_once 'detailsMarkdown-tpl.php' ; ?>                                         
                                         <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"></textarea>
                                         <div class="col-sm-12 mt-5 ml-3">
-                                            <a id="NoteCteateBtn" class="btn btn-redCode">Créer Note</a>
+                                            <a id="NoteCreateBtn" class="btn btn-redCode">Créer Note</a>
                                         </div>
                                     </div>
                                     
@@ -144,7 +154,7 @@ include_once 'top.php';
                         <hr>
                         <div class="form-group row p-4">
                             <div class="col-sm-12">
-                              <!--  <a id="NoteCteateBtn" class="btn btn-redCode">Créer Note</a> -->
+                              <!--  <a id="NoteCreateBtn" class="btn btn-redCode">Créer Note</a> -->
                             </div>
                             <div id="errorMsg" class="col-sm-12 mr-5">
 
@@ -168,7 +178,7 @@ include_once 'top.php';
         <?php   
         if (isset($action) && $action != '' && $action == Constant::$DELETENOTE) { 
             echo 'delete Note';
-
+           
             // message poppup confirmation delete 
 
             // delete paragraph associés à la note 
@@ -186,6 +196,26 @@ include_once 'top.php';
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="confirmModalDeleteNote" tabindex="-1" role="dialog" aria-labelledby="confirmModalDeleteNoteTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalDeleteNoteTitle">Suppression Note</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Vous êtes sur le point de supprimer la note <?= "lol"?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="confirmDeleteNote" type="button" class="btn btn-danger" data-noteId="<?=$noteId ?>" > Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
 <?php 
     include_once 'bottom.php';
 ?>

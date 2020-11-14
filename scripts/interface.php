@@ -18,6 +18,8 @@ include_once     "../classes/db/class.Database.php";
 include_once     "../classes/metier/theme.class.php";
 include_once     "../classes/metier/blocknote.class.php";
 include_once     "../classes/metier/note.class.php";
+include_once     "../classes/metier/paragraph.class.php";
+
 include_once     "../classes/user/class.User.php";
 
 $userId             = isset($_SESSION['auth']->id) ? $_SESSION['auth']->id :'';
@@ -47,7 +49,11 @@ $action = isset($_POST['action']) ? $_POST['action']:'';
 // --
 $data =[];
 
-
+/**
+ * _______________________________________________________________________________
+ *                  DRAGGED BEHAVIORS 
+ * _______________________________________________________________________________
+ */
 //dragged  --- 
 if (isset($action) && !empty($action) &&  $action == 'themeDragged'){
     
@@ -128,7 +134,11 @@ if (isset($action) && !empty($action) &&  $action == 'addTheme'){
 
     echo json_encode($data);
 }
-
+/**
+ * _______________________________________________________________________________
+ *                  BLOCKNOTES 
+ * _______________________________________________________________________________
+ */
 if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
 
     $data['errors']  ='none';   
@@ -164,6 +174,12 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
 
     echo json_encode($data);
 }
+
+/**
+ * _______________________________________________________________________________
+ *                  NOTES 
+ * _______________________________________________________________________________
+ */
 
 if (isset($action) && !empty($action) &&  $action == 'addnote'){
     $data['errors']  ='none';   
@@ -207,5 +223,19 @@ if (isset($action) && !empty($action) &&  $action == 'previewNote'){
     $data = $p->text($content,true);
    // var_dump($data);
     echo json_encode($data);
+
+}
+
+if (isset($action) && !empty($action) &&  $action == 'deleteNote'){
+    $idNote = isset($_POST['idNote']) ? $_POST['idNote'] : '' ;
+    $errors ="";
+    if (is_Numeric($idNote)){
+        $db = new Database();
+        $note = new Note($db->getInstance());
+        $note->fetch($idNote);
+        $note->delete();
+    }else{
+        $errors ="Erreur lors de la suppression de la Note.";
+    }
 
 }

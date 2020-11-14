@@ -1,6 +1,15 @@
 <?php 
     include_once 'top.php';
 ?>
+<?php 
+    $msgStatus = isset($_GET['msgStatus']) ? $_GET['msgStatus'] : '';
+
+    if ($msgStatus == 'deletedNote'){
+            $msg = 'Note supprimée';
+            print_r('<div class="alert alert-success" role="alert">'.$msg.'</div>');
+    }
+
+ ?> 
 
    
 

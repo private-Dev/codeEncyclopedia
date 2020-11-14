@@ -14,6 +14,9 @@ $(document).ready(function () {
         $('#sidebar').toggleClass('active');
         $(this).toggleClass('active');
     });
+
+    
+
    // REDIRECTION LOGO
    $(document).on('click', '.markk', function() {
         var addr = "index.php";
@@ -155,7 +158,7 @@ $(document).ready(function () {
     });
 
     //-- CREATE NOTE -------------------------------------------------
-    $(document).on("click","#NoteCteateBtn",function(e){
+    $(document).on("click","#NoteCreateBtn",function(e){
 
 
         if ( ( $("#selectTheme").val() > -1 && $("#selectTheme").val() != '' )
@@ -201,6 +204,33 @@ $(document).ready(function () {
         }
     })
 
+    // DELETE NOTE BTN  ACTION
+    $(document).on("click","#confirmDeleteNote",function(e){
+
+        console.log();
+
+        
+        data = {
+            idNote   : $('#confirmDeleteNote').attr('data-noteid'),
+            action  :'deleteNote'
+        };
+        $.ajax({
+            url:'../scripts/interface.php',
+            type:'POST',
+            data : data,
+            datatype :'json',
+            success :function(data){
+                $('#confirmModalDeleteNote').modal('hide');
+                var addr = "../pages/index.php?msgStatus=deletedNote";
+                $(location).attr("href", addr);   
+                
+            }
+        });
+
+        
+
+
+    });
     // --- PREVIEW FILE 
     $(document).on("click","#nav-preview-tab",function(e){
         $('#container-preview').html('');
@@ -263,3 +293,4 @@ $(document).ready(function () {
 
 
 });
+
