@@ -258,7 +258,7 @@ $(document).ready(function () {
     // --- PREVIEW FILE 
     $(document).on("click","#nav-preview-tab",function(e){
         $('#container-preview').html('');
-       // console.log($('#paragraphNote').val());
+       console.log($('#paragraphNote').val());
         data = {
             content   : $('#paragraphNote').val(),
             action  :'previewNote'
@@ -270,7 +270,7 @@ $(document).ready(function () {
             datatype :'json',
             success :function(data){ 
                 var json = JSON.parse(data);
-                console.log(json);
+               
                 for(var key in json){
                      $('#container-preview').append(json[key]);
                      //console.log(key + ' - ' + json[key])
@@ -313,8 +313,75 @@ $(document).ready(function () {
     $(document).on("click","#quote-btn",function(e){
           $('#paragraphNote').val ($('#paragraphNote').val() +  ">  your quote >/");     
     });
-    
 
+
+
+
+    $('#paragraphNote').on(
+        'dragover',
+        function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    )
+    $('#paragraphNote').on(
+        'dragenter',
+        function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    )
+    $('#paragraphNote').on(
+        'drop',
+        function(e){
+            //console.log(e.originalEvent.dataTransfer);
+            
+          
+
+            if(e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length){
+                
+                    e.preventDefault();
+                    e.stopPropagation();
+                    /*UPLOAD FILES HERE*/
+                    for (var i = 0; i < e.originalEvent.dataTransfer.files.length; i++) {
+                        output(" File " + i + ":\n(" + (typeof e.originalEvent.dataTransfer.files[i]) + ") : <" + e.originalEvent.dataTransfer.files[i] + " > " +
+                        e.originalEvent.dataTransfer.files[i].name + " " + e.originalEvent.dataTransfer.files[i].size + "\n");
+                    }
+                    upload(e.originalEvent.dataTransfer.files);
+                
+            }
+        }
+    );
+   
 
 });
 
+
+
+
+
+function dodrop(event)
+{
+  var dt = event.dataTransfer;
+  var files = dt.files;
+
+  var count = files.length;
+ // output("File Count: " + count + "\n");
+
+    for (var i = 0; i < files.length; i++) {
+     // output(" File " + i + ":\n(" + (typeof files[i]) + ") : <" + files[i] + " > " +
+     //        files[i].name + " " + files[i].size + "\n");
+    }
+}
+
+function output(text)
+{
+ console.log(document.getElementById("paragraphNote").value)
+    document.getElementById("paragraphNote").value = document.getElementById("paragraphNote").value + text;
+  //dump(text);
+}
+
+function upload(files){
+    console.log(files);
+    alert('Upload '+files.length+' File(s).' + 'Upload '+files.name);
+}

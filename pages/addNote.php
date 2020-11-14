@@ -149,7 +149,13 @@ include_once 'top.php';
                                                     $c =  $current_paragraph->content;
                                             }    
                                         ?>
-                                        <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"><?= isset($c) ? $c : ''?></textarea>
+                                        <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"
+                                                    ondragenter="event.stopPropagation(); event.preventDefault();"
+                                                    ondragover="event.stopPropagation(); event.preventDefault();"
+                                                    ondrop="event.stopPropagation(); event.preventDefault(); dodrop(event);"
+
+                                        ><?= isset($c) ? $c : ''?></textarea>
+
                                         <div class="col-sm-12 mt-5 ml-3">
                                         <?php 
                                             if($action == Constant::$EDITNOTE){ ?>
