@@ -31,7 +31,7 @@ change dns refs
  
  #### MARKDOWN
  - [x] create class tiny markdown for a internal use
- - [ ] add img handling tag
+ - [x] add img handling tag
 
  #### PROCESS
  - [x] jquery create theme injection form on create note page
@@ -42,15 +42,17 @@ change dns refs
  - [x] add btn helper code insert on textarea note
  - [x] front: add btn edit mode for a note (and process )
  - [x] front: add btn delete mode for a note (and db process)  
+ - [ ] App Security check (ajax /Post/get)
  - [ ] front: add btn delete mode for a Blocknote  
  - [ ] front: add btn edit mode for a Blocknote  
  - [ ] front: add btn delete mode for a Theme  
  - [ ] front: add btn edit mode for a Theme  
+ 
  <hr>
  - [ ] front: Textarea : insert text from ajax call at cursor position  
  
  #### FEATURE EASY USE (user friendly)
- - [ ] drag and drop image on textarea (auto download img then git a formated link usable on page
+ - [x] drag and drop image on textarea (auto download img then git a formated link usable on page
  - [ ] search bar on left menu (search)
  - [ ] search bar on top menu (search entire db)
  
