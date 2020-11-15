@@ -8,7 +8,7 @@ include_once 'top.php';
             
             // var_dump($noteId);
             ?>
-            <div class="container">
+            <div class="container-fluid">
             <div class="row">
                 <div class="col-sm">
                     <div class="float-right">

@@ -125,7 +125,7 @@ class ParseClassedown
                                      "!!"  => '<p class="tip imp"',
                                      "&"   => "<p",
                                      "&&"   => '<p class="tip warning"',
-                                     "@[" => '<img '
+                                     "@[" => '<img class="card-img-top" '
                                     );
 
     const END_TAG_SELECTOR = array(
@@ -175,14 +175,14 @@ class ParseClassedown
         for ($i = 0 ; $i < $nbLines ; $i++){
             // we only work with line have valid starter selector
             if (!is_null($this->is_valid_starter_selector($lines[$i]))){
-                var_dump('valid selector');    
+               // var_dump('valid selector');    
                 $this->blocks[$i]["start"] = $i;
 
                 //@TODO si multi c'est pas bon là . à deplacer 
                 $this->blocks[$i]["end"] = $this->findNextEmptyLine($lines, $i);
  
                 $this->blocks[$i]["selector"] =  $this->extractValidSelector($lines[$i]);  
-                var_dump($this->blocks[$i]["selector"]);
+               // var_dump($this->blocks[$i]["selector"]);
                 $this->blocks[$i]["HtmlName"] =  $this->getNameSeletor($this->blocks[$i]["selector"]);
                 // we looking for some class inline declaration 
                 $this->blocks[$i]["class"] = $this->is_valid_class_selector($lines[$i],$i);
@@ -201,13 +201,17 @@ class ParseClassedown
                 /**
                 * @TODO IMPLEMENT THIS PART  
                  */
-                if ($this->tagImg()){
-                    $this->blocks[$i]["htmlTagStart"] .= $this->addSrcImgToSelector($i);    
+                if ($this->istagImg($i)){
+
+                    $this->blocks[$i]["htmlTagStart"] .= $this->addSrcImgToSelector($i,$this->extractText($i,$lines[$i]));    
                 } 
 
-                $this->blocks[$i]["htmlTagStart"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
-                $this->blocks[$i]["htmlTagEnd"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
+                $this->blocks[$i]["htmlTagStart"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);  
 
+                if (!$this->istagImg($i)){   
+                    $this->blocks[$i]["htmlTagEnd"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
+                }
+                
                 // selector is a multiLine type ?
                 if ($this->is_multiline_selector($this->blocks[$i]["selector"])){
 
@@ -220,10 +224,14 @@ class ParseClassedown
                     // udpate $i with offset $posEndTagClosure  
                     $i = $posEndTagClosure + 1;    
                 }else{
-                    // get the text without markdow tag    
-                    $this->blocks[$i]["text"] = $this->extractText($i,$lines[$i]);    
-                    var_dump($this->blocks[$i]["text"]);
+
+                    if (!$this->istagImg($i)){
+                        // get the text without markdow tag    
+                        $this->blocks[$i]["text"] = $this->extractText($i,$lines[$i]);    
+                       // var_dump($this->blocks[$i]["text"]);
+                    }
                 }
+
             }else{//@ TODO not the right way to do this it's temporary
                 if ($lines[$i] !== ""){
                     $this->blocks[$i]["selector"] = "no-selector";
@@ -314,7 +322,7 @@ class ParseClassedown
    /**
     * 
     */
-   function closeTagHtml($selector){
+   function closeTagHtml($selector){  
        return $this::END_BRAKET;
    }
    /**
@@ -464,4 +472,18 @@ class ParseClassedown
         }    
         return $result;
    }  
+
+   /**
+    * 
+    */
+    public function istagImg($index){
+            return $this->blocks[$index]["selector"] == $this::SELECTORS['img'] ;
+    }
+
+    /**
+     * 
+     */
+    public function addSrcImgToSelector($index,$src){
+            return  ' src="'.$src .'"'; 
+    }
 }

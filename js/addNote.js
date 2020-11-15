@@ -200,9 +200,7 @@ $(document).ready(function () {
     })
     //-- UPDATE NOTE -------------------------------------------------
     $(document).on("click","#NoteEditionBtn",function(e){
-        alert('here');
         if ($('#paragraphNote').val()){
-
             data = {
                 idParagraph : $('#NoteEditionBtn').attr('data-paragraphId'),
                 paragraph :$('#paragraphNote').val(),
@@ -258,7 +256,6 @@ $(document).ready(function () {
     // --- PREVIEW FILE 
     $(document).on("click","#nav-preview-tab",function(e){
         $('#container-preview').html('');
-       console.log($('#paragraphNote').val());
         data = {
             content   : $('#paragraphNote').val(),
             action  :'previewNote'
@@ -342,7 +339,7 @@ $(document).ready(function () {
                 
                 for (var i = 0; i < e.originalEvent.dataTransfer.files.length; i++) {    
                     let file = e.originalEvent.dataTransfer.files[i];
-                    console.log(file);
+                    
                     formData.append('files[]', file)
                 }
                 /* UPLOAD FILES */
@@ -356,7 +353,7 @@ $(document).ready(function () {
                     success :function(response){ 
                       result = JSON.parse(response);
                       if (result.success){
-                        $('#paragraphNote').val ($('#paragraphNote').val() +  "@[ "+result.file+" ]@");   
+                        $('#paragraphNote').val ($('#paragraphNote').val() +  "@[ "+result.file);   
                       }else{
                          // error showed to user !    
                          $('#paragraphNote').val ($('#paragraphNote').val() +  "@Error : "+ result.errors +"@");
@@ -377,29 +374,3 @@ $(document).ready(function () {
 
 
 
-
-function dodrop(event)
-{
-  var dt = event.dataTransfer;
-  var files = dt.files;
-
-  var count = files.length;
- // output("File Count: " + count + "\n");
-
-    for (var i = 0; i < files.length; i++) {
-     // output(" File " + i + ":\n(" + (typeof files[i]) + ") : <" + files[i] + " > " +
-     //        files[i].name + " " + files[i].size + "\n");
-    }
-}
-
-function output(text)
-{
- console.log(document.getElementById("paragraphNote").value)
-    document.getElementById("paragraphNote").value = document.getElementById("paragraphNote").value + text;
-  //dump(text);
-}
-
-function upload(files){
-    //console.log(files);
-    //alert('Upload '+files.length+' File(s).' + 'Upload '+files.name);
-}
