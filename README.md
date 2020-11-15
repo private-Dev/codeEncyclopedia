@@ -62,6 +62,10 @@ change dns refs
 
 ![demo-preview-note-2](https://user-images.githubusercontent.com/52592449/98973920-a0a9fa80-2514-11eb-8439-8a4fe10492d9.gif)
 
+## short demo : feature upload file on textarea
+
+![demo-preview-note-upload](https://user-images.githubusercontent.com/52592449/99191534-874fbb00-276d-11eb-99d7-3376386829bc.gif)
+
 ## login
 
 ![FireShot Capture 021 - CODE REMINDER ENCYCLOPEDIA - localhost](https://user-images.githubusercontent.com/52592449/97796832-1fe72680-1c17-11eb-9b91-a30890385774.png)
@@ -69,12 +73,13 @@ change dns refs
 ## admin
 
 ![FireShot Capture 024 -  - localhost](https://user-images.githubusercontent.com/52592449/97774020-d2a28080-1b54-11eb-9399-94a64a07b7be.png)
-
+<br>
+<hr>
 ## front
 
 ![01](https://user-images.githubusercontent.com/52592449/97773915-0f21ac80-1b54-11eb-9b9d-46cab6a9023a.png)
-
-
+<br>
+<hr>
 ## ParseClassedown
 
 /** 
