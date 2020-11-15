@@ -41,15 +41,10 @@
 
             <section class="cover show">
                 <div class="mask"></div>
-                <div class="cover-main d-flex justify-content-center">
-                    <p>
+                <div class="cover-main d-flex justify-content-center card-img-top">
+                    <p class="" >
                         <img src="../assets/cre-black.svg" data-origin="_media/icon.svg" alt="logo">
                     </p>
-                    <h1 id="">
-                            <span><small>1.0.0</small></span>
-                    </h1>
-
-
                 </div>
             </section>
 

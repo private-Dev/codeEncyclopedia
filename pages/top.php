@@ -144,12 +144,18 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
+                        
                         <li class="nav-item">
                             <i class="fab fa-android" aria-hidden="true"></i>
                             <a class="nav-link" href="addNote.php?action=<?=Constant::$CREATENOTE?>">Note <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../signout.php">Sign out</a>
+                        </li>
+                        <li class="nav-item">
+                        <h6 class="ml-2" >
+                            <span><small class="ml-5 mt-2 bluetext">V1.0.0</small></span>
+                        </h6>
                         </li>
                     </ul>
                 </div>
