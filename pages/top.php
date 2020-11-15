@@ -77,7 +77,11 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
 
 
 <body>
-
+<!-- The video -->
+<!--<video autoplay muted loop id="myVideo">
+  <source src="../assets/animated-form/v1.mp4" type="video/mp4">
+</video>
+-->
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar" class="active">
