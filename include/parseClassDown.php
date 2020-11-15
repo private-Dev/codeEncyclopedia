@@ -77,6 +77,17 @@
  * 
  */
 
+ /**
+  * update 0.0.1
+  * 
+  *  img handler
+  *
+  *   added monoline selector for img. 
+  *   @[ space pathToImg
+  *   the img selector will appear in bootstraps class="card-img-top"  
+  *   feel free to write you own class if bootstrpas not implemented in your project 
+  *     
+  */
 class ParseClassedown
 {
     
@@ -171,7 +182,7 @@ class ParseClassedown
         $lines = explode("\n", $text);
         
         $nbLines = count($lines);
-        //var_dump($nbLines);exit();
+       
         for ($i = 0 ; $i < $nbLines ; $i++){
             // we only work with line have valid starter selector
             if (!is_null($this->is_valid_starter_selector($lines[$i]))){
@@ -198,9 +209,6 @@ class ParseClassedown
                 $this->blocks[$i]["htmlTagStart"] .= $this->addClassToHtmlSelector($i);    
                
                 // if img  text is the src on element <img src="..."
-                /**
-                * @TODO IMPLEMENT THIS PART  
-                 */
                 if ($this->istagImg($i)){
 
                     $this->blocks[$i]["htmlTagStart"] .= $this->addSrcImgToSelector($i,$this->extractText($i,$lines[$i]));    
