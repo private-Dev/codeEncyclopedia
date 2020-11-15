@@ -1,5 +1,7 @@
 $(document).ready(function () {
     
+    $('.display-upload-progress').attr('style', 'display: none !important');
+    
     $('.alert-success').fadeOut(5300, "linear");
 
     $(function () {
@@ -327,9 +329,11 @@ $(document).ready(function () {
     )
 
     $('#paragraphNote').on('drop',function(e){
-            //console.log(e.originalEvent.dataTransfer);
+            
         if(e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length){
-
+            
+           
+            $('.display-upload-progress').attr('style', 'display: flex !important;justify-content :center;align-items:center');
                 // must be setted
                 e.preventDefault();
                 e.stopPropagation();
@@ -354,8 +358,10 @@ $(document).ready(function () {
                       result = JSON.parse(response);
                       if (result.success){
                         $('#paragraphNote').val ($('#paragraphNote').val() +  "@[ "+result.file);   
+                        $('.display-upload-progress').attr('style', 'display: none !important;justify-content :center;align-items:center');
                       }else{
                          // error showed to user !    
+                         $('.display-upload-progress').attr('style', 'display: none !important;justify-content :center;align-items:center');
                          $('#paragraphNote').val ($('#paragraphNote').val() +  "@Error : "+ result.errors +"@");
                       }      
                        

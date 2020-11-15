@@ -1,7 +1,85 @@
 
 body {
     background-color: #f1f1f157;
+    color:#1d1b1b;
 }
+
+#display-upload-progress{
+    display :none;
+    width : 100%;
+    float :right;
+
+}
+/* SPINNER */
+.lds-grid {
+   /* display: inline-block;*/
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  .lds-grid div {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #002255;
+    color:#11163a;
+    animation: lds-grid 1.2s linear infinite;
+  }
+  .lds-grid div:nth-child(1) {
+    top: 2px;
+    left: 2px;
+    color:#11163a;
+    animation-delay: 0s;
+  }
+  .lds-grid div:nth-child(2) {
+    top: 2px;
+    left: 8px;
+    animation-delay: -0.4s;
+  }
+  .lds-grid div:nth-child(3) {
+    top: 2px;
+    left: 14px;
+    animation-delay: -0.8s;
+  }
+  .lds-grid div:nth-child(4) {
+    top: 8px;
+    left: 2px;
+    animation-delay: -0.4s;
+  }
+  .lds-grid div:nth-child(5) {
+    top: 8px;
+    left: 8px;
+    animation-delay: -0.8s;
+  }
+  .lds-grid div:nth-child(6) {
+    top: 8px;
+    left: 14px;
+    animation-delay: -1.2s;
+  }
+  .lds-grid div:nth-child(7) {
+    top: 14px;
+    left: 2px;
+    animation-delay: -0.8s;
+  }
+  .lds-grid div:nth-child(8) {
+    top: 14px;
+    left: 8px;
+    animation-delay: -1.2s;
+  }
+  .lds-grid div:nth-child(9) {
+    top: 14px;
+    left: 14px;
+    animation-delay: -1.6s;
+  }
+  @keyframes lds-grid {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
 
 /* MARK  **** */
 .markk:hover{

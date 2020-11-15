@@ -150,6 +150,20 @@ include_once 'top.php';
                                             }    
                                         ?>
                                         <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"><?= isset($c) ? $c : ''?></textarea>
+                                        <div id="display-upload-progress" class="display-upload-progress d-flex justify-content-center align-items-center">
+                                            <span>Uploading file </span>
+                                            <div class="lds-grid">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-12 mt-5 ml-3">
                                             <?php 
                                                 if($action == Constant::$EDITNOTE){ ?>
