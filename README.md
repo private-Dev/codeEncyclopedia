@@ -42,12 +42,16 @@ change dns refs
  - [x] add btn helper code insert on textarea note
  - [x] front: add btn edit mode for a note (and process )
  - [x] front: add btn delete mode for a note (and db process)  
- - [ ] App Security check (ajax /Post/get)
+ 
  - [ ] front: add btn delete mode for a Blocknote  
  - [ ] front: add btn edit mode for a Blocknote  
  - [ ] front: add btn delete mode for a Theme  
  - [ ] front: add btn edit mode for a Theme  
  
+ ### SECURITY
+- [ ] App Security check (ajax)
+- [x] App Security URI)
+- [ ] App try catch all queries)
  <hr>
  - [ ] front: Textarea : insert text from ajax call at cursor position  
  
