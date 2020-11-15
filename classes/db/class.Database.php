@@ -46,4 +46,28 @@ class Database {
   public function stateObj(){
     print_r("Obj Database Crée avec succes.<br>");
   }
+
+  public function secureNoteUri($noteId,$BlockId,$themeId){
+    if (is_numeric($noteId) && is_numeric($BlockId) && is_numeric($themeId)){
+    $sql ='  SELECT * FROM note n ';
+    $sql .=' INNER JOIN blocknote b ON n.fk_blocknote = b.id';
+    $sql .=' INNER JOIN theme t ON b.fk_theme = t.id ';
+    $sql .=' WHERE n.id = ?'; 
+    $sql .=' AND b.id =?'; 
+    $sql .=' AND t.id =? ';
+    
+     try {
+            $stmt = $this->_instance->prepare($sql);
+            $stmt->execute([$noteId,$BlockId,$themeId]);
+            $row = $stmt->fetch(); 
+            return $row ;
+            
+        }catch(Exception $e){
+              die("There's an error in the secure query!");
+        }
+    }else{
+      return 0;
+    }       
+    
+  }
 }

@@ -5,8 +5,19 @@ include_once 'top.php';
   
         <!--    VIEW MODE          -->    
         <?php if (isset($action) && $action != '' && $action == Constant::$VIEWNOTE) {
+           // var_dump($_SESSION);
+              $markdown = new ParseClassedown();
+              if ($secure){
+                $Paragraphs = $paragraph->getRows($user,$noteId);
+              }else{
+                $Paragraphs = $paragraph->getRows($user,0);
+              }
+
+             
             
-            // var_dump($noteId);
+            if (!$Paragraphs){
+                echo 'note inexistante.';
+            }else{
             ?>
             <div class="container">
             <div class="row">
@@ -14,11 +25,6 @@ include_once 'top.php';
                     <div class="float-right">
                         <a href="addNote.php?action=<?=Constant::$EDITNOTE?>&noteId=<?=$noteId ?>&blocknoteId=<?=$blocknoteId ?>&themeId=<?=$themeId ?>" class="btn edit-btn"><i class="fa fa-address-book" aria-hidden="true"></i></a>
                         
-                        <!--
-                        <a id="BtnDeleteNote" href="addNote.php?action=<?=Constant::$DELETENOTE?>&noteId=<?=$noteId ?>&blocknoteId=<?=$blocknoteId ?>&themeId=<?=$themeId ?>" class="btn delete-btn">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </a>
-                        -->
                         <button type="button" class="btn delete-btn"   
                         data-noteId="<?=$noteId ?>" 
                         data-toggle="modal" data-target="#confirmModalDeleteNote">
@@ -27,10 +33,6 @@ include_once 'top.php';
                     </div>
                 </div>    
             </div>
-            <?php
-            $markdown = new ParseClassedown();
-            $Paragraphs = $paragraph->getRows($user,$noteId);
-            ?>
             <div class="row">
                 <div class="col-sm">
                 <?php
@@ -38,7 +40,9 @@ include_once 'top.php';
                     print_r($markdown->text($par->content));
                 }
                 ?>
-                </div></div>
+                </div>
+            </div>
+            <?php } ?>
             </div>
          
 
@@ -47,11 +51,13 @@ include_once 'top.php';
 
         if (isset($action) && $action != '' && $action == Constant::$CREATENOTE || isset($action) && $action != '' && $action == Constant::$EDITNOTE) { 
             $mode = ($action == Constant::$CREATENOTE) ? 'Nouvelle Note' : "Edition : ";
+            $noteEdit = new Note($db->getInstance());
+            // if we are in create mode we want to enter 
+            $result = ($action == Constant::$EDITNOTE) ? $noteEdit->fetch($noteId) : 1;
             if ($action == Constant::$EDITNOTE){
-                $noteEdit = new Note($db->getInstance());
-                $noteEdit->fetch($noteId);
+               
             }
-
+            if ($result){ 
             ?>
             <div class="container">    
                 <section class="cover show "style="width:100%;">
@@ -207,7 +213,13 @@ include_once 'top.php';
 
                 </section>
             </div>
-        <?php  }  ?>
+
+
+        <?php  
+            }else{
+                echo "note inexistante.";
+            }
+            }  ?>
     </div>
 
 </div>

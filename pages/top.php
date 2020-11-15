@@ -29,16 +29,27 @@ $themes = $theme->getRows($user);
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
+// we must have all 3 ids ...
 if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeId']) ){
-
+ 
     $noteId = isset($_GET['noteId']) ? $_GET['noteId'] : '';
     $blocknoteId = isset($_GET['blocknoteId']) ? $_GET['blocknoteId'] : '';
     $themeId = isset($_GET['themeId']) ? $_GET['themeId'] : '';    
-    $_SESSION['NewNote']['idTheme'] = $themeId;
-    $_SESSION['NewNote']['idBlock'] = $blocknoteId;
-    $_SESSION['NewNote']['idNote'] = $noteId;
 
+    // l'utilisateur à t'il modifié l'uri comme un crobard de merde ? 
+    $secure = true;
+    $res =  $db->secureNoteUri($noteId,$blocknoteId,$themeId);
+    if ($res){
+        $_SESSION['NewNote']['idTheme'] = $themeId;
+        $_SESSION['NewNote']['idBlock'] = $blocknoteId;
+        $_SESSION['NewNote']['idNote'] = $noteId;
+    }else{
+        $secure = false;
+    }
+}else{
+    $secure = false;
 }
+
 
 ?>
 <!DOCTYPE html>

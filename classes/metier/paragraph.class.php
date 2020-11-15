@@ -46,6 +46,8 @@ public $rank;
      * @param id int fk_note related to paragraph 
      */
     public function fetchWithId($id) {
+      
+
         $sql = "SELECT * FROM  paragraph as t WHERE t.id = ? ";
         try{
         $stmt = $this->_db->prepare($sql);
@@ -70,6 +72,9 @@ public $rank;
     * 
     */
     public function getRows($userId,$noteId){
+        if (!is_numeric($noteId)){
+            return 0;
+        }    
 
         $sql = "SELECT p.id, p.content ,p.rank FROM paragraph as p";
         $sql .= " WHERE p.fk_note = ?";

@@ -19,23 +19,33 @@ public $current_user;
     }
 
     public function fetch($id){
-        
-        $sql = "SELECT * FROM  note as t WHERE t.id = ? ";
-        try {
-        $stmt = $this->_db->prepare($sql);
-        $stmt->execute([$id]);
-        $row = $stmt->fetch(); 
+        if (is_numeric($id)){
+            $sql = "SELECT * FROM  note as t WHERE t.id = ? ";
+            try {
+            $stmt = $this->_db->prepare($sql);
+            $stmt->execute([$id]);
+            $row = $stmt->fetch(); 
+             if ($row){      
+                $this->id = $row->id;
+                $this->label = $row->label;
+                $this->fk_blocknote = $row->fk_blocknote;   
+                $this->date_created = $row->date_created;
+                $this->date_update = $row->date_update;
+                $this->rank = $row->rank;
+                $stmt = null;
 
-        $this->id = $row->id;
-        $this->label = $row->label;
-        $this->fk_blocknote = $row->fk_blocknote;   
-        $this->date_created = $row->date_created;
-        $this->date_update = $row->date_update;
-        $this->rank = $row->rank;
+                return 1;
+             }else{
+                 return 0;
+             }        
+            
+            }catch(Exception $e){
+                die("Oh noes! There's an error in the query!");
+            }
+            
+        }else{
 
-        $stmt = null;
-        }catch(Exception $e){
-            die("Oh noes! There's an error in the query!");
+            return -1;
         }
     }  
 
