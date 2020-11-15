@@ -66,6 +66,7 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="../css/style5.css">
+    <link rel="stylesheet" href="../css/sideMenu.css">
     <link rel="stylesheet" href="../css/note.css">
     <!-- <link rel="stylesheet" href="../css/app.css">-->
 
@@ -84,7 +85,7 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
 -->
 <div class="wrapper">
     <!-- Sidebar Holder -->
-    <nav id="sidebar" class="active">
+    <nav id="sidebar" class="active tree">
         <div class="sidebar-header">
             <span class="d-inline-flex p-3 markk">
                 <img src="../assets/logo-cre-blue.svg" class="adminImgLogo mt-1" width="50" height="50" alt="Global notes Logo">
@@ -92,31 +93,30 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
             </span>
         </div>
 
-        <ul class="list-unstyled components">
+        <ul>
             <p></p>
             <?php foreach ($themes as $t) { ?>
-                <li><p class="theme-list-label"><?= $t->label; ?></p>
-                    <ul class="list-unstyled">
+                <li><i class="fa fa-folder mr-3"></i><?= $t->label; ?>
+                    <ul >
                         <?php
                         $blocks =  $block->getRows($user,$t->rowid);
 
                         foreach ($blocks as $b) {  ?>
 
                                 <li>
-                                    <span class="ml-2">
-                                        <?= $b->label ?>
-                                    </span>
-                                    <hr>
+                                <i class="fa fa-server" aria-hidden="true"></i>
+                                    <?= $b->label ?>
                                 </li>
 
-                            <ul class="list-unstyled">
+                            <ul>
                                 <?php
                                 $notes =  $note->getRows($user,$b->rowid);
 
                                 foreach ($notes as $n) {  ?>
-                                    <li class="ml-3">
+                                    <li >
                                         <a class="section-link" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$n->rowid ?>&blocknoteId=<?=$b->rowid ?>&themeId=<?=$t->rowid ?>" title="<?=$n->label ?>">
-                                            <?=$n->label ?>
+                                        <i class="fa fa-tag" aria-hidden="true"></i>
+                                        <?=$n->label ?>
                                         </a>
                                     </li>
                                 <?php  } ?>
