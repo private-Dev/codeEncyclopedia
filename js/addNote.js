@@ -315,41 +315,59 @@ $(document).ready(function () {
     });
 
 
+    // -- AUTOMATIC UPLOAD  FILE FUNCTIONS
 
-
-    $('#paragraphNote').on(
-        'dragover',
-        function(e) {
+    $('#paragraphNote').on('dragover',function(e) {
             e.preventDefault();
             e.stopPropagation();
         }
     )
-    $('#paragraphNote').on(
-        'dragenter',
-        function(e) {
+
+    $('#paragraphNote').on('dragenter', function(e) {
             e.preventDefault();
             e.stopPropagation();
         }
     )
-    $('#paragraphNote').on(
-        'drop',
-        function(e){
+
+    $('#paragraphNote').on('drop',function(e){
             //console.log(e.originalEvent.dataTransfer);
-            
-          
+        if(e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length){
 
-            if(e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length){
+                // must be setted
+                e.preventDefault();
+                e.stopPropagation();
+
+                const formData = new FormData();
+
                 
-                    e.preventDefault();
-                    e.stopPropagation();
-                    /*UPLOAD FILES HERE*/
-                    for (var i = 0; i < e.originalEvent.dataTransfer.files.length; i++) {
-                        output(" File " + i + ":\n(" + (typeof e.originalEvent.dataTransfer.files[i]) + ") : <" + e.originalEvent.dataTransfer.files[i] + " > " +
-                        e.originalEvent.dataTransfer.files[i].name + " " + e.originalEvent.dataTransfer.files[i].size + "\n");
+                for (var i = 0; i < e.originalEvent.dataTransfer.files.length; i++) {    
+                    let file = e.originalEvent.dataTransfer.files[i];
+                    console.log(file);
+                    formData.append('files[]', file)
+                }
+                /* UPLOAD FILES */
+                $.ajax({
+                    url:'../scripts/interface_uploadFile.php',
+                    type:'POST',
+                    data : formData,
+                    cache : false,
+                    processData: false,
+                    contentType: false,
+                    success :function(response){ 
+                      result = JSON.parse(response);
+                      if (result.success){
+                        $('#paragraphNote').val ($('#paragraphNote').val() +  "@[ "+result.file+" ]@");   
+                      }else{
+                         // error showed to user !    
+                         $('#paragraphNote').val ($('#paragraphNote').val() +  "@Error : "+ result.errors +"@");
+                      }      
+                       
+                        
                     }
-                    upload(e.originalEvent.dataTransfer.files);
-                
-            }
+                });    
+
+                //upload(e.originalEvent.dataTransfer.files);   
+        }
         }
     );
    
@@ -382,6 +400,6 @@ function output(text)
 }
 
 function upload(files){
-    console.log(files);
-    alert('Upload '+files.length+' File(s).' + 'Upload '+files.name);
+    //console.log(files);
+    //alert('Upload '+files.length+' File(s).' + 'Upload '+files.name);
 }

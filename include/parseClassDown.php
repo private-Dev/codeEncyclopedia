@@ -98,7 +98,8 @@ class ParseClassedown
                             "p-standard-01" =>'!',
                             "p tip imp"     =>'!!',
                             "p-standard-02" =>'&',
-                            "p tip warning" =>'&&'
+                            "p tip warning" =>'&&',
+                            "img"           =>'@['
                         );
 
     const END_SELECTORS = array(
@@ -107,7 +108,8 @@ class ParseClassedown
                             "!"  => '!/',
                             "!!" => '!!/',
                             "&"  => '&/',
-                            "&&" => '&&/'
+                            "&&" => '&&/',
+                            "@[" => ']@' 
                         );
 
     const START_TAG_SELECTOR = array("#"   => "<h1",
@@ -122,7 +124,8 @@ class ParseClassedown
                                      "!"   => "<p" , 
                                      "!!"  => '<p class="tip imp"',
                                      "&"   => "<p",
-                                     "&&"   => '<p class="tip warning"'
+                                     "&&"   => '<p class="tip warning"',
+                                     "@[" => '<img '
                                     );
 
     const END_TAG_SELECTOR = array(
@@ -137,7 +140,8 @@ class ParseClassedown
                                     "!"   => "</p", 
                                     "!!"  => "</p",
                                     "&"   => "</p",
-                                    "&&"   => "</p"
+                                    "&&"   => "</p",
+                                    "@[" => ""
                                 );
 
    const Tooltips = array (
@@ -167,16 +171,18 @@ class ParseClassedown
         $lines = explode("\n", $text);
         
         $nbLines = count($lines);
+        //var_dump($nbLines);exit();
         for ($i = 0 ; $i < $nbLines ; $i++){
             // we only work with line have valid starter selector
             if (!is_null($this->is_valid_starter_selector($lines[$i]))){
-
+                var_dump('valid selector');    
                 $this->blocks[$i]["start"] = $i;
 
                 //@TODO si multi c'est pas bon là . à deplacer 
                 $this->blocks[$i]["end"] = $this->findNextEmptyLine($lines, $i);
  
                 $this->blocks[$i]["selector"] =  $this->extractValidSelector($lines[$i]);  
+                var_dump($this->blocks[$i]["selector"]);
                 $this->blocks[$i]["HtmlName"] =  $this->getNameSeletor($this->blocks[$i]["selector"]);
                 // we looking for some class inline declaration 
                 $this->blocks[$i]["class"] = $this->is_valid_class_selector($lines[$i],$i);
@@ -190,6 +196,15 @@ class ParseClassedown
             
                 // close the tag with proper informations
                 $this->blocks[$i]["htmlTagStart"] .= $this->addClassToHtmlSelector($i);    
+               
+                // if img  text is the src on element <img src="..."
+                /**
+                * @TODO IMPLEMENT THIS PART  
+                 */
+                if ($this->tagImg()){
+                    $this->blocks[$i]["htmlTagStart"] .= $this->addSrcImgToSelector($i);    
+                } 
+
                 $this->blocks[$i]["htmlTagStart"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
                 $this->blocks[$i]["htmlTagEnd"] .= $this->closeTagHtml($this->blocks[$i]["selector"]);    
 
@@ -207,6 +222,7 @@ class ParseClassedown
                 }else{
                     // get the text without markdow tag    
                     $this->blocks[$i]["text"] = $this->extractText($i,$lines[$i]);    
+                    var_dump($this->blocks[$i]["text"]);
                 }
             }else{//@ TODO not the right way to do this it's temporary
                 if ($lines[$i] !== ""){

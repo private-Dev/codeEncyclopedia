@@ -46,7 +46,8 @@ change dns refs
  - [ ] front: add btn edit mode for a Blocknote  
  - [ ] front: add btn delete mode for a Theme  
  - [ ] front: add btn edit mode for a Theme  
-
+ <hr>
+ - [ ] front: Textarea : insert text from ajax call at cursor position  
  
  #### FEATURE EASY USE (user friendly)
  - [ ] drag and drop image on textarea (auto download img then git a formated link usable on page

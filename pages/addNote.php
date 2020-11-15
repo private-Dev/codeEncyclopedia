@@ -42,11 +42,11 @@ include_once 'top.php';
             </div>
          
 
-        <!--    CREATE MODE        -->
+        <!--    CREATE MODE  //  EDIT MODE      -->
         <?php  }
 
         if (isset($action) && $action != '' && $action == Constant::$CREATENOTE || isset($action) && $action != '' && $action == Constant::$EDITNOTE) { 
-            $mode = ($action == Constant::$CREATENOTE) ? 'Nouvelle Note' : "Edition ";
+            $mode = ($action == Constant::$CREATENOTE) ? 'Nouvelle Note' : "Edition : ";
             if ($action == Constant::$EDITNOTE){
                 $noteEdit = new Note($db->getInstance());
                 $noteEdit->fetch($noteId);
@@ -149,23 +149,16 @@ include_once 'top.php';
                                                     $c =  $current_paragraph->content;
                                             }    
                                         ?>
-                                        <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"
-                                                    ondragenter="event.stopPropagation(); event.preventDefault();"
-                                                    ondragover="event.stopPropagation(); event.preventDefault();"
-                                                    ondrop="event.stopPropagation(); event.preventDefault(); dodrop(event);"
-
-                                        ><?= isset($c) ? $c : ''?></textarea>
-
+                                        <textarea id="paragraphNote" class="form-control" id="paragraph" rows="20" cols="20"><?= isset($c) ? $c : ''?></textarea>
                                         <div class="col-sm-12 mt-5 ml-3">
-                                        <?php 
-                                            if($action == Constant::$EDITNOTE){ ?>
-                                            <a id="NoteEditionBtn" data-paragraphId="<?= $current_paragraph->id ?>" class="btn btn-redCode">Modifier Note</a>
-                                            <?php } else {  ?>
-                                                <a id="NoteCreateBtn" class="btn btn-redCode">Créer Note</a>
+                                            <?php 
+                                                if($action == Constant::$EDITNOTE){ ?>
+                                                <a id="NoteEditionBtn" data-paragraphId="<?= $current_paragraph->id ?>" class="btn btn-redCode">Modifier Note</a>
+                                                <?php } else {  ?>
+                                                    <a id="NoteCreateBtn" class="btn btn-redCode">Créer Note</a>
                                             <?php }  ?>                                                
                                         </div>
-                                    </div>
-                                    
+                                    </div>      
                                 </div>
                                 <!-- PREVIEW -->
                                 <div class="tab-pane fade" id="nav-preview" role="tabpanel" aria-labelledby="nav-preview-tab">
@@ -216,7 +209,7 @@ include_once 'top.php';
         </button>
       </div>
       <div class="modal-body">
-        Vous êtes sur le point de supprimer la note <?= "lol"?>
+        Vous êtes sur le point de supprimer la note <?= ""?>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
