@@ -46,7 +46,7 @@
                         <img src="../assets/cre-black.svg" data-origin="_media/icon.svg" alt="logo">
                     </p>
                     <h1 id="">
-                            <span><small>1.1.0</small></span>
+                            <span><small>1.0.0</small></span>
                     </h1>
 
 
