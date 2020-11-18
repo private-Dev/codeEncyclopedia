@@ -218,7 +218,7 @@ if (isset($action) && !empty($action) &&  $action == 'addnote'){
 }
 
 if (isset($action) && !empty($action) &&  $action == 'previewNote'){
-    include_once     "../include/ParseClassdown.php";
+    include_once     "../include/parseClassDown.php";
     $p = new ParseClassedown();
 
     $content = isset($_POST['content']) ? $_POST['content'] : '' ;

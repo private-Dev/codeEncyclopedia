@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Sam 24 Octobre 2020 à 19:16
+-- Généré le :  Mer 18 Novembre 2020 à 06:20
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.3
 
@@ -41,7 +41,7 @@ CREATE TABLE `blocknote` (
 --
 
 INSERT INTO `blocknote` (`id`, `label`, `date_created`, `date_update`, `fk_theme`, `rank`, `toolTipMsg`) VALUES
-(9, 'menu', '2020-10-19 17:54:53', '2020-10-19 17:54:53', 3, 1, '');
+(25, 'Version process', '2020-11-16 08:51:23', '2020-11-16 08:51:23', 12, 1, '');
 
 -- --------------------------------------------------------
 
@@ -61,8 +61,7 @@ CREATE TABLE `blocknote_display_user` (
 --
 
 INSERT INTO `blocknote_display_user` (`id`, `fk_blocknote`, `fk_user`, `rank_display`) VALUES
-(11, 9, 1, 1),
-(12, 9, 2, 1);
+(43, 25, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -73,26 +72,19 @@ INSERT INTO `blocknote_display_user` (`id`, `fk_blocknote`, `fk_user`, `rank_dis
 CREATE TABLE `note` (
   `id` int(11) NOT NULL,
   `fk_blocknote` int(11) NOT NULL,
-  `beware` text COLLATE utf8_unicode_ci,
-  `big_title` text COLLATE utf8_unicode_ci,
-  `title` text COLLATE utf8_unicode_ci,
-  `important_comment` text COLLATE utf8_unicode_ci,
-  `comment` text COLLATE utf8_unicode_ci,
-  `comment_bar` text COLLATE utf8_unicode_ci,
-  `code_block` text COLLATE utf8_unicode_ci,
-  `block_img` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hash_title` text COLLATE utf8_unicode_ci,
+  `label` text COLLATE utf8_unicode_ci,
   `rank` int(11) NOT NULL,
   `date_created` datetime DEFAULT NULL,
-  `date_update` datetime DEFAULT NULL
+  `date_update` datetime DEFAULT NULL,
+  `toolTipMsg` text COLLATE utf8_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `note`
 --
 
-INSERT INTO `note` (`id`, `fk_blocknote`, `beware`, `big_title`, `title`, `important_comment`, `comment`, `comment_bar`, `code_block`, `block_img`, `hash_title`, `rank`, `date_created`, `date_update`) VALUES
-(9, 9, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', 'Lorem ipsum dolor sit', 'Lorem ipsum dolor sit', 'Lorem ipsum dolor sit', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque delectus repellat dolorem ipsum temporibus molestias dolor incidunt dolore quidem porro. At sunt placeat deleniti laudantium eius, dignissimos repudiandae temporibus minus.', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque delectus repellat dolorem ipsum temporibus molestias dolor incidunt dolore quidem porro. At sunt placeat deleniti laudantium eius, dignissimos repudiandae temporibus minus.', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque delectus repellat dolorem ipsum temporibus molestias dolor incidunt dolore quidem porro. At sunt placeat deleniti laudantium eius, dignissimos repudiandae temporibus minus.', NULL, 'Arbitrary Route Properties replaced', 1, NULL, NULL);
+INSERT INTO `note` (`id`, `fk_blocknote`, `label`, `rank`, `date_created`, `date_update`, `toolTipMsg`) VALUES
+(35, 25, 'RemontÃ©e de version', 1, '2020-11-16 08:52:03', '2020-11-16 08:52:03', '');
 
 -- --------------------------------------------------------
 
@@ -118,7 +110,7 @@ CREATE TABLE `paragraph` (
   `content` text COLLATE utf8_unicode_ci,
   `date_created` datetime NOT NULL,
   `date_update` datetime NOT NULL,
-  `fk_blocknote` int(11) NOT NULL,
+  `fk_note` int(11) NOT NULL,
   `rank` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -126,9 +118,8 @@ CREATE TABLE `paragraph` (
 -- Contenu de la table `paragraph`
 --
 
-INSERT INTO `paragraph` (`id`, `content`, `date_created`, `date_update`, `fk_blocknote`, `rank`) VALUES
-(1, '# test  h1\r\n<br>\r\n## test h2 \r\n\r\n### test h3\r\n\r\n### test h3 {{hash}}\r\n\r\n#### test h4 {{hash}}\r\n\r\n#### test h4 standard\r\n\r\n##### test h5 standard \r\n\r\n##### test h5 {{hash}}\r\n<hr>\r\n\r\n###### test h6\r\n\r\n> 1 One Line A brief quoting behavior >/\r\n\r\n\r\n\r\n> 1 multi Line with  text on same line of tag {{greentext}}\r\n2 that can be added to quote\r\n3 because we love it.\r\n>/\r\n\r\n\r\n> \r\n1 text start on next line\r\n2 that can be added to quote\r\n3 because we love it.\r\n>/\r\n\r\n: \r\n function ammendTagHtml($selector,$multiplicator){\r\n        $result = \'\';  \r\n        if ($selector == $this::SELECTORS[\'header\']){\r\n            $result .= $multiplicator; \r\n        }\r\n\r\n      return $result; \r\n   }\r\n:/\r\n\r\n! imp 0 !/ {{tip imp}} \r\n\r\n! imp 1 {{tip imp}}\r\n2 imp text with explicit class\r\n3 imp text with explicit class\r\n!/\r\n\r\n!! imp 2  !!/\r\n\r\n!! imp 3 \r\n14 imp   text\r\n15 imp  text !!/\r\n\r\n\r\n\r\n& warning 2  &/ {{tip warning}}\r\n\r\n&& warning 3 \r\n\r\n 3 text lambda that lorem ipsum itself\r\n 3 text lambda that lorem ipsum itself\r\n 3 text lambda that lorem ipsum itself\r\n&&/\r\n\r\n!\r\n   text lambda that lorem ipsum itself.\r\n   <br> test in real life, <br>cause it\'s fun to do.\r\n       text lambda that lorem ipsum itself\r\n       text lambda that lorem ipsum itself\r\n!/\r\n\r\n', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1),
-(3, ': imp 1 {{tip imp}}\r\n\r\n:: imp 2 \r\n\r\n& warning 2 {{tip warning}}\r\n\r\n&& warning 3 ', '2020-10-24 00:00:00', '2020-10-24 00:00:00', 1, 2);
+INSERT INTO `paragraph` (`id`, `content`, `date_created`, `date_update`, `fk_note`, `rank`) VALUES
+(28, '# title', '2020-11-16 08:52:03', '2020-11-16 08:52:03', 35, 1);
 
 -- --------------------------------------------------------
 
@@ -150,10 +141,7 @@ CREATE TABLE `theme` (
 --
 
 INSERT INTO `theme` (`id`, `label`, `date_created`, `date_update`, `rank`, `toolTipMsg`) VALUES
-(1, 'LARAVEL SYNTAX', '2020-09-26 18:00:00', '2020-09-26 18:00:00', 1, 'nomenclature syntaxique pour le framework LARAVEL'),
-(2, 'JAVASCRIPT', '2020-09-26 18:00:00', '2020-09-26 18:00:00', 2, ''),
-(3, 'DOLIBARR', '2020-09-27 00:00:00', '2020-09-27 00:00:00', 3, ''),
-(4, 'TERMINAL', '2020-09-27 00:00:00', '2020-09-27 00:00:00', 4, '');
+(12, 'Atm Process', '2020-11-16 08:51:02', '2020-11-16 08:51:02', 1, '');
 
 -- --------------------------------------------------------
 
@@ -173,10 +161,7 @@ CREATE TABLE `theme_display_user` (
 --
 
 INSERT INTO `theme_display_user` (`id`, `fk_theme`, `fk_user`, `rank_display`) VALUES
-(3, 2, 1, 6),
-(4, 1, 1, 1),
-(5, 3, 1, 7),
-(6, 4, 1, 3);
+(21, 12, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -201,8 +186,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstName`, `lastName`, `email`, `password`, `token`, `created_at`, `updated_at`, `token_expire`) VALUES
-(1, 'jean-pascal', 'boudet', 'j@j.com', '$2y$12$HCLoK1GK12AqTPD8hMMw6.dIoAFXPBClCf44UEgQEolJfkFVwaDxy', '8aafa6a5-4ed0-478a-8cb5-dbbfff691001', '2020-02-28', '2020-04-26', NULL),
-(2, 'kevin', 'giuga', 'k@g.com', '$2y$12$HCLoK1GK12AqTPD8hMMw6.dIoAFXPBClCf44UEgQEolJfkFVwaDxy', '$2y$12$HCLoK1GK12AqTPD8hMMw6.dIoAFXPBClCf44UEgQEolJfkFVwaDxy', '2020-10-01', '2020-10-01', NULL);
+(1, 'jean-pascal', 'boudet', 'j@j.com', '$2y$10$3gnQ/4XMOMLu/hwkasTWleuaZ0718G1RkA11.caTBJOoYT1hKZ0d2', '', '2020-02-28', '2020-04-26', NULL);
 
 --
 -- Index pour les tables exportées
@@ -264,17 +248,17 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `blocknote`
 --
 ALTER TABLE `blocknote`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT pour la table `blocknote_display_user`
 --
 ALTER TABLE `blocknote_display_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT pour la table `note`
 --
 ALTER TABLE `note`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT pour la table `note_display_user`
 --
@@ -284,17 +268,17 @@ ALTER TABLE `note_display_user`
 -- AUTO_INCREMENT pour la table `paragraph`
 --
 ALTER TABLE `paragraph`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT pour la table `theme`
 --
 ALTER TABLE `theme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `theme_display_user`
 --
 ALTER TABLE `theme_display_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT pour la table `user`
 --

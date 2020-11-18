@@ -6,7 +6,7 @@ if (!isset( $_SESSION['auth'])){
 }
 
 
-include_once     "../include/ParseClassdown.php";
+include_once     "../include/parseClassDown.php";
 include_once     "../classes/class.Constants.php";
 include_once     "../classes/db/class.Database.php";
 include_once     "../classes/metier/paragraph.class.php";
@@ -96,7 +96,9 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
         <ul>
             <p></p>
             <?php foreach ($themes as $t) { ?>
-                <li><i class="fa fa-folder mr-3"></i><?= $t->label; ?>
+                <li>
+                <i class="fa fa-list-alt mr3" aria-hidden="true"></i>      
+                <?= $t->label; ?>
                     <ul >
                         <?php
                         $blocks =  $block->getRows($user,$t->rowid);
