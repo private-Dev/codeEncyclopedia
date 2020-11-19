@@ -150,7 +150,12 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
-                        
+                        <li class="nav-item">
+                        <form class="form-inline debug" >
+                            <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search" >
+                            <button class="btn   my-2 my-sm-0" type="submit">Recherche</button>
+                        </form>           
+                        </li>
                         <li class="nav-item">
                             <i class="fab fa-android" aria-hidden="true"></i>
                             <a class="nav-link" href="addNote.php?action=<?=Constant::$CREATENOTE?>">Note <i class="fa fa-plus-circle" aria-hidden="true"></i></a>

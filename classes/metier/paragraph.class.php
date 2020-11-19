@@ -145,4 +145,16 @@ public $rank;
                 die("update paragraph error.");
             }
     }
+    /**
+     * Search engine On Full text  mysql behavior.
+     */
+    public function Search($entry){
+
+        $queryText ="";
+
+        $sql = "SELECT * FROM paragraph WHERE MATCH(content) AGAINST('"."test"."' WITH QUERY EXPANSION)";
+        
+        //SELECT id , MATCH(content) AGAINST('Module' IN NATURAL LANGUAGE MODE) AS score FROM paragraph order by score DESC limit 2;
+        /*SELECT count(id) FROM paragraph WHERE MATCH(content) AGAINST('Copy,sql,Le' WITH QUERY EXPANSION);*/
+    }
 }

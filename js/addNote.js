@@ -1,3 +1,8 @@
+/**
+ * insertion  d'un text à l'emplacement du curseur dans l'element 
+ * selectionné.
+ * @param {string} text 
+ */
 $.fn.insertAtCaret = function(text) {
     return this.each(function() {
         if (document.selection && this.tagName == 'TEXTAREA') {
@@ -27,10 +32,6 @@ $.fn.insertAtCaret = function(text) {
 
 $(document).ready(function () {
     
-
-   
-
-
     $('.display-upload-progress').attr('style', 'display: none !important');
     
     $('.alert-success').fadeOut(5300, "linear");
@@ -39,7 +40,20 @@ $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip()
    })   
    
-   
+
+   $("#searchInput").on("input", function(){
+
+       if ($(this).val().length > 3 ){
+            // Print entered value in a div box
+            a1 = $(this).val().split(" ");
+
+            console.log(a1);
+
+            
+       }
+    
+});
+
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
         $(this).toggleClass('active');
@@ -94,11 +108,12 @@ $(document).ready(function () {
     });
 
     $(document).on("click",".A-create-Theme",function(e){
+
         self = $(this);
         if ($("#label").val() === ''){
-            $('#labelAlert').css('display','block')
+            $('#labelAlert').css('display','block');
         }else{
-
+            $('.A-create-Theme').css('display','none');
             data = {
                 label   : $("#label").val(),
                 tooltip : $("#tooltip").val(),
@@ -165,7 +180,7 @@ $(document).ready(function () {
         if ( $("#label").val() === '' &&  ($("#selectTheme").val() > -1) ){
             $('#labelAlert').css('display','block')
         }else{
-
+            $(".A-create-Blocknote").css("display","none");
             data = {
                 label   : $("#label").val(),
                 tooltip : $("#tooltip").val(),
@@ -187,13 +202,14 @@ $(document).ready(function () {
 
     //-- CREATE NOTE -------------------------------------------------
     $(document).on("click","#NoteCreateBtn",function(e){
+      
 
 
         if ( ( $("#selectTheme").val() > -1 && $("#selectTheme").val() != '' )
             && ( $("#selectBlock").val() > -1 && $("#selectBlock").val() != '' )
             && $('#noteLabel').val() != ''
             && $('#paragraphNote').val()){
-
+                $("#NoteCreateBtn").css("display","none");
             data = {
                 fktheme   : $("#selectTheme").val(),
                 fkblocknote : $("#selectBlock").val(),
@@ -394,24 +410,16 @@ $(document).ready(function () {
                       result = JSON.parse(response);
                       if (result.success){
                         $('#paragraphNote').insertAtCaret("@[ "+result.file);
-                       // $('#paragraphNote').val ($('#paragraphNote').val() +  "@[ "+result.file);   
                         $('.display-upload-progress').attr('style', 'display: none !important;justify-content :center;align-items:center');
                       }else{
                          // error showed to user !    
                          $('.display-upload-progress').attr('style', 'display: none !important;justify-content :center;align-items:center');
                          $('#paragraphNote').val ($('#paragraphNote').val() +  "@Error : "+ result.errors +"@");
                       }      
-                       
-                        
                     }
-                });    
-
-                //upload(e.originalEvent.dataTransfer.files);   
+                });       
         }
-        }
-    );
-   
-
+    });
 });
 
 
