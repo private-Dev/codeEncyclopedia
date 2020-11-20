@@ -45,12 +45,30 @@ $(document).ready(function () {
 
        if ($(this).val().length > 3 ){
             // Print entered value in a div box
-            a1 = $(this).val().split(" ");
+           // Tsearch = $(this).val().split(" ");
 
-            console.log(a1);
+           console.log($(this).val());
 
-            
+            data = {
+                search : $(this).val(),
+                action  :'SearchText'
+            };
+            $.ajax({
+                url:'../scripts/interface.php',
+                type:'POST',
+                data : data,
+                datatype :'json',
+                success :function(data){
+                    let d = JSON.parse(data)
+                    console.log(d);
+                    $('.cover').html(d);
+                }
+            });
+
+       }else{
+
        }
+
     
 });
 

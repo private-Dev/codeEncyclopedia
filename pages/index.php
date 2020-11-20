@@ -18,26 +18,8 @@
     if ($msgStatus){
         print_r('<div class="alert alert-success" role="alert">'.$msg.'</div>');
     }
-    
 
  ?> 
-
-   
-
-            <?php if (isset($action) && $action != '' && $action = "viewNote") {
-
-                $markdown = new ParseClassedown();
-                $Paragraphs = $paragraph->getRows($user,$noteId);
-            ?>
-                <div class="container">
-                <?php
-                foreach ($Paragraphs as $par){
-
-                    print_r($markdown->text($par->content));
-                }
-                ?>
-                </div>
-            <?php  }else { ?>
 
             <section class="cover show">
                 <div class="mask"></div>
@@ -48,7 +30,7 @@
                 </div>
             </section>
 
-            <?php  } ?>
+           
 
 
         </div>

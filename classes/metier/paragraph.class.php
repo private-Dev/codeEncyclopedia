@@ -148,12 +148,24 @@ public $rank;
     /**
      * Search engine On Full text  mysql behavior.
      */
-    public function Search($entry){
+    public function Search($entries){
 
-        $queryText ="";
-
-        $sql = "SELECT * FROM paragraph WHERE MATCH(content) AGAINST('"."test"."' WITH QUERY EXPANSION)";
+      $sql='  SELECT t.id as idtheme,b.id as idblocknote,n.id as idnote, p.fk_note , n.label, n.date_created, n.toolTipMsg FROM paragraph p';
+      $sql.='  INNER JOIN note n ON p.fk_note = n.id';
+      $sql.='  INNER JOIN blocknote b ON n.fk_blocknote = b.id';
+      $sql.='  INNER JOIN theme t ON b.fk_theme = t.id';
+      $sql .=" WHERE MATCH(content) AGAINST (  ? IN BOOLEAN MODE )";
         
+        try {  
+            $stmt = $this->_db->prepare($sql);
+            $stmt->execute([$entries]);
+            $rows = $stmt->fetchAll();
+        }catch(Exception $e){
+            die("update paragraph error.");
+        }       
+        
+        return $rows;
+
         //SELECT id , MATCH(content) AGAINST('Module' IN NATURAL LANGUAGE MODE) AS score FROM paragraph order by score DESC limit 2;
         /*SELECT count(id) FROM paragraph WHERE MATCH(content) AGAINST('Copy,sql,Le' WITH QUERY EXPANSION);*/
     }

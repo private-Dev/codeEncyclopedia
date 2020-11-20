@@ -57,7 +57,7 @@ $db = new Database();
 //dragged  --- 
 if (isset($action) && !empty($action) &&  $action == 'themeDragged'){
     
-    $db = new Database();
+  
     $theme = new Theme($db->getInstance());
     
     $th_ranked_one = $theme->getRank($userId,$firstTheme);
@@ -69,7 +69,7 @@ if (isset($action) && !empty($action) &&  $action == 'themeDragged'){
 }
 if (isset($action) && !empty($action) &&  $action == 'blockNoteDragged'){
     
-    $db = new Database();
+    
     $blocknote = new Blocknote($db->getInstance());
    
     $b_ranked_one = $blocknote->getRank($userId,$firstBlock);
@@ -90,7 +90,7 @@ if (isset($action) && !empty($action) &&  $action == 'addTheme'){
     $nb =0;
     $rank =0;
 
-    $db = new Database();
+   
     $theme = new Theme($db->getInstance());
 
     // return nb theme + 1 for rank 
@@ -147,7 +147,7 @@ if (isset($action) && !empty($action) &&  $action == 'addblocknote'){
     $nb =0;
     $rank =0;
 
-    $db = new Database();
+   
     $blocknote = new Blocknote($db->getInstance());
 
     // return nb blocknote + 1 for rank 
@@ -250,4 +250,35 @@ if (isset($action) && !empty($action) &&  $action == 'updateNote'){
     $p->update($content);
 
 
+}
+
+
+if (isset($action) && !empty($action) &&  $action == 'SearchText'){
+   
+    $search = isset($_POST['search']) ? $_POST['search'] :'';  
+    //var_dump($search);
+    $paragraph = new Paragraph($db->getInstance());
+    $result = $paragraph->Search($search);
+
+    $output ='<container><table style="width=100%;">';
+
+    for ($i = 0; $i < count($result);$i++){
+
+        $output.='<tr><td style="diplay:flex; justify:start">';  
+        $output.='<a class="section-link" href="addNote.php?action='.Constant::$VIEWNOTE;
+        $output.='&noteId='.$result[$i]->idnote;
+        $output.='&blocknoteId='.$result[$i]->idblocknote;
+        $output.='&themeId='.$result[$i]->idtheme;
+        $output.='">';
+        $output.='<i class="fa fa-tag" aria-hidden="true"></i>';
+        $output.=$result[$i]->label;
+        $output.='</a>';
+        $output.='</td>';
+        $output.='<td>'.$result[$i]->date_created.'</td>';
+        $output.='</tr>';
+
+    }
+    $output .="</table></container>";
+
+    echo json_encode($output);
 }

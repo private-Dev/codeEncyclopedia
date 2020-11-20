@@ -153,7 +153,6 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
                         <li class="nav-item">
                         <form class="form-inline debug" >
                             <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search" >
-                            <button class="btn   my-2 my-sm-0" type="submit">Recherche</button>
                         </form>           
                         </li>
                         <li class="nav-item">
