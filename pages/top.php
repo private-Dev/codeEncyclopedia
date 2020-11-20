@@ -85,7 +85,7 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
 -->
 <div class="wrapper">
     <!-- Sidebar Holder -->
-    <nav id="sidebar" class="active tree">
+    <nav id="sidebar" class="tree">
         <div class="sidebar-header">
             <span class="d-inline-flex p-3 markk">
                 <img src="../assets/logo-cre-blue.svg" class="adminImgLogo mt-1" width="50" height="50" alt="Global notes Logo">

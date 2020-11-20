@@ -19,6 +19,7 @@ include_once 'top.php';
                 echo 'note inexistante.';
             }else{
             ?>
+            <section class="cover"></section>
             <div class="container">
             <div class="row">
                 <div class="col-sm">
@@ -59,8 +60,9 @@ include_once 'top.php';
             }
             if ($result){ 
             ?>
+            <section class="cover"></section>
             <div class="container">    
-                <section class="cover show "style="width:100%;">
+                <section class=""style="width:100%;">
                     <div class="row mt-0">
 
                         <div class="d-inline-flex flex-row col-12 text-center mb-3 mt-5 border-2 rounded ">

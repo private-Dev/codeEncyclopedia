@@ -42,7 +42,8 @@ $(document).ready(function () {
    
 
    $("#searchInput").on("input", function(){
-
+    $('.cover').css('border-style',"none") ;
+        $('.cover').html('') ;
        if ($(this).val().length > 3 ){
             // Print entered value in a div box
            // Tsearch = $(this).val().split(" ");
@@ -61,6 +62,10 @@ $(document).ready(function () {
                 success :function(data){
                     let d = JSON.parse(data)
                     console.log(d);
+                    $('.cover').css('border-style',"dashed") ;
+                    $('.cover').css('border-radius',"5px") ;
+                    $('.cover').css('margin',"15px") ;
+                    $('.cover').css('padding',"15px") ;
                     $('.cover').html(d);
                 }
             });
