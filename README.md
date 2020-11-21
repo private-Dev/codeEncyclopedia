@@ -48,7 +48,7 @@ change dns refs
  - [ ] front: add btn delete mode for a Theme  
  - [ ] front: add btn edit mode for a Theme  
  
- - [ ] front: Textarea : insert text from ajax call at cursor position  
+ - [x] front: Textarea : insert text from ajax call at cursor position  
  ### SECURITY
 - [ ] App Security check (ajax)
 - [x] App Security URI)
@@ -59,7 +59,8 @@ change dns refs
  #### FEATURE EASY USE (user friendly)
  - [x] drag and drop image on textarea (auto download img then git a formated link usable on page
  - [ ] search bar on left menu (search)
- - [ ] search bar on top menu (search entire db)
+ - [x] search bar on top menu (search entire db)
+ - [x] show/hide dynamic list of search entries (everywhere )
  
 <hr>
 
