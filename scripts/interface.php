@@ -259,23 +259,29 @@ if (isset($action) && !empty($action) &&  $action == 'SearchText'){
     //var_dump($search);
     $paragraph = new Paragraph($db->getInstance());
     $result = $paragraph->Search($search);
-
+    // 
+    
+   
     if ($result){
         $output ='<container><table style="width=100%;">';
+        $output .= "<thead><tr><th>Note</th><th>Dernière modifcation</th><th>context</th><th>Pertinence %</th></tr></thead><tbody>";
+
 
         for ($i = 0; $i < count($result);$i++){
     
             $output.='<tr><td style="diplay:flex; justify:start">';  
-            $output.='<a class="section-link" href="addNote.php?action='.Constant::$VIEWNOTE;
+            $output.='<a class="section-link ml-2" href="addNote.php?action='.Constant::$VIEWNOTE;
             $output.='&noteId='.$result[$i]->idnote;
             $output.='&blocknoteId='.$result[$i]->idblocknote;
             $output.='&themeId='.$result[$i]->idtheme;
             $output.='">';
-            $output.='<i class="fa fa-tag" aria-hidden="true"></i>';
+            $output.='<i class="fa fa-tag mr-2" aria-hidden="true"></i>';
             $output.=$result[$i]->label;
             $output.='</a>';
             $output.='</td>';
             $output.='<td>'.$result[$i]->date_created.'</td>';
+            $output.='<td>'.$result[$i]->pertinence.'</td>';
+            $output.='<td>'.number_format((float)$result[$i]->score, 2, '.', '').'</td>'; 
             $output.='</tr>';
     
         }

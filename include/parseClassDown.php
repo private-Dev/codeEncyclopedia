@@ -292,6 +292,24 @@ class ParseClassedown
         $Tresult = explode(" ",$line);
         return $Tresult[0];
    }
+
+    /**
+    *
+    * @param string $line  
+    */
+    function extractTextWithOutSelector(string $line){
+        // on cherche le premier espace dans la ligne
+        $Tresult = explode(" ",$line);
+        $temp ='';
+        foreach($Tresult as $k => $r){
+            if ($k > 0 ){
+                $temp.= $r. ' ';    
+            }
+            
+        }
+        return $temp;
+   }
+
    /**
     * 
     * @param string $selector 
@@ -375,6 +393,39 @@ class ParseClassedown
         return strpos($string,$this::START_CLASS) && strpos($string,$this::END_CLASS);
    } 
    /**
+    * after a spliting line in array 
+    * class tag appear on one line like this {{class}}
+    * we just return the presence on class model Tag , html tag img link
+    */
+   function removeClassTag($string){
+    /**
+     * 
+     * /{{.*}}  will remove {{Myclass OtherClass}}
+     * <[^>]*>  will remove all html tag open and close
+     * ..\/assets.* / will remove img link  
+     * 
+     *  */  
+    
+   return  preg_replace('/{{.*}}|<[^>]*>|..\/assets.*|[&&]|[&]|[#]|[!]|[!!]|[!!\/]|[>\/]|[:\/]|[&\/]|[&&\/]|[]@\/]/', ' ', $string);  
+} 
+
+
+public function cleanText($content){
+
+    $Tcontent = array();
+    foreach(preg_split("/((\r?\n)|(\r\n?))/", $content) as $line){
+        $Tcontent[] = $line;
+    } 
+    $Tresult = array();
+    for($i = 0 ; $i < count($Tcontent);$i++){ 
+            $t = $this->removeClassTag($Tcontent[$i]);
+            if ($t != ''){
+                $Tresult[]  = $t;
+            }
+    }
+    return $Tresult;
+}
+   /**
     * Extract class name from string 
     */
    function extractClassName($string,$index){
@@ -401,6 +452,19 @@ class ParseClassedown
         $TblockText[$index]=  isset($block['htmlTagEnd']) ? $TblockText[$index] . $block['htmlTagEnd'] : $TblockText[$index] . '' ;
     }
     return $TblockText;
+}
+
+/**
+ * 
+ * 
+ */
+function removeTagOnLine($content){
+    $TblockText = [];
+
+    foreach ($this->blocks as $index => $block){
+        $TblockText[$index]= isset($block['text']) ? $TblockText[$index] . $block['text'] : $TblockText[$index] . '';
+    }
+    return $TblockText = [];
 }
 
    /**
@@ -494,4 +558,6 @@ class ParseClassedown
     public function addSrcImgToSelector($index,$src){
             return  ' src="'.$src .'"'; 
     }
+
+
 }

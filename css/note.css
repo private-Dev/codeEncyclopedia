@@ -3,6 +3,73 @@ body {
     background-color: #f1f1f157;
     color:#1d1b1b;
 }
+p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1.7em;
+  color: rgb(54, 54, 54);
+}
+.topRoundedLine{
+  margin :15px;
+  padding-top: 25px;
+  border-top: 2px solid #969393;
+  border-bottom: 2px solid #969393;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+th{
+  padding: 15px;
+  color:#fff;
+}
+
+td {
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: rgb(61, 57, 57);
+}
+th {
+  text-align: left;
+}
+thead th {
+  background-color:rgb(177, 11, 11);
+}
+tbody tr:hover {
+  background-color: rgb(209, 176, 176);
+  color :#fff!important;
+}
+tbody td {
+  position: relative;
+}
+
+tbody td  a:hover{
+  font-weight: bold;
+}
+
+tbody td:hover:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9999px;
+  bottom: -9999px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
+}
+
+
+
+.cover{
+  padding:15px;
+}
 
 #display-upload-progress{
     display :none;

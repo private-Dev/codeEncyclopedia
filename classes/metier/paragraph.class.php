@@ -114,12 +114,16 @@ public $rank;
      */
     public function create($fk_note,$content,$rank){
         $date = date('Y-m-d H:i:s');
+        include_once     "../include/parseClassDown.php";
+            $p = new ParseClassedown();
+            $result = implode('', $p->cleanText($content));  
         // prepare and bind
-        $stmt = $this->_db->prepare("INSERT INTO paragraph (fk_note,rank,content,date_created,date_update) VALUES (:fk_note,:rank,:content,:date_c,:date_u)");
+        $stmt = $this->_db->prepare("INSERT INTO paragraph (fk_note,rank,content,content_tagless,date_created,date_update) VALUES (:fk_note,:rank,:content,:tagless,:date_c,:date_u)");
 
         $stmt->bindParam(':fk_note',$fk_note);
         $stmt->bindParam(':rank', $rank);
         $stmt->bindParam(':content', $content);
+        $stmt->bindParam(':tagless', $result);
         $stmt->bindParam(':date_c', $date);
         $stmt->bindParam(':date_u', $date);
         
@@ -131,13 +135,19 @@ public $rank;
      * 
      */
     public function update($content){
-           
-            $date = date('Y-m-d H:i:s');
 
-            $sql="UPDATE paragraph SET `content` = :content ,`date_update` =:dateU WHERE `id` = :id";
+            
+            include_once     "../include/parseClassDown.php";
+            $p = new ParseClassedown();
+            $result = implode('', $p->cleanText($content));  
+
+            $date = date('Y-m-d H:i:s');
+        
+            $sql="UPDATE paragraph SET `content` = :content ,`date_update` = :dateU ,`content_tagless`=:tagless WHERE `id` = :id";
             try {  
                 $statement = $this->_db->prepare($sql);
                 $statement->bindValue(":content", $content);
+                $statement->bindValue(":tagless", $result);
                 $statement->bindValue(":dateU", $date);
                 $statement->bindValue(":id", $this->id);
                 $count = $statement->execute();
@@ -150,23 +160,49 @@ public $rank;
      */
     public function Search($entries){
 
-      $sql='  SELECT t.id as idtheme,b.id as idblocknote,n.id as idnote, p.fk_note , n.label, n.date_created, n.toolTipMsg FROM paragraph p';
+      $sql='  SELECT t.id as idtheme,b.id as idblocknote,n.id as idnote, p.fk_note , n.label, n.date_created, n.toolTipMsg, p.content_tagless as t, ';
+      $sql.= ' MATCH(content_tagless) AGAINST (? IN NATURAL LANGUAGE MODE) AS score';
+      $sql.=' FROM paragraph p';
       $sql.='  INNER JOIN note n ON p.fk_note = n.id';
       $sql.='  INNER JOIN blocknote b ON n.fk_blocknote = b.id';
       $sql.='  INNER JOIN theme t ON b.fk_theme = t.id';
-      $sql .=" WHERE MATCH(content) AGAINST (  ? IN BOOLEAN MODE )";
-        
+      $sql .=" WHERE MATCH(content_tagless) AGAINST (  ?  IN BOOLEAN MODE )";
+      $sql.=' order by score DESC';
+
         try {  
             $stmt = $this->_db->prepare($sql);
-            $stmt->execute([$entries]);
+            $stmt->execute([$entries,$entries]);
             $rows = $stmt->fetchAll();
         }catch(Exception $e){
             die("update paragraph error.");
-        }       
+        }    
         
-        return $rows;
+        
+        return $this->splitInSeakerView($rows ,$entries);;
 
         //SELECT id , MATCH(content) AGAINST('Module' IN NATURAL LANGUAGE MODE) AS score FROM paragraph order by score DESC limit 2;
         /*SELECT count(id) FROM paragraph WHERE MATCH(content) AGAINST('Copy,sql,Le' WITH QUERY EXPANSION);*/
+    }
+
+    public function splitInSeakerView($rows,$entries){
+          $Tworld = explode(' ',preg_replace('/[*]/', '', $entries));  
+         
+        for ($i = 0; $i < count($rows);$i++){
+            $Tresult = explode('  ', $rows[$i]->t);
+         //   var_dump($Tresult);
+            $Tpertinence = array();
+            foreach($Tresult as $k => $t){
+                 foreach ($Tworld as $word){
+                    if (preg_match('/(?<=[\s,.:;"\']|^)' . $word . '(?=[\s,.:;"\']|$)/', $t)){
+                        $Tpertinence[] = $t;
+                    }
+                 }     
+            }   
+           // var_dump($Tpertinence). 
+            $rows[$i]->pertinence = implode(" ",$Tpertinence);
+        
+        }
+
+        return $rows;   
     }
 }

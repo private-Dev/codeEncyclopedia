@@ -7,6 +7,8 @@ include_once 'top.php';
         <?php if (isset($action) && $action != '' && $action == Constant::$VIEWNOTE) {
            // var_dump($_SESSION);
               $markdown = new ParseClassedown();
+              $note = new Note($db->getInstance());
+              $note->fetch($noteId);
               if ($secure){
                 $Paragraphs = $paragraph->getRows($user,$noteId);
               }else{
@@ -32,10 +34,11 @@ include_once 'top.php';
                         <i class="fa fa-times" aria-hidden="true"></i>
                         </button>
                     </div>
+                    <div class="float-left ml-3" style="font-style:italic;"><h5><?=$note->label?></h5> </div>
                 </div>    
             </div>
             <div class="row">
-                <div class="col-sm">
+                <div class="col-sm topRoundedLine">
                 <?php
                 foreach ($Paragraphs as $par){
                     print_r($markdown->text($par->content));
@@ -71,7 +74,7 @@ include_once 'top.php';
                             </div>
                             <div class="ml-2 mt-3 vapor-2">
                                 <?php if ($action == Constant::$EDITNOTE){ ?>
-                                <h3><?=$mode . ' ' .  $noteEdit->label ?></h3>
+                                <h4 style="font-style:italic;"><?=$mode . ' ' .  $noteEdit->label ?></h4>
                                 <hr>
                                 <?php } else  {  ?>        
                                     <h3><?=$mode ?></h3>  
