@@ -10,6 +10,9 @@ p {
   line-height: 1.7em;
   color: rgb(54, 54, 54);
 }
+.smallArrow{
+  font-size: 8px;
+}
 .topRoundedLine{
   margin :15px;
   padding-top: 25px;
