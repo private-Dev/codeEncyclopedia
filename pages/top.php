@@ -13,6 +13,7 @@ include_once     "../classes/metier/paragraph.class.php";
 include_once     "../classes/metier/blocknote.class.php";
 include_once     "../classes/metier/theme.class.php";
 include_once     "../classes/metier/note.class.php";
+include_once     "../classes/Util/Util.php";
 
 $db = new Database();
 $p = new ParseClassedown();

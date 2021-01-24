@@ -1,9 +1,29 @@
 <?php 
     include_once 'top.php';
+    include_once     "../classes/class.Constants.php";
+    include_once     "../classes/db/class.Database.php";
+    include_once     "../classes/metier/paragraph.class.php";
 ?>
+
 <?php
-    
-    $msgStatus = isset($_GET['msgStatus']) ? $_GET['msgStatus'] : '';
+
+    /** *************************************************************************
+     *
+     * PROCESS MODE
+     *
+     ************************************************************************* */
+
+    $msgStatus              = Util::GETPOST('msgStatus');
+    $order                  = Util::GETPOST('order');
+    $field                  = Util::GETPOST('field');
+    $searchlabelNote        = Util::GETPOST('searchlabelNote');
+    $searchlabelTheme       = Util::GETPOST('searchlabelTheme');
+    $searchLabelBlocknote   = Util::GETPOST('searchLabelBlocknote');
+    $searchCreated          = Util::GETPOST('searchCreated','date');
+    $searchUpdated          = Util::GETPOST('searchUpdated','date');
+    $searchContent          = Util::GETPOST('searchContent');
+    $limit                  = Util::GETPOST('limit');
+
 
     $msg="";
     if ($msgStatus == 'deletedNote'){
@@ -20,27 +40,10 @@
     }
 
 
-    $order = isset($_GET['order']) ? $_GET['order'] : 'ASC ';
-    $field = isset($_GET['field']) ? $_GET['field'] : null;
-   
-    //var_dump($_POST);
-    //var_dump($_GET);
-
-    $labelNote      =   isset($_POST['labelNote']) ? $_POST['labelNote'] : null;
-    $labelTheme     =   isset($_POST['labelTheme']) ? $_POST['labelTheme'] : null;
-    $labelBlocknote =   isset($_POST['labelBlocknote']) ? $_POST['labelBlocknote'] : null;
-    $created        =   isset($_POST['created']) ? $_POST['created'] : null;
-    $updated        =   isset($_POST['updated']) ? $_POST['updated'] : null;
-
-
-
-    include_once     "../classes/class.Constants.php";
-    include_once     "../classes/db/class.Database.php";
-    include_once     "../classes/metier/paragraph.class.php";
-
+    //SQL CONSTRUCT SEARCH --------------------------------------------------------
+    //-----------------------------------------------------------------------------
     $db = new Database();
-    
-
+    //-----FIELDS------------------------------------------------
     $sqlSelect =" SELECT ";
     $sqlSelect .=" t.id AS idtheme, ";
     $sqlSelect .=" t.label AS labelTheme,";
@@ -52,45 +55,83 @@
     $sqlSelect .=" p.date_update,";
     $sqlSelect .=" n.toolTipMsg,";
     $sqlSelect .=" p.content_tagless AS text";
-            
+    //-----FROM------------------------------------------------
     $sqlFrom =" FROM paragraph p ";
     $sqlFrom .=" INNER JOIN note n ON p.fk_note = n.id";
     $sqlFrom .=" INNER JOIN blocknote b ON n.fk_blocknote = b.id";
     $sqlFrom .=" INNER JOIN theme t ON b.fk_theme = t.id";
-
+    //-----WHERE------------------------------------------------
     $sqlWhere =" WHERE 1 = 1 ";
 
-    if (!empty($labelNote)){
-        $sqlWhere .=" AND n.label  LIKE '%".$labelNote."%' ";
+    if (!empty($searchlabelNote)){
+        $sqlWhere .=" AND n.label  LIKE '%".$searchlabelNote."%' ";
     }
-
-   
-
-
-    if (!empty($labelTheme)){
-        $sqlWhere .=" AND t.label  LIKE '%".$labelTheme."%' ";
+    if (!empty($searchlabelTheme)){
+        $sqlWhere .=" AND t.label  LIKE '%".$searchlabelTheme."%' ";
     }
-   
-    if (!empty($labelBlocknote)){
-        $sqlWhere .=" AND b.label  LIKE '%".$labelBlocknote."%' ";
+    if (!empty($searchLabelBlocknote)){
+        $sqlWhere .=" AND b.label  LIKE '%".$searchLabelBlocknote."%' ";
     }
-
-$sqlOrder = ' ';
+    if (!empty($searchContent)){
+        $sqlWhere .=" AND p.content_tagless  LIKE '%".$searchContent."%' ";
+    }
+    //@todo ajouter date debut date fin
+    if (!empty($searchCreated)){
+        $sqlWhere .=" AND p.date_created  >= '".$searchCreated."'";
+    }
+    //@todo ajouter date debut date fin
+    if (!empty($searchUpdated)){
+        $sqlWhere .=" AND p.date_update  >= '".$searchUpdated."'";
+    }
+    //-----ORDER BY ------------------------------------------------
+    $sqlOrder = ' ';
     if (!is_null($field)){
         $sqlOrder =" ORDER BY ". $field . ' '. $order ;
-
     }
-    
-
-    $sqlLimit = " ";
+    //-----LIMIT------------------------------------------------
+    $sqlLimit = (!empty($limit)) ? " LIMIT ".$limit : "";
 
     $sql = $sqlSelect . $sqlFrom . $sqlWhere . $sqlOrder . $sqlLimit ;
-    //var_dump($sql);
+    //-----------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------
+
+   // print_r($sql);
     $stmt = $db->getInstance()->prepare($sql);
     $stmt->execute();
     $rows = $stmt->fetchAll();
+
+
+    // search get construction
+
+    $SearchMemory = '';
+    isset($searchlabelNote)         ? $SearchMemory  =  '&searchlabelNote='.$searchlabelNote : '';
+    isset($searchlabelTheme)        ? $SearchMemory .=  '&searchlabelTheme='.$searchlabelTheme : '';
+    isset($searchlabelBlocknote)    ? $SearchMemory .=  '&searchlabelBlocknote ='.$searchlabelBlocknote : '';
+    isset($searchCreated)           ? $SearchMemory .=  '&searchCreated ='.$searchCreated : '';
+    isset($searchUpdated)           ? $SearchMemory .=  '&searchUpdated ='.$searchUpdated : '';
+    isset($searchContent)           ? $SearchMemory .=  '&searchContent ='.$searchContent : '';
+
+
+/**
+ *
+ * VIEW MODE
+ *
+ */
+//@TODO ADD PAGINATION PROCESS
  ?> 
-           <form  action="" method="POST">   
+           <form  action="" method="POST" >
+           <section class="float-right mb-1">
+
+            <select name="limit" id="limit">
+                    <option value="5" selected>5</option>
+                    <option value="15">15</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                    <option value="5000">5000</option>
+                </select>  
+           </section>    
            <section class="Liste">
            <container>
                <table style="width:100%;">
@@ -98,14 +139,14 @@ $sqlOrder = ' ';
                     <tr>
                         <th>
                            <div class="d-flex flex-column" >  
-                            <input type="text" name="labelNote" value="<?= isset($labelNote) ? $labelNote : '' ?>">
+                            <input type="text" name="searchlabelNote" value="<?= isset($searchlabelNote) ? $searchlabelNote : '' ?>">
                             <div class="d-flex flex-row justify-content-between p-2">
                                     Note
                                     <div class="d-flex flex-column smallArrow p-2">
-                                        <a href="index.php?order=DESC&field=labelNote" >
+                                        <a href="index.php?order=DESC&field=labelNote<?=$SearchMemory;?>" >
                                             <i class="fa fa-arrow-up" aria-hidden="true"></i>
                                         </a>
-                                        <a href="index.php?field=labelNote" >
+                                        <a href="index.php?order=ASC&field=labelNote<?=$SearchMemory;?>" >
                                             <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -115,16 +156,16 @@ $sqlOrder = ' ';
                         </th>
                         <th>
                         <div class="d-flex flex-column" >  
-                                <input type="text" value="<?= isset($labelTheme) ? $labelTheme : '' ?>" name="labelTheme" >
+                                <input type="text" value="<?= isset($searchlabelTheme) ? $searchlabelTheme : '' ?>" name="searchlabelTheme" >
                                 <div class="d-flex flex-row justify-content-between p-2">
                                     Thème
                                     <div class="d-flex flex-column smallArrow p-2">
                                    
-                                            <a href="index.php?order=DESC&field=labelTheme">
+                                            <a href="index.php?order=DESC&field=labelTheme<?=$SearchMemory;?>">
                                        
                                             <i class="fa fa-arrow-up" aria-hidden="true"></i>
                                         </a>
-                                        <a href="index.php?field=labelTheme" >
+                                        <a href="index.php?order=ASC&field=labelTheme<?=$SearchMemory;?>" >
                                             <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -133,14 +174,14 @@ $sqlOrder = ' ';
                         </th>
                         <th>
                         <div class="d-flex flex-column" >  
-                            <input type="text" value="<?= isset($labelBlocknote) ? $labelBlocknote : '' ?>" name="labelBlocknote">
+                            <input type="text" value="<?= isset($labelBlocknote) ? $labelBlocknote : '' ?>" name="searchLabelBlocknote">
                             <div class="d-flex flex-row justify-content-between p-2">
                                     Blocknote
                                     <div class="d-flex flex-column smallArrow p-2">
-                                        <a href="index.php?order=DESC&field=labelBlocknote" >
+                                        <a href="index.php?order=DESC&field=labelBlocknote<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-up" aria-hidden="true"></i>
                                         </a>
-                                        <a href="index.php?field=labelBlocknote" >
+                                        <a href="index.php?order=ASC&field=labelBlocknote<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -149,14 +190,14 @@ $sqlOrder = ' ';
                         </th>
                         <th>
                         <div class="d-flex flex-column" >  
-                            <input type="date">
+                            <input type="date" name="searchCreated" value="<?=isset($searchCreated) ? $searchCreated : '' ?>">
                             <div class="d-flex flex-row justify-content-between p-2">
                                     created
                                     <div class="d-flex flex-column smallArrow p-2">
-                                        <a href="index.php?order=DESC&field=date_created" >
+                                        <a href="index.php?order=DESC&field=date_created<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-up" aria-hidden="true"></i>
                                         </a>
-                                        <a href="index.php?field=date_created" >
+                                        <a href="index.php?order=ASC&field=date_created<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -165,14 +206,14 @@ $sqlOrder = ' ';
                         </th>
                         <th>
                         <div class="d-flex flex-column" >  
-                            <input type="date">
+                            <input type="date" name="searchUpdated" value="<?=isset($searchUpdated) ? $searchUpdated : '' ?>">
                             <div class="d-flex flex-row justify-content-between p-2">
                                     updated 
                                     <div class="d-flex flex-column smallArrow p-2">
-                                        <a href="index.php?order=DESC&field=date_update" >
+                                        <a href="index.php?order=DESC&field=date_update<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-up" aria-hidden="true"></i>
                                         </a>
-                                        <a href="index.php?field=date_update" >
+                                        <a href="index.php?order=ASC&field=date_update<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -181,14 +222,14 @@ $sqlOrder = ' ';
                         </th>
                         <th>
                         <div class="d-flex flex-column" >  
-                            <input type="text">
+                            <input type="text" name="searchContent" value="<?= isset($searchContent) ? $searchContent : '' ?>">
                             <div class="d-flex flex-row justify-content-between p-2">
                                     Content
                                     <div class="d-flex flex-column smallArrow p-2">
-                                        <a href="index.php?order=DESC&field=text" >
+                                        <a href="index.php?order=DESC&field=text<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-up" aria-hidden="true"></i>
                                         </a>
-                                        <a href="index.php?field=text" >
+                                        <a href="index.php?order=DESC&field=text<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -198,12 +239,18 @@ $sqlOrder = ' ';
                         
                         <th>
                         <div class="d-flex flex-column" >  
-                        <div class="d-flex flex-row justify-content-between mb-5">
-                            <button type="submit" class="btn">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>     
-                        </div>
-                        
+                            <div class="d-flex flex-row justify-content-between mb-5">
+                                <button type="submit" class="btn">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex flex-column smallArrow p-2">
+
+                                <a href="index.php?reset=all">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+
+                            </div>
                         
                             
                         </div>
@@ -246,7 +293,7 @@ $sqlOrder = ' ';
            
 
 
-        </div>
+        </form>
 
 </div>
 
