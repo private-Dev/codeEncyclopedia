@@ -52,6 +52,7 @@ change dns refs
  - [x] front: Pagination List on index list
  
  - [x] front: Textarea : insert text from ajax call at cursor position  
+   
  ### SECURITY
 - [ ] App Security check (ajax)
 - [x] App Security URI)
@@ -63,7 +64,9 @@ change dns refs
  - [x] drag and drop image on textarea (auto download img then git a formated link usable on page
  - [ ] search bar on left menu (search)
  - [x] search bar on top menu (search entire db)
+ 
  - [x] show/hide dynamic list of search entries (everywhere )
+ - [ ] search bar :  add loading icon on query search
  
 <hr>
 
