@@ -12,6 +12,7 @@
      * PROCESS MODE
      *
      ************************************************************************* */
+    $page = 0;
 
     $msgStatus              = Util::GETPOST('msgStatus');
     $order                  = Util::GETPOST('order');
@@ -22,8 +23,15 @@
     $searchCreated          = Util::GETPOST('searchCreated','date');
     $searchUpdated          = Util::GETPOST('searchUpdated','date');
     $searchContent          = Util::GETPOST('searchContent');
-    $limit                  = Util::GETPOST('limit');
 
+    $limit                  = Util::GETPOST('limit','numeric');
+    $limit =  is_null($limit) ? 5 : $limit;
+    $page = Util::GETPOST('page','numeric');
+    //isset($_GET['page']) ? $_GET['page'] : 1 ;
+    $page =  is_null($page) ? 1 : $page;
+    $limX = ($page - 1) * $limit;
+    $limY = $limit - 1;
+    //$offset = 0;
 
     $msg="";
     if ($msgStatus == 'deletedNote'){
@@ -55,8 +63,10 @@
     $sqlSelect .=" p.date_update,";
     $sqlSelect .=" n.toolTipMsg,";
     $sqlSelect .=" p.content_tagless AS text";
+
+    $sqlCount   = " SELECT count(*) as nb ";
     //-----FROM------------------------------------------------
-    $sqlFrom =" FROM paragraph p ";
+    $sqlFrom  =" FROM paragraph p ";
     $sqlFrom .=" INNER JOIN note n ON p.fk_note = n.id";
     $sqlFrom .=" INNER JOIN blocknote b ON n.fk_blocknote = b.id";
     $sqlFrom .=" INNER JOIN theme t ON b.fk_theme = t.id";
@@ -89,7 +99,7 @@
         $sqlOrder =" ORDER BY ". $field . ' '. $order ;
     }
     //-----LIMIT------------------------------------------------
-    $sqlLimit = (!empty($limit)) ? " LIMIT ".$limit : "";
+    $sqlLimit = (!empty($limit)) ? " LIMIT ". $limX ." , " . $limY : "";
 
     $sql = $sqlSelect . $sqlFrom . $sqlWhere . $sqlOrder . $sqlLimit ;
     //-----------------------------------------------------------------------------
@@ -112,48 +122,53 @@
     isset($searchContent)           ? $SearchMemory .=  '&searchContent ='.$searchContent : '';
 
 
+
+    // pagination
+    $sqlCountNum = $sqlCount . $sqlFrom . $sqlWhere ;
+    $stmtCount = $db->getInstance()->prepare($sqlCountNum);
+    $stmtCount->execute();
+    $row = $stmtCount->fetch();
+    $nbtotalofrecords =  $row->nb;
+    $nbPages = ceil($nbtotalofrecords / $limit);
+    /*if (($page * $limit) > $nbtotalofrecords)	// if total resultset is smaller then paging size (filtering), goto and load page 0
+    {
+        $page = 1;
+
+    }*/
+
+
 /**
  *
  * VIEW MODE
  *
  */
-//@TODO ADD PAGINATION PROCESS
+
  ?> 
            <form  action="" method="POST" >
-           <section class="float-right mb-1">
+           <section class="float-right mb-1" id="LIMIT-OPTIONS">
 
             <select name="limit" id="limit">
-                    <option value="5" selected>5</option>
-                    <option value="15">15</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="500">500</option>
-                    <option value="5000">5000</option>
-                </select>  
-           </section>    
+                <?php for ($l = 0 ; $l < count ($db::LIMIT); $l++ ) { ?>
+                    <option value="<?=$db::LIMIT[$l]?>" <?php  if ($limit ==  $db::LIMIT[$l]) echo 'selected' ?>><?=$db::LIMIT[$l]?></option>
+                <?php } ?>
+            </select>
+           </section>
+           <section class="float-right mb-1" id="PAGE-LINK">
+               <nav aria-label="Page navigation example">
+                   <ul class="pagination pagination-sm">
+                       <?php for ($i=1;$i <= $nbPages;$i++ ){ ?>
+                           <li class="page-item  mr-2 ">
+                               <a class="page-link <?php if ($i == $page) echo 'pagin-red'; else echo 'bg-dark' ;  ?>  text-white" href="index.php?limit=<?=$limit?>&page=<?=$i?><?=$SearchMemory;?>"><?=$i?></a>
+                           </li>
+                       <?php } ?>
+                   </ul>
+               </nav>
+               </section>
            <section class="Liste">
            <container>
                <table style="width:100%;">
                 <thead>
                     <tr>
-                        <th>
-                           <div class="d-flex flex-column" >  
-                            <input type="text" name="searchlabelNote" value="<?= isset($searchlabelNote) ? $searchlabelNote : '' ?>">
-                            <div class="d-flex flex-row justify-content-between p-2">
-                                    Note
-                                    <div class="d-flex flex-column smallArrow p-2">
-                                        <a href="index.php?order=DESC&field=labelNote<?=$SearchMemory;?>" >
-                                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="index.php?order=ASC&field=labelNote<?=$SearchMemory;?>" >
-                                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                           </div>
-                        </th>
                         <th>
                         <div class="d-flex flex-column" >  
                                 <input type="text" value="<?= isset($searchlabelTheme) ? $searchlabelTheme : '' ?>" name="searchlabelTheme" >
@@ -189,6 +204,23 @@
                         </div>
                         </th>
                         <th>
+                            <div class="d-flex flex-column" >
+                                <input type="text" name="searchlabelNote" value="<?= isset($searchlabelNote) ? $searchlabelNote : '' ?>">
+                                <div class="d-flex flex-row justify-content-between p-2">
+                                    Note
+                                    <div class="d-flex flex-column smallArrow p-2">
+                                        <a href="index.php?order=DESC&field=labelNote<?=$SearchMemory;?>" >
+                                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="index.php?order=ASC&field=labelNote<?=$SearchMemory;?>" >
+                                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th>
                         <div class="d-flex flex-column" >  
                             <input type="date" name="searchCreated" value="<?=isset($searchCreated) ? $searchCreated : '' ?>">
                             <div class="d-flex flex-row justify-content-between p-2">
@@ -205,10 +237,10 @@
                         </div>
                         </th>
                         <th>
-                        <div class="d-flex flex-column" >  
+                        <div class="d-flex flex-column" >
                             <input type="date" name="searchUpdated" value="<?=isset($searchUpdated) ? $searchUpdated : '' ?>">
                             <div class="d-flex flex-row justify-content-between p-2">
-                                    updated 
+                                    updated
                                     <div class="d-flex flex-column smallArrow p-2">
                                         <a href="index.php?order=DESC&field=date_update<?=$SearchMemory?>" >
                                             <i class="fa fa-arrow-up" aria-hidden="true"></i>
@@ -221,7 +253,7 @@
                         </div>
                         </th>
                         <th>
-                        <div class="d-flex flex-column" >  
+                        <div class="d-flex flex-column" >
                             <input type="text" name="searchContent" value="<?= isset($searchContent) ? $searchContent : '' ?>">
                             <div class="d-flex flex-row justify-content-between p-2">
                                     Content
@@ -236,9 +268,8 @@
                             </div>
                         </div>
                         </th>
-                        
                         <th>
-                        <div class="d-flex flex-column" >  
+                        <div class="d-flex flex-column" >
                             <div class="d-flex flex-row justify-content-between mb-5">
                                 <button type="submit" class="btn">
                                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -251,26 +282,23 @@
                                 </a>
 
                             </div>
-                        
-                            
+
+
                         </div>
                         </th>
-
                     </tr>
                 </thead>
                 <tbody>
                    <?php foreach($rows as $r)  {   ?> 
                     <tr>
-                        
-                        <td style="display:flex; content:start"> 
-                                <a class="section-link ml-2" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$r->idnote?>&blocknoteId=<?=$r->idblocknote?>&themeId=<?=$r->idtheme?>">
-                            
-                                    <i class="fa fa-tag mr-2" aria-hidden="true"></i>
-                                    <?=$r->labelNote?>
-                                </a>
-                        </td>
                         <td><?=$r->labelTheme?></td>
                         <td><?=$r->labelBlocknote?></td>
+                        <td style="display:flex; content:start">
+                            <a class="section-link ml-2" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$r->idnote?>&blocknoteId=<?=$r->idblocknote?>&themeId=<?=$r->idtheme?>">
+                                <i class="fa fa-tag mr-2" aria-hidden="true"></i>
+                                <?=$r->labelNote?>
+                            </a>
+                        </td>
                         <td><?=$r->date_created?></td>
                         <td><?=$r->date_update?></td>
                         <td><?=substr($r->text,0,200) . "..." ?></td>
@@ -281,14 +309,14 @@
             </container>
             </section>
 
-            <section class="cover show">
+            <!--<section class="cover show">
                 <div class="mask"></div>
                 <div class="cover-main d-flex justify-content-center card-img-top">
                     <p class="" >
                         <img src="../assets/cre-black.svg" data-origin="_media/icon.svg" alt="logo">
                     </p>
                 </div>
-            </section>
+            </section>-->
 
            
 

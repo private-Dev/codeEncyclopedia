@@ -3,6 +3,9 @@ body {
     background-color: #f1f1f157;
     color:#1d1b1b;
 }
+.pagin-red{
+    background-color: rgb(177, 11, 11);
+}
 p {
   font-family: 'Poppins', sans-serif;
   font-size: 1.1em;

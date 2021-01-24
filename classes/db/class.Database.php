@@ -8,6 +8,7 @@
 class Database {
   private $_instance = null;
   private $_constante = null;
+  const LIMIT = array(5, 15, 50, 100, 500, 1000);
   public function __construct() {
     $this->_constante = new Constant();
     $this->createConnexion();

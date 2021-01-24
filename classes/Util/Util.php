@@ -19,7 +19,6 @@ class Util
                 $fieldSelected  = date("Y-m-d H:i:s", strtotime($_POST[$field]));
             }
 
-
         }else{
             if (isset($_GET[$field]) && is_null($fieldSelected)) {
 
