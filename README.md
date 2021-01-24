@@ -48,6 +48,9 @@ change dns refs
  - [ ] front: add btn delete mode for a Theme  
  - [ ] front: add btn edit mode for a Theme  
  
+ - [x] front: List on index list instead of logo
+ - [x] front: Pagination List on index list
+ 
  - [x] front: Textarea : insert text from ajax call at cursor position  
  ### SECURITY
 - [ ] App Security check (ajax)
