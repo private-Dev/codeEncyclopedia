@@ -293,15 +293,15 @@
                     <tr>
                         <td><?=$r->labelTheme?></td>
                         <td><?=$r->labelBlocknote?></td>
-                        <td style="display:flex; content:start">
-                            <a class="section-link ml-2" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$r->idnote?>&blocknoteId=<?=$r->idblocknote?>&themeId=<?=$r->idtheme?>">
+                        <td class="">
+                            <a class="section-link ml-2 d-flex align-items-stretch"" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$r->idnote?>&blocknoteId=<?=$r->idblocknote?>&themeId=<?=$r->idtheme?>">
                                 <i class="fa fa-tag mr-2" aria-hidden="true"></i>
                                 <?=$r->labelNote?>
                             </a>
                         </td>
                         <td><?=$r->date_created?></td>
                         <td><?=$r->date_update?></td>
-                        <td><?=substr($r->text,0,200) . "..." ?></td>
+                        <td><?=substr($r->text,0,100) . "..." ?></td>
                         <td></td> 
                     </tr>
                    <?php } ?>
