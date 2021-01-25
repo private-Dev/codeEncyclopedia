@@ -66,7 +66,7 @@ change dns refs
  - [x] search bar on top menu (search entire db)
  
  - [x] show/hide dynamic list of search entries (everywhere )
- - [ ] search bar :  add loading icon on query search
+ - [x] search bar :  add loading icon on query search
  
 <hr>
 
