@@ -115,7 +115,6 @@ include_once 'top.php';
                                         <?php
                                         if ( isset($_SESSION['NewNote']['idTheme']) && !empty($_SESSION['NewNote']['idTheme'])){
                                         $blocks  = $block->getRows($user,$_SESSION['NewNote']['idTheme']);
-                                        var_dump($blocks);
                                             foreach ($blocks as $b) { ?>
                                                 <option value=" <?=$b->rowid; ?>"
                                                     <?php

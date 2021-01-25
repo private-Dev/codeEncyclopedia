@@ -42,13 +42,14 @@ $(document).ready(function () {
    
 
    $("#searchInput").on("input", function(){
-    $('.cover').css('border-style',"none") ;
+
+        $('.cover').css('border-style',"none") ;
         $('.cover').html('') ;
        if ($(this).val().length > 3 ){
             // Print entered value in a div box
            // Tsearch = $(this).val().split(" ");
-
-           console.log($(this).val());
+           $('.display-upload-progress').attr('style', 'display: flex !important;justify-content :center;align-items:center');
+           //console.log($(this).val());
 
             data = {
                 search : $(this).val(),
@@ -60,9 +61,9 @@ $(document).ready(function () {
                 data : data,
                 datatype :'json',
                 success :function(data){
+                    $('.display-upload-progress').attr('style', 'display: none !important;justify-content :center;align-items:center');
                     let d = JSON.parse(data)
-                    console.log(d);
-                  
+                   // console.log(d);
                     $('.cover').html(d);
                 }
             });

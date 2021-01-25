@@ -145,6 +145,23 @@
 
  ?> 
            <form  action="" method="POST" >
+           <section class="search-in">
+                   <div id="display-upload-progress" class="display-upload-progress d-flex justify-content-center align-items-center">
+                       <span>searching ...</span>
+                       <div class="lds-grid">
+                           <div></div>
+                           <div></div>
+                           <div></div>
+                           <div></div>
+                           <div></div>
+                           <div></div>
+                           <div></div>
+                           <div></div>
+                           <div></div>
+                       </div>
+                   </div>
+               </section>
+           <section class="cover"></section>
            <section class="float-right mb-1" id="LIMIT-OPTIONS">
 
             <select name="limit" id="limit">
