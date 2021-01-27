@@ -1,0 +1,6 @@
+{
+    "name": "root-home/code-encyclopedia",
+    "require": {
+        "phpunit/phpunit": "8.5"
+    }
+}

@@ -155,7 +155,7 @@ class ParseClassedown
                                     "@[" => ""
                                 );
 
-   const Tooltips = array (
+    const Tooltips = array (
        "H" => "h1 to h6 click to add desired number.",
        "<>"=> "To be setted properly",
        "!"=> " a standard Paragraph <p> ex:  \n ! your text !/",
@@ -560,4 +560,7 @@ function removeTagOnLine($content){
     }
 
 
+    public function toString(){
+        return $this::version;
+    }
 }
