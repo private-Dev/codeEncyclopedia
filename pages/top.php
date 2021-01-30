@@ -101,7 +101,7 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
             </div>
         </div>
         <?php foreach ($themes as $t) { ?>
-        <div class="accordion__item js-accordion-item active">
+        <div class="accordion__item js-accordion-item">
 
             <div class="accordion-header js-accordion-header"><?= $t->label; ?></div>
             <div class="accordion-body js-accordion-body">
