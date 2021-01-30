@@ -170,8 +170,14 @@
                 <?php } ?>
             </select>
            </section>
+           <section>
+                <?php
+                            $nbNotes  =  $note->getNbRows();
+                            ?>
+               <span class="badge bg-info text-dark">Notes enregistrées : <?=$nbNotes->nb?></span>
+           </section>
            <section class="float-right mb-1" id="PAGE-LINK">
-               <nav aria-label="Page navigation example">
+               <nav aria-label="Page navigation">
                    <ul class="pagination pagination-sm">
                        <?php for ($i=1;$i <= $nbPages;$i++ ){ ?>
                            <li class="page-item  mr-2 ">
