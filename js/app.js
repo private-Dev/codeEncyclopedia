@@ -167,7 +167,7 @@ $(document).on("click","#addnote",function(e) {
 });
 
 function is_note_empty(form){
-    console.log(form.beware);
+
     return   form.beware === "" && 
              form.bigtitle === "" && 
              form.codeblock === "" && 
@@ -177,3 +177,4 @@ function is_note_empty(form){
              form.Paragraphtitle === "" && 
              form.importantcomment === "" ;
 }
+

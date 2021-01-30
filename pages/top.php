@@ -68,6 +68,7 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="../css/style5.css">
     <link rel="stylesheet" href="../css/sideMenu.css">
+    <link rel="stylesheet" href="../css/leftMenu.css">
     <link rel="stylesheet" href="../css/note.css">
     <!-- <link rel="stylesheet" href="../css/app.css">-->
 
@@ -85,54 +86,56 @@ if (isset($_GET['noteId']) && isset($_GET['blocknoteId']) && isset($_GET['themeI
 </video>
 -->
 <div class="wrapper">
-    <!-- Sidebar Holder -->
-    <nav id="sidebar" class="tree">
+    <!-- left menu -->
+        <div class="accordion js-accordion" id="sidebar">
         <div class="sidebar-header">
             <span class="d-inline-flex p-3 markk">
-                <img src="../assets/logo-cre-blue.svg" class="adminImgLogo mt-1" width="50" height="50" alt="Global notes Logo">
-                <span class="mt-2">Code Encyclopédia</span>
+                <img src="../assets/logo-cre-yellow.svg" class="adminImgLogo mt-1" width="40" height="40" alt="codeEncyclopedia logo">
+                <span class="mt-3 ml-3 text-light">Code Encyclopédia</span>
             </span>
         </div>
+        <div class="sidebar-header">
+            <div class="input-group mb-3">
 
-        <ul>
-            <p></p>
-            <?php foreach ($themes as $t) { ?>
-                <li>
-                <i class="fa fa-list-alt mr3" aria-hidden="true"></i>      
-                <?= $t->label; ?>
-                    <ul >
-                        <?php
-                        $blocks =  $block->getRows($user,$t->rowid);
+                <input type="text" class="form-control" id="filter-left" name="filter-left" placeholder="filters" aria-label="filters" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <?php foreach ($themes as $t) { ?>
+        <div class="accordion__item js-accordion-item active">
 
-                        foreach ($blocks as $b) {  ?>
+            <div class="accordion-header js-accordion-header"><?= $t->label; ?></div>
+            <div class="accordion-body js-accordion-body">
 
-                                <li>
-                                <i class="fa fa-server" aria-hidden="true"></i>
-                                    <?= $b->label ?>
-                                </li>
+                <div class="accordion js-accordion">
+                    <?php
+                    $blocks =  $block->getRows($user,$t->rowid);
 
-                            <ul>
-                                <?php
-                                $notes =  $note->getRows($user,$b->rowid);
+                    foreach ($blocks as $b) {  ?>
+                    <div class="accordion__item js-accordion-item ">
+                        <div class="accordion-header js-accordion-header"> <?= $b->label ?></div>
+                        <div class="accordion-body js-accordion-body">
+                            <?php
+                            $notes =  $note->getRows($user,$b->rowid);
 
-                                foreach ($notes as $n) {  ?>
-                                    <li >
-                                        <a class="section-link" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$n->rowid ?>&blocknoteId=<?=$b->rowid ?>&themeId=<?=$t->rowid ?>" title="<?=$n->label ?>">
-                                        <i class="fa fa-tag" aria-hidden="true"></i>
-                                        <?=$n->label ?>
-                                        </a>
-                                    </li>
-                                <?php  } ?>
-                            </ul>
-                            </li>
-                        <?php  } ?>
-                    </ul>
-                </li>
-            <?php  } ?>
+                            foreach ($notes as $n) {  ?>
+                            <div class="accordion-body__contents">
+                                <a class="section-link" href="addNote.php?action=<?=Constant::$VIEWNOTE?>&noteId=<?=$n->rowid ?>&blocknoteId=<?=$b->rowid ?>&themeId=<?=$t->rowid ?>" title="<?=$n->label ?>">
+                                    <i class="fa fa-tag" aria-hidden="true"></i>
+                                    <?=$n->label ?>
+                                </a>
+                            </div><!-- end of sub accordion item body contents -->
+                            <?php } ?>
+                        </div><!-- end of sub accordion item body -->
+                    </div><!-- end of sub accordion item -->
+                    <?php }  ?>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+    </div>
+    <!-- left menu end -->
 
-        </ul>
 
-    </nav>
 
      <!-- Page Content Holder -->
     <div id="content">
