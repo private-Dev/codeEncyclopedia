@@ -1,7 +1,7 @@
 
 .accordion {
     font-size: 1rem;
-    min-width: 300px;
+    /*min-width: 250px;*/
     background-color: #730404;
     margin: 0 auto;
 
@@ -84,10 +84,6 @@
 }
 
 @media screen and (max-width: 1000px) {
-    body {
-        padding: 1em;
-    }
-
     .accordion {
         width: 100%;
     }
