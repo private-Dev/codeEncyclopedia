@@ -294,17 +294,14 @@
                         <th>
                         <div class="d-flex flex-column" >
                             <div class="d-flex flex-row justify-content-between mb-5">
-                                <button type="submit" class="btn">
+                                <button type="submit" class="btn m-2">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                                 </button>
-                            </div>
-                            <div class="d-flex flex-column smallArrow p-2">
-
-                                <a href="index.php?reset=all">
+                                <a href="index.php?reset=all" class="m-2">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
-
                             </div>
+
 
 
                         </div>

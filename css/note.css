@@ -33,7 +33,8 @@ table {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 th{
-  padding: 15px;
+  padding-top: 10px;
+    padding-left: 10px;
   color:#fff;
 }
 
